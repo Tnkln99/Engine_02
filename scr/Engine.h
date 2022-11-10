@@ -13,13 +13,12 @@ class Object;
 
 class Engine{
 private:
-    float windowWidth{1000};
-    float windowHeight{500};
+    float windowWidth{800};
+    float windowHeight{800};
     GLFWwindow* window{};
 
     Matrix4 projMatrix;
     Shader shader;
-    time_t startTime;
 
     Mesh mesh;
     Object* object;

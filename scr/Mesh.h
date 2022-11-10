@@ -10,11 +10,6 @@
 #include <vector>
 #include <cmath>
 
-enum meshType{
-    sphere,
-    cube
-};
-
 
 class Mesh {
 private:
@@ -32,8 +27,9 @@ public:
     void connectDots(int a, int b, int c);
 
     void generateSphere(int nX, int nY);
-    void generateCube();
     void generateTore(int nX, int nY);
+    void generateCube();
+    void generateIcosahedron();
 };
 
 #endif

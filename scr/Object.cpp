@@ -9,9 +9,9 @@ Object::Object(float xP, float yP, Mesh* cubeMeshP)
 }
 
 void Object::update(double timeSinceStart) {
-    const float t = Maths::abs(Maths::sin((float)timeSinceStart)) * 0.001f;
-    Matrix4 rotationY = Matrix4::createRotationY(t * Maths::toRadians(45.0f));
-    Matrix4 rotationX = Matrix4::createRotationX(t * Maths::toRadians(21.0f));
+    const float t = Maths::sin((float)timeSinceStart) * 0.001f;
+    Matrix4 rotationY = Matrix4::createRotationY(t * Maths::toRadians(10.0f));
+    Matrix4 rotationX = Matrix4::createRotationX(t * Maths::toRadians(10.0f));
     transform *= rotationY;
     transform *= rotationX;
 }

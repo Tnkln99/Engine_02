@@ -8,7 +8,7 @@ Engine::Engine() {
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('t');
+    mesh.loadPreMade('i');
 
     object = new Object {0, 0, &mesh};
 
@@ -16,7 +16,6 @@ Engine::Engine() {
 }
 
 void Engine::loadWindow() {
-    startTime = std::time(nullptr);
     // Init logging
     LOG_CONFIG.reporting_level = Debug;
     LOG_CONFIG.restart = true;
@@ -35,7 +34,7 @@ void Engine::loadWindow() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-    window = glfwCreateWindow(800, 800, "YoutubeOpenGL", NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, "YoutubeOpenGL", NULL, NULL);
     // Error check if the window fails to create
     if (window == NULL)
     {
@@ -49,7 +48,10 @@ void Engine::loadWindow() {
     gladLoadGL();
     // Specify the viewport of OpenGL in the Window
     // In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
-    glViewport(0, 0, 800, 800);
+    glViewport(0, 0, windowWidth, windowHeight);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_CULL_FACE);
 }
 
 void Engine::run() {
@@ -78,12 +80,13 @@ void Engine::terminate() {
 }
 
 void Engine::update() {
-    time_t currentTime = std::time(nullptr);
-    double timeSinceStart = std::difftime(currentTime, startTime);
+    //TODO: change this timing thing..
+    using namespace std::chrono;
+    auto tp = system_clock::now() + 0ns;
+    double t1 = tp.time_since_epoch().count();
+    double t2 = std::nextafter(t1, INFINITY);
+    double timeSinceStart = t2-t1;
     object->update(timeSinceStart);
-    //float formerXPosition = cube->getX();
-    //float newXPosition = formerXPosition + 0.02f;
-    //cube->setPosition(newXPosition, cube->getY());
 }
 
 void Engine::draw() {

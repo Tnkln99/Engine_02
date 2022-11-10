@@ -10,6 +10,13 @@ void Mesh::loadPreMade(char c) {
     else if (c == 't'){
         generateTore(20,20);
     }
+    else if(c == 'i'){
+        generateIcosahedron();
+    }
+    else{
+        std::cout<<"error loading the mesh.. "<<std::endl;
+        exit(1);
+    }
 
     GLuint VBO, EBO;
     // Generate the VAO and VBO with only 1 object each
@@ -34,11 +41,13 @@ void Mesh::loadPreMade(char c) {
     // Setup vertex attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
+
+    //std::cout<<"connections size: "<<connections.size()<<std::endl;
+    //std::cout<<"potionDots size: "<<positionDots.size()<<std::endl;
 }
 
 void Mesh::draw() {
-    // Draw the Sphere mesh, if sphere uncomment
-    glDrawElements(GL_TRIANGLES, GLuint(connections.size()), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, connections.size(), GL_UNSIGNED_INT, nullptr);
 }
 
 void Mesh::clean() {
@@ -62,10 +71,10 @@ void Mesh::generateSphere(int nX, int nY) {
         for(int j=0; j < nY-1; j++){
             if(i == nX -1){
                 connectDots(i*nY+j, i*nY+j+1, j);
-                //connectDots(j+1, j, i*nY+j+1);
+                connectDots(j+1, j, i*nY+j+1);
             }else{
                 connectDots(i*nY+j, i*nY+j+1, (i+1)*nY+j);
-                //connectDots((i+1)*nY+j+1, (i+1)*nY+j, i*nY+j+1);
+                connectDots((i+1)*nY+j+1, (i+1)*nY+j, i*nY+j+1);
             }
         }
     }
@@ -73,27 +82,42 @@ void Mesh::generateSphere(int nX, int nY) {
 }
 
 void Mesh::generateCube() {
-    putDots(0,0,0);
-    putDots(0,0,1);
-    putDots(0,1,0);
-    putDots(0,1,1);
-    putDots(1,0,0);
-    putDots(1,0,1);
-    putDots(1,1,0);
-    putDots(1,1,1);
+    positionDots =  {
+            -1, -1,  1, //0
+            1, -1,  1, //1
+            -1,  1,  1, //2
+            1,  1,  1, //3
+            -1, -1, -1, //4
+            1, -1, -1, //5
+            -1,  1, -1, //6
+            1,  1, -1  //7
+    };
 
-    connectDots(0,1,2);
-    connectDots(2,1,3);
-    connectDots(3,1,5);
-    connectDots(3,5,7);
-    connectDots(7,5,6);
-    connectDots(6,5,4);
-    connectDots(7,6,3);
-    connectDots(2,3,6);
-    connectDots(2,6,0);
-    connectDots(6,4,0);
-    connectDots(0,4,1);
-    connectDots(4,5,1);
+    connections = {
+            //Top
+            2, 7, 6,
+            2, 3, 7,
+
+            //Bottom
+            0, 4, 5,
+            5, 1, 0,
+
+            //Left
+            0, 2, 6,
+            6, 4, 0,
+
+            //Right
+            1, 7, 3,
+            5, 7, 1,
+
+            //Front
+            0, 1, 3,
+            0, 3, 2,
+
+            //Back
+            4, 6, 7,
+            7, 5, 4
+    };
 }
 
 void Mesh::generateTore(int nX, int nY) {
@@ -115,26 +139,26 @@ void Mesh::generateTore(int nX, int nY) {
         for(int j = 0; j < nY; j++){
             if (j == nY-1 && i == nY-1){
                 connectDots(i*nY+j, i*nY, j);
-                //connectDots(i*nY, j+1, i);
+                connectDots(i*nY, j+1, i);
 
                 //std::cout<<"if T1 C1 :"<< i*nY << "T1 C2: "<< 48 << "T1 C3: "<< i <<" i: "<<i<<" j: "<<j<<std::endl;
             }
             else if (j == nY-1){
                 connectDots(i*nY+j, i*nY, (i+1)*nY+j);
-                //connectDots((i+1)*nY, (i+1)*nY+j, i*nY);
+                connectDots((i+1)*nY, (i+1)*nY+j, i*nY);
 
                 //std::cout<<"else if1 T1 C1 :"<< i*nY+j << "T1 C2: "<< i*nY+1 << "T1 C3: "<<(i+1)*nY+j<<" i: "<<i<<" j: "<<j<<std::endl;
             }
             else if(i == nY-1){
                 connectDots(i*nY+j, i*nY+j+1, j);
-                //connectDots(j+1, j, i*nY+j+1);
+                connectDots(j+1, j, i*nY+j+1);
 
 
                 //std::cout<<"else if T1 C1 :"<< i*nY+j << "T1 C2: "<< i*nY+j+1 << "T1 C3: "<< j<<" i: "<<i<<" j: "<<j<<std::endl;
                 //std::cout<<"if T2 C1 :"<< j + 1<< "T2 C2: "<< j << "T2 C3: "<<i*nY+j+1<<"i: "<<i<<"j: "<<j<<std::endl;
             }else{
                 connectDots(i*nY+j, i*nY+j+1, (i+1)*nY+j);
-                //connectDots((i+1)*nY+j+1, (i+1)*nY+j, i*nY+j+1);
+                connectDots((i+1)*nY+j+1, (i+1)*nY+j, i*nY+j+1);
 
                 //std::cout<<"T1 C1 :"<< i*nY+j << "T1 C2: "<< i*nY+j+1 << "T1 C3: "<<(i+1)*nY+j<<" i: "<<i<<" j: "<<j<<std::endl;
                 //std::cout<<"T2 C1 :"<< (i+1)*nY+j+1 << "T2 C2: "<< (i+1)*nY+j << "T2 C3: "<<i*nY+j+1<<"i: "<<i<<"j: "<<j<<std::endl;
@@ -142,6 +166,45 @@ void Mesh::generateTore(int nX, int nY) {
         }
     }
 }
+
+void Mesh::generateIcosahedron() {
+    connections = {
+            2, 1, 0,
+            3, 2, 0,
+            4, 3, 0,
+            5, 4, 0,
+            1, 5, 0,
+            11, 6,  7,
+            11, 7,  8,
+            11, 8,  9,
+            11, 9,  10,
+            11, 10, 6,
+            1, 2, 6,
+            2, 3, 7,
+            3, 4, 8,
+            4, 5, 9,
+            5, 1, 10,
+            2,  7, 6,
+            3,  8, 7,
+            4,  9, 8,
+            5, 10, 9,
+            1, 6, 10 };
+
+    positionDots = {
+            0.000f,  0.000f,  1.000f,
+            0.894f,  0.000f,  0.447f,
+            0.276f,  0.851f,  0.447f,
+            -0.724f,  0.526f,  0.447f,
+            -0.724f, -0.526f,  0.447f,
+            0.276f, -0.851f,  0.447f,
+            0.724f,  0.526f, -0.447f,
+            -0.276f,  0.851f, -0.447f,
+            -0.894f,  0.000f, -0.447f,
+            -0.276f, -0.851f, -0.447f,
+            0.724f, -0.526f, -0.447f,
+            0.000f,  0.000f, -1.000f };
+}
+
 
 void Mesh::connectDots(int a, int b, int c) {
     connections.push_back(a);
@@ -153,6 +216,8 @@ void Mesh::putDots(float a, float b, float c) {
     positionDots.push_back(b);
     positionDots.push_back(c);
 }
+
+
 
 
 

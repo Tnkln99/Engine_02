@@ -3,6 +3,8 @@
 
 #include "../lib/maths/Matrix4.h"
 #include <ctime>
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 
 class Shader;
