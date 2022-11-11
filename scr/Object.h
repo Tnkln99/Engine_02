@@ -11,6 +11,12 @@ class Shader;
 class Mesh;
 
 class Object {
+private:
+    float x { 0.0f };
+    float y { 0.0f };
+    Matrix4 transform {};
+
+    Mesh* cubeMesh;
 public:
   Object(float xP, float yP, Mesh* cubeMeshP);
 
@@ -23,13 +29,6 @@ public:
   [[nodiscard]] Matrix4 computeTransform() const;
 
   void clean();
-
-private:
-  float x { 0.0f };
-  float y { 0.0f };
-  Matrix4 transform {};
-
-  Mesh* cubeMesh;
 };
 
 #endif

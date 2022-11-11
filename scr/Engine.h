@@ -32,7 +32,9 @@ public:
     void update();
     void draw();
 
-    GLFWwindow* getWindow() const;
+    void changeViewMode();
+
+    [[nodiscard]] GLFWwindow* getWindow() const;
 };
 
 #endif //SNAKE_ENGINE_H

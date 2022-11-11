@@ -8,7 +8,7 @@ Engine::Engine() {
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('i');
+    mesh.loadPreMade('c');
 
     object = new Object {0, 0, &mesh};
 
@@ -57,6 +57,7 @@ void Engine::loadWindow() {
 void Engine::run() {
     while (!glfwWindowShouldClose(window))
     {
+        changeViewMode();
         // Specify the color of the background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         // Clean the back buffer and assign the new color to it
@@ -99,6 +100,25 @@ void Engine::draw() {
 
 GLFWwindow* Engine::getWindow() const {
     return window;
+}
+
+void Engine::changeViewMode() {
+    int stateE = glfwGetKey(window, GLFW_KEY_E);
+    int stateW = glfwGetKey(window, GLFW_KEY_W);
+    int stateQ = glfwGetKey(window, GLFW_KEY_Q);
+
+    if (stateE == GLFW_PRESS)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+    }
+    else if (stateW == GLFW_PRESS)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+    else if (stateQ == GLFW_PRESS)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
 }
 
 

@@ -6,7 +6,7 @@
 LogConfig LOG_CONFIG = {};
 
 
-int main()
+int main(int argc, char *argv[])
 {
     Engine engine = Engine();
 

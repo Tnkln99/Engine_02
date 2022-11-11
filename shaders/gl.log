@@ -1,13 +1,13 @@
-22-11-10 20:59:09 INFO : 	program 3 GL_VALIDATE_STATUS = 1
-22-11-10 20:59:09 INFO : 	-----------------------------
-22-11-10 20:59:09 INFO : 	Shader programme 3 info:
-22-11-10 20:59:09 INFO : 	GL_LINK_STATUS = 1
-22-11-10 20:59:09 INFO : 	GL_ATTACHED_SHADERS = 2
-22-11-10 20:59:09 INFO : 	GL_ACTIVE_ATTRIBUTES = 1
-22-11-10 20:59:09 INFO : 	  0) type:vec3 name:position location:0
-22-11-10 20:59:09 INFO : 	GL_ACTIVE_UNIFORMS = 2
-22-11-10 20:59:09 INFO : 	  0) type:mat4 name:mv_matrix location:0
-22-11-10 20:59:09 INFO : 	  1) type:mat4 name:proj_matrix location:1
-22-11-10 20:59:09 INFO : 	program info log for GL index3
-22-11-10 20:59:09 INFO : 	Validation successful.
+22-11-11 01:43:02 INFO : 	program 3 GL_VALIDATE_STATUS = 1
+22-11-11 01:43:02 INFO : 	-----------------------------
+22-11-11 01:43:02 INFO : 	Shader programme 3 info:
+22-11-11 01:43:02 INFO : 	GL_LINK_STATUS = 1
+22-11-11 01:43:02 INFO : 	GL_ATTACHED_SHADERS = 2
+22-11-11 01:43:02 INFO : 	GL_ACTIVE_ATTRIBUTES = 1
+22-11-11 01:43:02 INFO : 	  0) type:vec3 name:position location:0
+22-11-11 01:43:02 INFO : 	GL_ACTIVE_UNIFORMS = 2
+22-11-11 01:43:02 INFO : 	  0) type:mat4 name:mv_matrix location:0
+22-11-11 01:43:02 INFO : 	  1) type:mat4 name:proj_matrix location:1
+22-11-11 01:43:02 INFO : 	program info log for GL index3
+22-11-11 01:43:02 INFO : 	Validation successful.
 
