@@ -1,11 +1,11 @@
-#version 330 core
-
-out vec4 color;
+#version 450 core
 
 in VS_OUT
 {
     vec4 color;
 } fs_in;
+
+out vec4 color;
 
 void main()
 {

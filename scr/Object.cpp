@@ -2,8 +2,8 @@
 #include "Shader.h"
 #include "Mesh.h"
 
-Object::Object(float xP, float yP, Mesh* cubeMeshP)
-: cubeMesh { cubeMeshP }
+Object::Object(float xP, float yP, Mesh* mesh)
+: objectMesh { mesh }
 {
     setPosition(xP, yP);
 }
@@ -17,8 +17,8 @@ void Object::update(double timeSinceStart) {
 }
 
 void Object::draw(Shader& shader) {
-    shader.setMatrix4("mv_matrix", transform);
-    cubeMesh->draw();
+    shader.setMatrix4("transform", transform);
+    objectMesh->draw();
 }
 
 void Object::setPosition(float xP, float yP) {
@@ -28,9 +28,9 @@ void Object::setPosition(float xP, float yP) {
 }
 
 Matrix4 Object::computeTransform() const {
-  return Matrix4::createTranslation(Vector3(x, y, -7.0f));
+  return Matrix4::createTranslation(Vector3(x, y, -6.0f));
 }
 
 void Object::clean() {
-    cubeMesh->clean();
+    objectMesh->clean();
 }

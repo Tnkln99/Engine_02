@@ -16,9 +16,9 @@ private:
     float y { 0.0f };
     Matrix4 transform {};
 
-    Mesh* cubeMesh;
+    Mesh* objectMesh;
 public:
-  Object(float xP, float yP, Mesh* cubeMeshP);
+  Object(float xP, float yP, Mesh* mesh);
 
   void update(double timeSinceStart);
   void draw(Shader& shader);

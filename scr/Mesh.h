@@ -10,12 +10,17 @@
 #include <vector>
 #include <cmath>
 
+struct Vertex{
+    std::vector<GLfloat> positions;
+    std::vector<GLfloat> normals;
+};
+
 
 class Mesh {
 private:
     GLuint VAO;
 
-    std::vector<GLfloat> positionDots;
+    Vertex vertices;
     std::vector<GLuint> connections;
 public:
     void loadPreMade(char c);
@@ -23,13 +28,15 @@ public:
     void draw();
     void clean();
 
-    void putDots(float a, float b, float c);
-    void connectDots(int a, int b, int c);
+    void computeNormals();
 
     void generateSphere(int nX, int nY);
     void generateTore(int nX, int nY);
     void generateCube();
     void generateIcosahedron();
+
+    void putDots(float a, float b, float c);
+    void connectDots(int a, int b, int c);
 };
 
 #endif

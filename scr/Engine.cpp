@@ -33,8 +33,8 @@ void Engine::loadWindow() {
     // So that means we only have the modern functions
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-    window = glfwCreateWindow(windowWidth, windowHeight, "YoutubeOpenGL", NULL, NULL);
+    // Create a GLFWwindow object of 800 by 800 pixels, naming it "Renderer"
+    window = glfwCreateWindow(windowWidth, windowHeight, "Renderer", NULL, NULL);
     // Error check if the window fails to create
     if (window == NULL)
     {
@@ -57,7 +57,6 @@ void Engine::loadWindow() {
 void Engine::run() {
     while (!glfwWindowShouldClose(window))
     {
-        changeViewMode();
         // Specify the color of the background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         // Clean the back buffer and assign the new color to it
@@ -81,25 +80,16 @@ void Engine::terminate() {
 }
 
 void Engine::update() {
+    changeViewMode();
+
     //TODO: change this timing thing..
     using namespace std::chrono;
     auto tp = system_clock::now() + 0ns;
     double t1 = tp.time_since_epoch().count();
     double t2 = std::nextafter(t1, INFINITY);
     double timeSinceStart = t2-t1;
+
     object->update(timeSinceStart);
-}
-
-void Engine::draw() {
-    shader.use();
-
-    shader.setMatrix4("proj_matrix", projMatrix);
-
-    object->draw(shader);
-}
-
-GLFWwindow* Engine::getWindow() const {
-    return window;
 }
 
 void Engine::changeViewMode() {
@@ -121,10 +111,14 @@ void Engine::changeViewMode() {
     }
 }
 
+void Engine::draw() {
+    shader.use();
 
+    shader.setMatrix4("proj_matrix", projMatrix);
 
+    object->draw(shader);
+}
 
-
-
-
-
+GLFWwindow* Engine::getWindow() const {
+    return window;
+}

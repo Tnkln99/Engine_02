@@ -1,5 +1,6 @@
 #include "Mesh.h"
 
+
 void Mesh::loadPreMade(char c) {
     if(c == 'c'){
         generateCube();
@@ -18,7 +19,7 @@ void Mesh::loadPreMade(char c) {
         exit(1);
     }
 
-    GLuint VBO, EBO;
+    GLuint EBO, VBO;
     // Generate the VAO and VBO with only 1 object each
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -27,10 +28,12 @@ void Mesh::loadPreMade(char c) {
     // Make the VAO the current Vertex Array Object by binding it
     glBindVertexArray(VAO);
 
-    // Bind the VBO specifying it's a GL_ARRAY_BUFFER
+    // Bind the VBO_N specifying it's a GL_ARRAY_BUFFER
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // Introduce the vertices into the VBO
-    glBufferData(GL_ARRAY_BUFFER, positionDots.size() * sizeof(GLfloat), positionDots.data(), GL_STATIC_DRAW);
+
+    // Introduce the positions into the VBO
+    glBufferData(GL_ARRAY_BUFFER, vertices.positions.size() * sizeof(GLfloat), vertices.positions.data(), GL_STATIC_DRAW);
+
 
     // Bind the EBO specifying it's a GL_ELEMENT_ARRAY_BUFFER
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -41,9 +44,6 @@ void Mesh::loadPreMade(char c) {
     // Setup vertex attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
-
-    //std::cout<<"connections size: "<<connections.size()<<std::endl;
-    //std::cout<<"potionDots size: "<<positionDots.size()<<std::endl;
 }
 
 void Mesh::draw() {
@@ -54,16 +54,68 @@ void Mesh::clean() {
     glDeleteVertexArrays(1, &VAO);
 }
 
+void Mesh::computeNormals() {
+    std::vector<GLfloat> normals;
+
+    for(int i = 0; i < vertices.positions.size(); i ++){
+        normals.push_back(0.0f);
+        vertices.normals.push_back(0.0f);
+    }
+
+    for(int i = 0; i < connections.size() - 3; i+=3){
+        GLint ia = connections[i];
+        GLint ib = connections[i+1];
+        GLint ic = connections[i+2];
+
+        GLfloat aX = vertices.positions[ia * 3];
+        GLfloat aY = vertices.positions[ia * 3 + 1];
+        GLfloat aZ = vertices.positions[ia * 3 + 2];
+
+        GLfloat bX = vertices.positions[ib * 3];
+        GLfloat bY = vertices.positions[ib * 3 + 1];
+        GLfloat bZ = vertices.positions[ib * 3 + 2];
+
+        GLfloat cX = vertices.positions[ic * 3];
+        GLfloat cY = vertices.positions[ic * 3 + 1];
+        GLfloat cZ = vertices.positions[ic * 3 + 2];
+
+        glm::vec3 e1 = glm::vec3(aX, aY, aZ) - glm::vec3(bX, bY, bZ);
+        glm::vec3 e2 = glm::vec3(cX, cY, cZ) - glm::vec3(bX, bY, bZ);
+        glm::vec3 no = cross( e1, e2 );
+
+        normals[ia * 3] += no.x;
+        normals[ia * 3 + 1] += no.y;
+        normals[ia * 3 + 2] += no.z;
+
+        normals[ib * 3] += no.x;
+        normals[ib * 3 + 1] += no.y;
+        normals[ib * 3 + 2] += no.z;
+
+        normals[ic * 3] += no.x;
+        normals[ic * 3 + 1] += no.y;
+        normals[ic * 3 + 2] += no.z;
+    }
+
+    for(int i = 0; i < vertices.positions.size() / 3; i+=3){
+        glm::vec3 normalised = glm::normalize(glm::vec3(normals[i * 3], normals[i * 3 + 1], normals[i * 3 + 2]));
+        vertices.normals[i * 3] += normalised.x;
+        vertices.normals[i * 3 + 1] += normalised.y;
+        vertices.normals[i * 3 + 2] += normalised.z;
+    }
+}
+
 void Mesh::generateSphere(int nX, int nY) {
     float deltaTeta = 2*M_PI / (float)nX;
     float deltaPhi = M_PI / (float)nY;
 
-    for(int i=0; i < nX; i++){
-        for(int j=0; j < nY; j++){
-            float teta = deltaTeta * i;
-            float phi = deltaPhi * j - M_PI/2;
+    std::vector<GLfloat> pos;
 
-            putDots(std::cos(teta)*std::cos(phi),std::sin(teta)*std::cos(phi),std::sin(phi));
+    for(int i=0; i < nX; i++){
+        for(int j=0; j < nY; j++) {
+            float teta = deltaTeta * i;
+            float phi = deltaPhi * j - M_PI / 2;
+
+            putDots(std::cos(teta) * std::cos(phi), std::sin(teta) * std::cos(phi), std::sin(phi));
         }
     }
 
@@ -78,11 +130,11 @@ void Mesh::generateSphere(int nX, int nY) {
             }
         }
     }
-
+    computeNormals();
 }
 
 void Mesh::generateCube() {
-    positionDots =  {
+    vertices.positions =  {
             -1, -1,  1, //0
             1, -1,  1, //1
             -1,  1,  1, //2
@@ -92,6 +144,8 @@ void Mesh::generateCube() {
             -1,  1, -1, //6
             1,  1, -1  //7
     };
+
+
 
     connections = {
             //Top
@@ -118,6 +172,8 @@ void Mesh::generateCube() {
             4, 6, 7,
             7, 5, 4
     };
+
+    //computeNormals();
 }
 
 void Mesh::generateTore(int nX, int nY) {
@@ -165,6 +221,7 @@ void Mesh::generateTore(int nX, int nY) {
             }
         }
     }
+    computeNormals();
 }
 
 void Mesh::generateIcosahedron() {
@@ -174,11 +231,11 @@ void Mesh::generateIcosahedron() {
             4, 3, 0,
             5, 4, 0,
             1, 5, 0,
-            11, 6,  7,
-            11, 7,  8,
-            11, 8,  9,
-            11, 9,  10,
-            11, 10, 6,
+            11, 6, 7,
+            11, 7, 8,
+            11, 8, 9,
+            11, 9, 10,
+            11, 10,6,
             1, 2, 6,
             2, 3, 7,
             3, 4, 8,
@@ -190,7 +247,7 @@ void Mesh::generateIcosahedron() {
             5, 10, 9,
             1, 6, 10 };
 
-    positionDots = {
+    vertices.positions = {
             0.000f,  0.000f,  1.000f,
             0.894f,  0.000f,  0.447f,
             0.276f,  0.851f,  0.447f,
@@ -203,24 +260,18 @@ void Mesh::generateIcosahedron() {
             -0.276f, -0.851f, -0.447f,
             0.724f, -0.526f, -0.447f,
             0.000f,  0.000f, -1.000f };
+    computeNormals();
 }
-
 
 void Mesh::connectDots(int a, int b, int c) {
     connections.push_back(a);
     connections.push_back(b);
     connections.push_back(c);
 }
+
+
 void Mesh::putDots(float a, float b, float c) {
-    positionDots.push_back(a);
-    positionDots.push_back(b);
-    positionDots.push_back(c);
+    vertices.positions.push_back(a);
+    vertices.positions.push_back(b);
+    vertices.positions.push_back(c);
 }
-
-
-
-
-
-
-
-

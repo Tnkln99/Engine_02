@@ -13,7 +13,6 @@ std::map<std::string, Shader> Assets::shaders;
 Shader Assets::loadShader(const std::string &vShaderFile, const std::string &fShaderFile,
                                    const std::string &tcShaderFile, const std::string &teShaderFile,
                                    const std::string &gShaderFile, const std::string &name) {
-    std::cout<<"Shader "<<name <<" is loading from files "<<vShaderFile<<" "<<fShaderFile<<std::endl;
     shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, tcShaderFile, teShaderFile, gShaderFile);
     return shaders[name];
 }

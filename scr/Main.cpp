@@ -6,11 +6,13 @@
 LogConfig LOG_CONFIG = {};
 
 
-int main(int argc, char *argv[])
+int main()
 {
     Engine engine = Engine();
 
     engine.run();
+
+    glGetError();
 
     return 0;
 }
