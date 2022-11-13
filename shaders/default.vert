@@ -1,6 +1,7 @@
 #version 450 core
 
-in vec4 Position;
+layout (location = 0) in vec4 Position;
+layout (location = 1) in vec4 Normal;
 
 out VS_OUT{
    vec4 color;
@@ -12,5 +13,5 @@ uniform mat4 transform;
 void main()
 {
    gl_Position = proj_matrix * transform * Position;
-   vs_out.color = Position;
+   vs_out.color = Normal;
 }
