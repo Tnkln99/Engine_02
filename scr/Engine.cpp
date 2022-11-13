@@ -8,7 +8,7 @@ Engine::Engine() {
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('c');
+    mesh.loadPreMade('i');
 
     object = new Object {0, 0, &mesh};
 

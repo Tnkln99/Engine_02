@@ -34,9 +34,8 @@ public:
     void generateSphere(int nX, int nY);
     void generateTore(int nX, int nY);
     void generateCube();
-    //void generateIcosahedron();
+    void generateIcosahedron();
 
-    //void putDots(float a, float b, float c);
     void connectDots(int a, int b, int c);
 };
 

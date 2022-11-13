@@ -12,7 +12,7 @@ void Mesh::loadPreMade(char c) {
         generateTore(20,20);
     }
     else if(c == 'i'){
-        //generateIcosahedron();
+        generateIcosahedron();
     }
     else{
         std::cout<<"error loading the mesh.. "<<std::endl;
@@ -187,9 +187,24 @@ void Mesh::generateTore(int nX, int nY) {
     fillVertices(positions, normals);
 }
 
-/*
+
 void Mesh::generateIcosahedron() {
-    connections = {
+    std::vector<glm::vec3> positions;
+    positions = {
+            glm::vec3(0.000f,  0.000f,  1.000f),
+            glm::vec3(0.894f,  0.000f,  0.447f),
+            glm::vec3(0.276f,  0.851f,  0.447f),
+            glm::vec3(-0.724f,  0.526f,  0.447f),
+            glm::vec3(-0.724f, -0.526f,  0.447f),
+            glm::vec3(0.276f, -0.851f,  0.447f),
+            glm::vec3(0.724f,  0.526f, -0.447f),
+            glm::vec3(-0.276f,  0.851f, -0.447f),
+            glm::vec3(-0.894f,  0.000f, -0.447f),
+            glm::vec3(-0.276f, -0.851f, -0.447f),
+            glm::vec3(0.724f, -0.526f, -0.447f),
+            glm::vec3(0.000f,  0.000f, -1.000f) };
+
+    indices = {
             2, 1, 0,
             3, 2, 0,
             4, 3, 0,
@@ -211,21 +226,10 @@ void Mesh::generateIcosahedron() {
             5, 10, 9,
             1, 6, 10 };
 
-    vertices.positions = {
-            0.000f,  0.000f,  1.000f,
-            0.894f,  0.000f,  0.447f,
-            0.276f,  0.851f,  0.447f,
-            -0.724f,  0.526f,  0.447f,
-            -0.724f, -0.526f,  0.447f,
-            0.276f, -0.851f,  0.447f,
-            0.724f,  0.526f, -0.447f,
-            -0.276f,  0.851f, -0.447f,
-            -0.894f,  0.000f, -0.447f,
-            -0.276f, -0.851f, -0.447f,
-            0.724f, -0.526f, -0.447f,
-            0.000f,  0.000f, -1.000f };
-    computeNormals();
-}*/
+    std::vector<glm::vec3> normals = computeNormals(positions);
+
+    fillVertices(positions, normals);
+}
 
 
 void Mesh::connectDots(int a, int b, int c) {
