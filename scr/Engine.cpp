@@ -5,12 +5,12 @@ Engine::Engine() {
     loadWindow();
 
     Assets::loadShader("shaders/default.vert", "shaders/default.frag", "", "", "", "Default");
-    Assets::loadShader("shaders/default.vert", "shaders/default.frag", "", "", "shaders/default.geom", "DefaultN");
+    Assets::loadShader("shaders/normals/normal.vert", "shaders/normals/normal.frag", "", "", "shaders/normals/normal.geom", "DefaultN");
 
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('t');
+    mesh.loadPreMade('s');
 
     object = new Object {0, 0, &mesh};
 

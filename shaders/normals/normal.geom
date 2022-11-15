@@ -24,12 +24,12 @@ void main()
 {
     for(int i=0; i< gl_VerticesIn; i++)
     {
-        gl_Position =  gs_in[i].normal;
-        gs_out.color = gs_in[i].color;
+        gl_Position = gl_in[i].gl_Position;
+        gs_out.color = vec4(0,0,1,1);
         EmitVertex();
 
-        gl_Position = gl_in[i].gl_Position;
-        gs_out.color = gs_in[i].color;
+        gl_Position =  gs_in[i].normal;
+        gs_out.color = vec4(1,1,1,0);
         EmitVertex();
 
         EndPrimitive();
