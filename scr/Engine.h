@@ -20,6 +20,8 @@ private:
     Matrix4 projMatrix;
     Shader shader;
 
+    bool showNormals;
+
     Mesh mesh;
     Object* object;
 public:

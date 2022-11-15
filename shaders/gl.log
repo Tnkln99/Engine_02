@@ -1,14 +1,28 @@
-22-11-13 23:24:01 INFO : 	program 3 GL_VALIDATE_STATUS = 1
-22-11-13 23:24:01 INFO : 	-----------------------------
-22-11-13 23:24:01 INFO : 	Shader programme 3 info:
-22-11-13 23:24:01 INFO : 	GL_LINK_STATUS = 1
-22-11-13 23:24:01 INFO : 	GL_ATTACHED_SHADERS = 2
-22-11-13 23:24:01 INFO : 	GL_ACTIVE_ATTRIBUTES = 2
-22-11-13 23:24:01 INFO : 	  0) type:vec4 name:Normal location:1
-22-11-13 23:24:01 INFO : 	  1) type:vec4 name:Position location:0
-22-11-13 23:24:01 INFO : 	GL_ACTIVE_UNIFORMS = 2
-22-11-13 23:24:01 INFO : 	  0) type:mat4 name:proj_matrix location:0
-22-11-13 23:24:01 INFO : 	  1) type:mat4 name:transform location:1
-22-11-13 23:24:01 INFO : 	program info log for GL index3
-22-11-13 23:24:01 INFO : 	Validation successful.
+22-11-15 21:25:59 INFO : 	program 3 GL_VALIDATE_STATUS = 1
+22-11-15 21:25:59 INFO : 	-----------------------------
+22-11-15 21:25:59 INFO : 	Shader programme 3 info:
+22-11-15 21:25:59 INFO : 	GL_LINK_STATUS = 1
+22-11-15 21:25:59 INFO : 	GL_ATTACHED_SHADERS = 2
+22-11-15 21:25:59 INFO : 	GL_ACTIVE_ATTRIBUTES = 2
+22-11-15 21:25:59 INFO : 	  0) type:vec4 name:Normal location:1
+22-11-15 21:25:59 INFO : 	  1) type:vec4 name:Position location:0
+22-11-15 21:25:59 INFO : 	GL_ACTIVE_UNIFORMS = 2
+22-11-15 21:25:59 INFO : 	  0) type:mat4 name:proj_matrix location:0
+22-11-15 21:25:59 INFO : 	  1) type:mat4 name:transform location:1
+22-11-15 21:25:59 INFO : 	program info log for GL index3
+22-11-15 21:25:59 INFO : 	Validation successful.
+
+22-11-15 21:25:59 INFO : 	program 7 GL_VALIDATE_STATUS = 1
+22-11-15 21:25:59 INFO : 	-----------------------------
+22-11-15 21:25:59 INFO : 	Shader programme 7 info:
+22-11-15 21:25:59 INFO : 	GL_LINK_STATUS = 1
+22-11-15 21:25:59 INFO : 	GL_ATTACHED_SHADERS = 3
+22-11-15 21:25:59 INFO : 	GL_ACTIVE_ATTRIBUTES = 2
+22-11-15 21:25:59 INFO : 	  0) type:vec4 name:Normal location:1
+22-11-15 21:25:59 INFO : 	  1) type:vec4 name:Position location:0
+22-11-15 21:25:59 INFO : 	GL_ACTIVE_UNIFORMS = 2
+22-11-15 21:25:59 INFO : 	  0) type:mat4 name:proj_matrix location:0
+22-11-15 21:25:59 INFO : 	  1) type:mat4 name:transform location:1
+22-11-15 21:25:59 INFO : 	program info log for GL index7
+22-11-15 21:25:59 INFO : 	Validation successful.
 

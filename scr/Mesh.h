@@ -22,6 +22,8 @@ private:
 
     std::vector<Vertex> vertices;
     std::vector<GLuint> indices;
+
+    bool showNormals = false;
 public:
     void loadPreMade(char c);
 

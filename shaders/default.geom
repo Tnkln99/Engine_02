@@ -1,14 +1,37 @@
 #version 450 core
 
-layout (triangles) in;
-layout (points, max_vertices = 3) out;
+layout(triangles) in;
 
-void main(void)
+// Three lines will be generated: 6 vertices
+layout(line_strip, max_vertices=6) out;
+
+
+
+in VS_OUT
 {
-    int i;
-    for (i=0; i < gl_in.length() ; i++)
+    vec4 normal;
+    vec4 color;
+} gs_in[];
+
+out GS_OUT
+{
+    vec4 color;
+} gs_out;
+
+out vec4 vertex_color;
+
+void main()
+{
+    for(int i=0; i< gl_VerticesIn; i++)
     {
-        gl_Position = gl_in[i].gl_Position;
+        gl_Position =  gs_in[i].normal;
+        gs_out.color = gs_in[i].color;
         EmitVertex();
+
+        gl_Position = gl_in[i].gl_Position;
+        gs_out.color = gs_in[i].color;
+        EmitVertex();
+
+        EndPrimitive();
     }
 }

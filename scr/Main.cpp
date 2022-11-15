@@ -12,7 +12,5 @@ int main()
 
     engine.run();
 
-    glGetError();
-
     return 0;
 }

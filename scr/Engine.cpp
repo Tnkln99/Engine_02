@@ -5,14 +5,18 @@ Engine::Engine() {
     loadWindow();
 
     Assets::loadShader("shaders/default.vert", "shaders/default.frag", "", "", "", "Default");
+    Assets::loadShader("shaders/default.vert", "shaders/default.frag", "", "", "shaders/default.geom", "DefaultN");
+
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('i');
+    mesh.loadPreMade('t');
 
     object = new Object {0, 0, &mesh};
 
     projMatrix =  Matrix4::createPerspectiveFOV(70.0f, 800, 800, 0.1f, 1000.0f);
+
+    showNormals = false;
 }
 
 void Engine::loadWindow() {
@@ -96,6 +100,8 @@ void Engine::changeViewMode() {
     int stateE = glfwGetKey(window, GLFW_KEY_E);
     int stateW = glfwGetKey(window, GLFW_KEY_W);
     int stateQ = glfwGetKey(window, GLFW_KEY_Q);
+    int stateN = glfwGetKey(window, GLFW_KEY_N);
+    int stateM = glfwGetKey(window, GLFW_KEY_M);
 
     if (stateE == GLFW_PRESS)
     {
@@ -109,13 +115,26 @@ void Engine::changeViewMode() {
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
+
+    if(stateN == GLFW_PRESS)
+        showNormals = true;
+    else if(stateM ==GLFW_PRESS)
+        showNormals = false;
 }
 
 void Engine::draw() {
+    if(showNormals){
+        shader = Assets::getShader("DefaultN");
+
+        shader.use();
+        shader.setMatrix4("proj_matrix", projMatrix);
+        object->draw(shader);
+    }
+
+    shader = Assets::getShader("Default");
     shader.use();
 
     shader.setMatrix4("proj_matrix", projMatrix);
-
     object->draw(shader);
 }
 
