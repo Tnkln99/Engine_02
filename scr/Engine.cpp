@@ -6,16 +6,16 @@
 Engine::Engine() {
     loadWindow();
 
-    Assets::loadShader("shaders/default.vert", "shaders/default.frag", "shaders/default.tesc", "shaders/default.tese", "", "Default");
+    Assets::loadShader("shaders/default.vert", "shaders/default.frag", "shaders/default.tesc", "shaders/default.tese", "shaders/default.geom", "Default");
     Assets::loadShader("shaders/normals/normal.vert", "shaders/normals/normal.frag", "", "", "shaders/normals/normal.geom", "DefaultN");
 
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('i');
+    mesh.loadPreMade('c');
 
     object = new Object {0, 0, 0, &mesh};
-    object2 = new Object {0, 0, -5, &mesh};
+    //object2 = new Object {0, 0, -5, &mesh};
 
     projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
     viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0f, 0.0f, -10.0f));
@@ -97,7 +97,7 @@ void Engine::update() {
     viewMatrix = glm::rotate(viewMatrix, -5.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
     object->update();
-    object2->update();
+    //object2->update();
 }
 
 void Engine::changeViewMode() {
@@ -136,7 +136,7 @@ void Engine::draw() {
         shader.setMatrix4("view_matrix", viewMatrix);
 
         object->draw(shader);
-        object2->draw(shader);
+        //object2->draw(shader);
     }
     shader = Assets::getShader("Default");
     shader.use();
@@ -145,7 +145,7 @@ void Engine::draw() {
     shader.setMatrix4("view_matrix", viewMatrix);
 
     object->draw(shader);
-    object2->draw(shader);
+    //object2->draw(shader);
 }
 
 GLFWwindow* Engine::getWindow() const {

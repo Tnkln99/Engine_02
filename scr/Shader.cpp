@@ -40,7 +40,6 @@ void Shader::compileFragmentShader(const GLchar *fragment_source)
 
 bool Shader::compileTessControlShader(const GLchar *tessControlSource) {
     if(tessControlSource == nullptr) {
-        std::cout<<"no tessC shader"<<std::endl;
         return false;
     }
 
@@ -53,7 +52,6 @@ bool Shader::compileTessControlShader(const GLchar *tessControlSource) {
 
 bool Shader::compileTessEvalShader(const GLchar *tessEvalSource) {
     if(tessEvalSource == nullptr) {
-        std::cout<<"no tessE shader"<<std::endl;
         return false;
     }
 
