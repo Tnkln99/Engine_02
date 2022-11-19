@@ -1,11 +1,8 @@
 #version 450 core
 
-in VS_OUT
-{
+in TES_OUT{
     vec4 color;
-} fs_in;
-
-in vec4 vertex_color;
+}fs_in;
 
 out vec4 color;
 

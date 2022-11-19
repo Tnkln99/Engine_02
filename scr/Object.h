@@ -1,10 +1,10 @@
 #ifndef CUBEOBJECT_H
 #define CUBEOBJECT_H
 
-#include "../lib/maths/Matrix4.h"
 #include <ctime>
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <glm/glm.hpp>
 
 
 class Shader;
@@ -14,19 +14,19 @@ class Object {
 private:
     float x { 0.0f };
     float y { 0.0f };
-    Matrix4 transform {};
+    float z { 0.0f };
+    glm::mat4 transform = glm::mat4(1.0f);
 
     Mesh* objectMesh;
 public:
-  Object(float xP, float yP, Mesh* mesh);
+  Object(float xP, float yP, float zP, Mesh* mesh);
 
-  void update(double timeSinceStart);
+  void update();
   void draw(Shader& shader);
 
   [[nodiscard]] float getX() const { return x; }
   [[nodiscard]] float getY() const { return y; }
-  void setPosition(float xP, float yP);
-  [[nodiscard]] Matrix4 computeTransform() const;
+  void setPosition(float xP, float yP, float zP);
 
   void clean();
 };

@@ -1,19 +1,18 @@
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Object.h"
 #include "Shader.h"
 #include "Mesh.h"
 
-Object::Object(float xP, float yP, Mesh* mesh)
+
+Object::Object(float xP, float yP, float zP, Mesh* mesh)
 : objectMesh { mesh }
 {
-    setPosition(xP, yP);
+    setPosition(xP, yP, zP);
 }
 
-void Object::update(double timeSinceStart) {
-    const float t = Maths::sin((float)timeSinceStart) * 0.001f;
-    Matrix4 rotationY = Matrix4::createRotationY(t * Maths::toRadians(10.0f));
-    Matrix4 rotationX = Matrix4::createRotationX(t * Maths::toRadians(10.0f));
-    transform *= rotationY;
-    transform *= rotationX;
+void Object::update() {
+    transform = glm::rotate(transform, 3.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 }
 
 void Object::draw(Shader& shader) {
@@ -21,14 +20,11 @@ void Object::draw(Shader& shader) {
     objectMesh->draw();
 }
 
-void Object::setPosition(float xP, float yP) {
+void Object::setPosition(float xP, float yP, float zP) {
   x = xP;
   y = yP;
-  transform = computeTransform();
-}
-
-Matrix4 Object::computeTransform() const {
-  return Matrix4::createTranslation(Vector3(x, y, -6.0f));
+  z = zP;
+  transform = glm::translate(transform, glm::vec3(x,y,z));
 }
 
 void Object::clean() {

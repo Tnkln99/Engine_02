@@ -47,10 +47,14 @@ void Mesh::loadPreMade(char c) {
 
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    //glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
 void Mesh::draw() {
-    glDrawElements(GL_TRIANGLES, indices.size() * 2, GL_UNSIGNED_INT, nullptr);
+    glBindVertexArray(VAO);
+    glDrawElements(GL_PATCHES, indices.size(), GL_UNSIGNED_INT, nullptr);
+    glBindVertexArray(0);
 }
 
 void Mesh::clean() {

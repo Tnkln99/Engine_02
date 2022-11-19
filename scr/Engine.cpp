@@ -1,20 +1,24 @@
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 #include "Engine.h"
 #include "Object.h"
 
 Engine::Engine() {
     loadWindow();
 
-    Assets::loadShader("shaders/default.vert", "shaders/default.frag", "", "", "", "Default");
+    Assets::loadShader("shaders/default.vert", "shaders/default.frag", "shaders/default.tesc", "shaders/default.tese", "", "Default");
     Assets::loadShader("shaders/normals/normal.vert", "shaders/normals/normal.frag", "", "", "shaders/normals/normal.geom", "DefaultN");
 
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('s');
+    mesh.loadPreMade('i');
 
-    object = new Object {0, 0, &mesh};
+    object = new Object {0, 0, 0, &mesh};
+    object2 = new Object {0, 0, -5, &mesh};
 
-    projMatrix =  Matrix4::createPerspectiveFOV(70.0f, 800, 800, 0.1f, 1000.0f);
+    projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
+    viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0f, 0.0f, -10.0f));
 
     showNormals = false;
 }
@@ -37,14 +41,15 @@ void Engine::loadWindow() {
     // So that means we only have the modern functions
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // Create a GLFWwindow object of 800 by 800 pixels, naming it "Renderer"
-    window = glfwCreateWindow(windowWidth, windowHeight, "Renderer", NULL, NULL);
+    // Create a GLFWwindow object of 800 by 800 pixels, naming it "Engine"
+    window = glfwCreateWindow((int)windowWidth, (int)windowHeight, "Engine_02", NULL, NULL);
     // Error check if the window fails to create
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
     }
+
     // Introduce the window into the current context
     glfwMakeContextCurrent(window);
 
@@ -52,19 +57,22 @@ void Engine::loadWindow() {
     gladLoadGL();
     // Specify the viewport of OpenGL in the Window
     // In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
-    glViewport(0, 0, windowWidth, windowHeight);
+    glViewport(0, 0, (int)windowWidth, (int)windowHeight);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_CULL_FACE);
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Engine::run() {
+
     while (!glfwWindowShouldClose(window))
     {
         // Specify the color of the background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         // Clean the back buffer and assign the new color to it
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         update();
         draw();
@@ -86,14 +94,10 @@ void Engine::terminate() {
 void Engine::update() {
     changeViewMode();
 
-    //TODO: change this timing thing..
-    using namespace std::chrono;
-    auto tp = system_clock::now() + 0ns;
-    double t1 = tp.time_since_epoch().count();
-    double t2 = std::nextafter(t1, INFINITY);
-    double timeSinceStart = t2-t1;
+    viewMatrix = glm::rotate(viewMatrix, -5.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
-    object->update(timeSinceStart);
+    object->update();
+    object2->update();
 }
 
 void Engine::changeViewMode() {
@@ -127,15 +131,21 @@ void Engine::draw() {
         shader = Assets::getShader("DefaultN");
 
         shader.use();
-        shader.setMatrix4("proj_matrix", projMatrix);
-        object->draw(shader);
-    }
 
+        shader.setMatrix4("proj_matrix", projMatrix);
+        shader.setMatrix4("view_matrix", viewMatrix);
+
+        object->draw(shader);
+        object2->draw(shader);
+    }
     shader = Assets::getShader("Default");
     shader.use();
 
     shader.setMatrix4("proj_matrix", projMatrix);
+    shader.setMatrix4("view_matrix", viewMatrix);
+
     object->draw(shader);
+    object2->draw(shader);
 }
 
 GLFWwindow* Engine::getWindow() const {

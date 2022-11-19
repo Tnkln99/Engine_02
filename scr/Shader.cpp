@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "Log.h"
+#include <glm/gtc/type_ptr.hpp>
 #include <sstream>
 #include <string>
 
@@ -155,9 +156,9 @@ void Shader::setVector4f(const GLchar *name, const Vector4 &value)
 {
     glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
 }
-void Shader::setMatrix4(const GLchar *name, const Matrix4& matrix)
+void Shader::setMatrix4(const GLchar *name, const glm::mat4& matrix)
 {
-    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.getAsFloatPtr());
+    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 void Shader::setMatrix4Row(const GLchar *name, const Matrix4Row &matrix)
 {
