@@ -12,7 +12,7 @@ Engine::Engine() {
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('c');
+    mesh.loadPreMade('i');
 
     object = new Object {0, 0, 0, &mesh};
     //object2 = new Object {0, 0, -5, &mesh};
@@ -94,6 +94,9 @@ void Engine::terminate() {
 void Engine::update() {
     changeViewMode();
 
+    innerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.3f)) * 5;
+    outerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.3f)) * 5;
+
     viewMatrix = glm::rotate(viewMatrix, -5.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
     object->update();
@@ -140,6 +143,9 @@ void Engine::draw() {
     }
     shader = Assets::getShader("Default");
     shader.use();
+
+    shader.setFloat("innerTess", innerTess);
+    shader.setFloat("outerTess", outerTess);
 
     shader.setMatrix4("proj_matrix", projMatrix);
     shader.setMatrix4("view_matrix", viewMatrix);

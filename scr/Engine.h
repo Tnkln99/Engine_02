@@ -26,7 +26,10 @@ private:
     Mesh mesh;
 
     Object* object;
-    Object* object2;
+    //Object* object2;
+
+    GLfloat innerTess;
+    GLfloat outerTess;
 public:
     Engine();
 

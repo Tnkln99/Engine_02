@@ -1,12 +1,10 @@
 #version 450 core
-layout(triangles, equal_spacing, cw) in;
+layout(triangles, fractional_even_spacing , cw) in;
 
 out TES_OUT{
     vec3 patchDistance;
     vec3 normalisedPos;
 }tes_out;
-
-
 
 void main()
 {
