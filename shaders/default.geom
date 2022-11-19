@@ -17,17 +17,17 @@ uniform mat4 transform;
 void make_face(vec3 a, vec3 b, vec3 c)
 {
     vec3 face_normal = normalize(cross(c - a, c - b));
-    vec4 face_color = vec4(1.0, 0.4, 0.7, 1.0) * (mat3(transform) * face_normal).z;
+    vec4 face_color = vec4(face_normal, 1.0);
 
-    gl_Position = proj_matrix * view_matrix * vec4(a, 1.0);
+    gl_Position = proj_matrix * view_matrix * transform * vec4(a, 1.0);
     gs_out.color = face_color;
     EmitVertex();
 
-    gl_Position = proj_matrix * view_matrix * vec4(b, 1.0);
+    gl_Position = proj_matrix * view_matrix * transform * vec4(b, 1.0);
     gs_out.color = face_color;
     EmitVertex();
 
-    gl_Position = proj_matrix * view_matrix * vec4(c, 1.0);
+    gl_Position = proj_matrix * view_matrix * transform * vec4(c, 1.0);
     gs_out.color = face_color;
     EmitVertex();
 
