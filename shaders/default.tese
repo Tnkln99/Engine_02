@@ -12,6 +12,6 @@ void main()
     vec4 p1 = gl_TessCoord.y * gl_in[1].gl_Position;
     vec4 p2 = gl_TessCoord.z * gl_in[2].gl_Position;
     vec4 pos = normalize(p0 + p1 + p2);
-    // setting things up
+
     gl_Position = pos;
 }

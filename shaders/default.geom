@@ -17,7 +17,7 @@ uniform mat4 transform;
 void make_face(vec3 a, vec3 b, vec3 c)
 {
     vec3 face_normal = normalize(cross(c - a, c - b));
-    vec4 face_color = vec4(face_normal, 1.0);
+    vec4 face_color = vec4(0.2, 0.4, 0.2, 1.0) * (mat3(view_matrix * transform) * face_normal).z;
 
     gl_Position = proj_matrix * view_matrix * transform * vec4(a, 1.0);
     gs_out.color = face_color;
@@ -36,7 +36,6 @@ void make_face(vec3 a, vec3 b, vec3 c)
 
 void main(void)
 {
-    int n;
     vec3 a = gl_in[0].gl_Position.xyz;
     vec3 b = gl_in[1].gl_Position.xyz;
     vec3 c = gl_in[2].gl_Position.xyz;

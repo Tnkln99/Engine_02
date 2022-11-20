@@ -94,10 +94,10 @@ void Engine::terminate() {
 void Engine::update() {
     changeViewMode();
 
-    innerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.3f)) * 5;
-    outerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.3f)) * 5;
+    innerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.05f)) * 3;
+    outerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.5f)) * 10;
 
-    //viewMatrix = glm::rotate(viewMatrix, -5.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+    viewMatrix = glm::rotate(viewMatrix, -5.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
     object->update();
     //object2->update();
