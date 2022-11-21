@@ -15,9 +15,9 @@ void Object::update() {
     transform = glm::rotate(transform, 3.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 }
 
-void Object::draw(Shader& shader) {
+void Object::draw(Shader& shader, GLenum face) {
     shader.setMatrix4("transform", transform);
-    objectMesh->draw();
+    objectMesh->draw(face);
 }
 
 void Object::setPosition(float xP, float yP, float zP) {

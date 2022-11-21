@@ -25,6 +25,8 @@ public:
 
     void update() override;
     void draw() override;
+
+    void addInput(GLFWwindow * window) override;
 };
 
 

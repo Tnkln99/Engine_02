@@ -11,13 +11,14 @@ class Window{
 private:
     float windowWidth{800};
     float windowHeight{800};
-    GLFWwindow* window{};
+    GLFWwindow* window;
 public:
     void getInputs();
     bool shouldClose();
 
     [[nodiscard]] float getHeight() const;
     [[nodiscard]] float getWidth() const;
+    [[nodiscard]] GLFWwindow* getPointer() const;
 
     void setHeight(float height);
     void setWidth(float width);

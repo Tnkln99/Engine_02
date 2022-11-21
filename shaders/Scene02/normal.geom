@@ -5,8 +5,6 @@ layout(triangles) in;
 // Three lines will be generated: 6 vertices
 layout(line_strip, max_vertices=6) out;
 
-
-
 in VS_OUT
 {
     vec4 normal;
@@ -18,7 +16,6 @@ out GS_OUT
     vec4 color;
 } gs_out;
 
-out vec4 vertex_color;
 
 void main()
 {

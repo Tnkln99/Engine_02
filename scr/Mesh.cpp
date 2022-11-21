@@ -51,9 +51,9 @@ void Mesh::loadPreMade(char c) {
     //glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
-void Mesh::draw() {
+void Mesh::draw(GLenum face) {
     glBindVertexArray(VAO);
-    glDrawElements(GL_PATCHES, indices.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(face , indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 

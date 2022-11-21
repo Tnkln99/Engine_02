@@ -27,7 +27,7 @@ private:
 public:
     void loadPreMade(char c);
 
-    void draw();
+    void draw(GLenum face);
     void clean();
 
     std::vector<glm::vec3> computeNormals(const std::vector<glm::vec3>& positions);

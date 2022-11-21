@@ -1,6 +1,6 @@
 #version 450 core
 
-in GS_OUT
+in VS_OUT
 {
     vec4 color;
 } fs_in;

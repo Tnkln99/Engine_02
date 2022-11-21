@@ -32,5 +32,7 @@ void Engine::update() {
         engineRunning = false;
     }
     window.getInputs();
+    scene.addInput(window.getPointer());
+
     scene.update();
 }

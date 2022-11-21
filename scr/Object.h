@@ -3,6 +3,7 @@
 
 #include <ctime>
 #define _USE_MATH_DEFINES
+#include <glad/glad.h>
 #include <cmath>
 #include <glm/glm.hpp>
 
@@ -22,7 +23,7 @@ public:
   Object(float xP, float yP, float zP, Mesh* mesh);
 
   void update();
-  void draw(Shader& shader);
+  void draw(Shader& shader, GLenum face);
 
   [[nodiscard]] float getX() const { return x; }
   [[nodiscard]] float getY() const { return y; }

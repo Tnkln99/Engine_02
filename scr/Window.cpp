@@ -4,8 +4,6 @@ void Window::getInputs() {
     int stateE = glfwGetKey(window, GLFW_KEY_E);
     int stateW = glfwGetKey(window, GLFW_KEY_W);
     int stateQ = glfwGetKey(window, GLFW_KEY_Q);
-    int stateN = glfwGetKey(window, GLFW_KEY_N);
-    int stateM = glfwGetKey(window, GLFW_KEY_M);
 
     if (stateE == GLFW_PRESS)
     {
@@ -39,6 +37,10 @@ void Window::setHeight(float height) {
 
 void Window::setWidth(float width) {
     windowWidth = width;
+}
+
+GLFWwindow *Window::getPointer() const {
+    return window;
 }
 
 void Window::setBackgroundColor(float r, float b, float g, float t) {
@@ -87,7 +89,6 @@ void Window::load() {
     //Load GLAD so it configures OpenGL
     gladLoadGL();
     // Specify the viewport of OpenGL in the Window
-    // In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
     glViewport(0, 0, (int)windowWidth, (int)windowHeight);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -106,3 +107,5 @@ void Window::clean() {
     // Terminate GLFW before ending the program
     glfwTerminate();
 }
+
+

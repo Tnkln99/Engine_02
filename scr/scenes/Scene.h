@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include <glad/glad.h>
 #include "../Assets.h"
 #include "GLFW/glfw3.h"
 #include "../Mesh.h"
@@ -20,6 +21,8 @@ public:
 
     virtual void update() = 0;
     virtual void draw() = 0;
+
+    virtual void addInput(GLFWwindow *window) = 0;
 };
 
 #endif //ENGINE_02_SCENE_H

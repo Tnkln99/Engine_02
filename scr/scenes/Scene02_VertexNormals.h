@@ -9,6 +9,7 @@ private:
     Shader shader;
 
     Mesh mesh;
+    bool showNormals;
 
     Object* object;
 public:
@@ -20,6 +21,8 @@ public:
 
     void update() override;
     void draw() override;
+
+    void addInput(GLFWwindow * window) override;
 };
 
 

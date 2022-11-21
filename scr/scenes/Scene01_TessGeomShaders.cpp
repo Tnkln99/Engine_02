@@ -13,7 +13,7 @@ void Scene01_TessGeomShaders::load(float windowWidth, float windowHeight){
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('c');
+    mesh.loadPreMade('i');
 
     object = new Object {0, 0, 0, &mesh};
     //object2 = new Object {0, 0, -5, &mesh};
@@ -27,8 +27,8 @@ void Scene01_TessGeomShaders::clean(){
 }
 
 void Scene01_TessGeomShaders::update() {
-    innerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.05f)) * 3;
-    outerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.5f)) * 10;
+    innerTess = Maths::abs(Maths::sin((float)glfwGetTime() * 0.05f)) * 5;
+    outerTess = Maths::abs(Maths::cos((float)glfwGetTime() * 0.5f)) * 3;
 
     viewMatrix = glm::rotate(viewMatrix, -5.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
@@ -45,9 +45,11 @@ void Scene01_TessGeomShaders::draw() {
     shader.setMatrix4("proj_matrix", projMatrix);
     shader.setMatrix4("view_matrix", viewMatrix);
 
-    object->draw(shader);
+    object->draw(shader, GL_PATCHES);
     //object2->draw(shader);
 }
+
+void Scene01_TessGeomShaders::addInput(GLFWwindow *window) { }
 
 
 
