@@ -106,7 +106,7 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/res/)
 endif()
 
 message(STATUS "Setting up build options...")
-file(GLOB_RECURSE SRC_FILES "./scr/*.h" "./scr/*.cpp")
+file(GLOB_RECURSE SRC_FILES "./scr/scenes/*.h" "./scr/scenes/*.cpp" "./scr/*.h" "./scr/*.cpp")
 add_executable(Engine_02 ${SRC_FILES} ${IMGUI_FILES})
 
 if(LIB_GLAD AND UNIX)

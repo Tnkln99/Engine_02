@@ -15,8 +15,9 @@ uniform mat4 transform;
 
 void main()
 {
+   float sizeOfNormals = 0.15;
    gl_Position = proj_matrix * view_matrix * transform * vec4(Position.xyz,1.0);
 
-   vs_out.normal = proj_matrix * view_matrix * transform * vec4(Position.xyz + Normal.xyz * 0.15, 1.0);
+   vs_out.normal = proj_matrix * view_matrix * transform * vec4(Position.xyz + Normal.xyz * sizeOfNormals, 1.0);
    vs_out.color = Position;
 }
