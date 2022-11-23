@@ -16,7 +16,7 @@ class Scene{
 public:
     virtual ~Scene() = default;
 
-    virtual void load(float windowWidth, float windowHeight) = 0;
+    virtual void load(GLFWwindow * window) = 0;
     virtual void clean() = 0;
 
     virtual void update() = 0;

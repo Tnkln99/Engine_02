@@ -20,7 +20,7 @@ public:
     Scene03_ToSphere();
     ~Scene03_ToSphere() override;
 
-    void load(float windowWidth, float windowHeight) override;
+    void load(GLFWwindow * window) override;
     void clean() override;
 
     void update() override;

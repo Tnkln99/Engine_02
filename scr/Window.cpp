@@ -1,19 +1,19 @@
 #include "Window.h"
 
 void Window::getInputs() {
-    int stateE = glfwGetKey(window, GLFW_KEY_E);
-    int stateW = glfwGetKey(window, GLFW_KEY_W);
-    int stateQ = glfwGetKey(window, GLFW_KEY_Q);
+    int stateT = glfwGetKey(window, GLFW_KEY_T);
+    int stateY = glfwGetKey(window, GLFW_KEY_Y);
+    int stateU = glfwGetKey(window, GLFW_KEY_U);
 
-    if (stateE == GLFW_PRESS)
+    if (stateT == GLFW_PRESS)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
     }
-    else if (stateW == GLFW_PRESS)
+    else if (stateY == GLFW_PRESS)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
-    else if (stateQ == GLFW_PRESS)
+    else if (stateU == GLFW_PRESS)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }

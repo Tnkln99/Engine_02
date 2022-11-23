@@ -56,9 +56,6 @@ void main(void)
     vec3 fSphere = normalize(f);
     f = mix(f, fSphere, interp_frac);
 
-    vec4 color1 = vec4(0.063, 0.08, 0.29, 1.0);
-    vec4 color2 = vec4(0.8314, 0.5647, 0.102, 1.0);
-
     make_face(a, d, f);
     make_face(d, b, e);
     make_face(e, c, f);

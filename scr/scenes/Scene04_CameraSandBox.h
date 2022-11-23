@@ -1,20 +1,22 @@
-#ifndef ENGINE_02_SCENE02_VERTEXNORMALS_H
-#define ENGINE_02_SCENE02_VERTEXNORMALS_H
-#include "Scene.h"
+#ifndef ENGINE_02_SCENE04_CAMERASANDBOX_H
+#define ENGINE_02_SCENE04_CAMERASANDBOX_H
 
-class Scene02_VertexNormals : public Scene {
+#include "Scene.h"
+class Camera;
+
+class Scene04_CameraSandBox : public Scene{
 private:
+    Camera* camera;
+
     glm::mat4 projMatrix = glm::mat4(1.0f);
-    glm::mat4 viewMatrix = glm::mat4(1.0f);
+
     Shader shader;
 
     Mesh mesh;
-    bool showNormals;
-
     Object* object;
 public:
-    Scene02_VertexNormals();
-    ~Scene02_VertexNormals() override;
+    Scene04_CameraSandBox();
+    ~Scene04_CameraSandBox() override;
 
     void load(GLFWwindow * window) override;
     void clean() override;
@@ -26,4 +28,4 @@ public:
 };
 
 
-#endif //ENGINE_02_SCENE02_VERTEXNORMALS_H
+#endif //ENGINE_02_SCENE04_CAMERASANDBOX_H

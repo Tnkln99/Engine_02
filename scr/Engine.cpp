@@ -3,7 +3,7 @@
 Engine::Engine() {
     window.load();
 
-    scene.load(window.getWidth(), window.getHeight());
+    scene.load(window.getPointer());
 }
 
 void Engine::run() {

@@ -7,7 +7,7 @@ Scene01_TessGeomShaders::~Scene01_TessGeomShaders(){
     clean();
 }
 
-void Scene01_TessGeomShaders::load(float windowWidth, float windowHeight){
+void Scene01_TessGeomShaders::load(GLFWwindow * window){
     Assets::loadShader("shaders/Scene01/default.vert", "shaders/Scene01/default.frag", "shaders/Scene01/default.tesc", "shaders/Scene01/default.tese", "shaders/Scene01/default.geom", "Default");
 
     shader = Assets::getShader("Default");
@@ -17,6 +17,11 @@ void Scene01_TessGeomShaders::load(float windowWidth, float windowHeight){
 
     object = new Object {0, 0, 0, &mesh};
     //object2 = new Object {0, 0, -5, &mesh};
+
+    int windowWidth;
+    int windowHeight;
+
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
     projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
     viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0f, 0.0f, -10.0f));

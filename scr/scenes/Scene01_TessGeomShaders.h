@@ -20,7 +20,7 @@ public:
     Scene01_TessGeomShaders();
     ~Scene01_TessGeomShaders() override;
 
-    void load(float windowWidth, float windowHeight) override;
+    void load(GLFWwindow * window) override;
     void clean() override;
 
     void update() override;
