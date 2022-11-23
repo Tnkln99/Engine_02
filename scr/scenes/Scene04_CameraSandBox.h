@@ -8,12 +8,11 @@ class Scene04_CameraSandBox : public Scene{
 private:
     Camera* camera;
 
-    glm::mat4 projMatrix = glm::mat4(1.0f);
-
     Shader shader;
 
     Mesh mesh;
     Object* object;
+    Object* object2;
 public:
     Scene04_CameraSandBox();
     ~Scene04_CameraSandBox() override;

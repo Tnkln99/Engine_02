@@ -30,7 +30,8 @@ public:
     void draw(GLenum face);
     void clean();
 
-    std::vector<glm::vec3> computeNormals(const std::vector<glm::vec3>& positions);
+    std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
+    std::vector<glm::vec3> computeFaceNormals(const std::vector<glm::vec3>& positions);
     void fillVertices(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& normals);
 
     void generateSphere(int nX, int nY);

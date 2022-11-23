@@ -47,8 +47,6 @@ void Mesh::loadPreMade(char c) {
 
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
-    //glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
 void Mesh::draw(GLenum face) {
@@ -90,7 +88,7 @@ void Mesh::generateSphere(int nX, int nY) {
         }
     }
 
-    std::vector<glm::vec3> normals = computeNormals(positions);
+    std::vector<glm::vec3> normals = computeVertexNormals(positions);
 
     fillVertices(positions, normals);
 }
@@ -132,7 +130,7 @@ void Mesh::generateCube() {
             7, 5, 4
     };
 
-    std::vector<glm::vec3> normals = computeNormals(positions);
+    std::vector<glm::vec3> normals = computeVertexNormals(positions);
 
     fillVertices(positions, normals);
 }
@@ -186,7 +184,7 @@ void Mesh::generateTore(int nX, int nY) {
         }
     }
 
-    std::vector<glm::vec3> normals = computeNormals(positions);
+    std::vector<glm::vec3> normals = computeVertexNormals(positions);
 
     fillVertices(positions, normals);
 }
@@ -230,7 +228,7 @@ void Mesh::generateIcosahedron() {
             5, 10, 9,
             1, 6, 10 };
 
-    std::vector<glm::vec3> normals = computeNormals(positions);
+    std::vector<glm::vec3> normals = computeVertexNormals(positions);
 
     fillVertices(positions, normals);
 }
@@ -244,7 +242,7 @@ void Mesh::connectDots(int a, int b, int c) {
 
 
 
- std::vector<glm::vec3> Mesh::computeNormals(const std::vector<glm::vec3>& positions) {
+ std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& positions) {
     std::vector<glm::vec3> normals;
 
     for(int i = 0; i < positions.size(); i ++){
@@ -280,11 +278,22 @@ void Mesh::connectDots(int a, int b, int c) {
     return normals;
 }
 
+std::vector<glm::vec3> Mesh::computeFaceNormals(const std::vector<glm::vec3> &positions) {
+    std::vector<glm::vec3> normals;
+    for(int i = 0; i < indices.size()-3; i+=3){
+        glm::vec3 a = positions[indices[i]];
+        glm::vec3 b = positions[indices[i+1]];
+        glm::vec3 c = positions[indices[i+2]];
+    }
+}
+
 void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vector<glm::vec3> &normals) {
     for(int i = 0; i < positions.size(); i++){
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
 }
+
+
 
 
 

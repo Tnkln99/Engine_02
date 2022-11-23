@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
 
 
 
@@ -8,11 +9,9 @@ Camera::Camera(GLFWwindow * window) {
 
     int windowWidth;
     int windowHeight;
-
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
-    lastMouseX = (float)windowWidth / 2;
-    lastMouseY = (float)windowHeight / 2;
+    projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
     glfwSetWindowUserPointer( window, this );
 
@@ -91,8 +90,12 @@ void Camera::update() {
     view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }
 
-glm::mat4 Camera::getViewMatrix() {
+const glm::mat4 & Camera::getViewMatrix() {
     return view;
+}
+
+const glm::mat4 & Camera::getProjMatrix() {
+    return projMatrix;
 }
 
 

@@ -17,6 +17,7 @@ private:
     glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 
     glm::mat4 view = glm::mat4(1.0f);
+    glm::mat4 projMatrix = glm::mat4(1.0f);
 
     bool firstMouse = true;
     bool mouseClicked = false;
@@ -30,7 +31,8 @@ private:
 public:
     Camera(GLFWwindow * window);
 
-    glm::mat4 getViewMatrix();
+    const glm::mat4 & getViewMatrix();
+    const glm::mat4 & getProjMatrix();
 
     void getCameraInput(GLFWwindow * window);
     void mouse_callback(double xpos, double ypos);
