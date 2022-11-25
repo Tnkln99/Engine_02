@@ -9,6 +9,7 @@ private:
     Window window;
     bool engineRunning = true;
 
+
     Scene02_VertexNormals scene;
 public:
     Engine();
