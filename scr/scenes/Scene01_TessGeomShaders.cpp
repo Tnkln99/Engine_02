@@ -16,7 +16,6 @@ void Scene01_TessGeomShaders::load(GLFWwindow * window){
     mesh.loadPreMade('i');
 
     object = new Object {0, 0, 0, &mesh};
-    //object2 = new Object {0, 0, -5, &mesh};
 
     int windowWidth;
     int windowHeight;

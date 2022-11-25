@@ -1,7 +1,7 @@
 #ifndef SNAKE_ENGINE_H
 #define SNAKE_ENGINE_H
 
-#include "scenes/Scene02_VertexNormals.h"
+#include "scenes/Scene01_TessGeomShaders.h"
 #include "Window.h"
 
 class Engine{
@@ -10,7 +10,7 @@ private:
     bool engineRunning = true;
 
 
-    Scene02_VertexNormals scene;
+    Scene01_TessGeomShaders scene;
 public:
     Engine();
 

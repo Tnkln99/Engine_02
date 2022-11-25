@@ -278,6 +278,12 @@ void Mesh::connectDots(int a, int b, int c) {
     return normals;
 }
 
+void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vector<glm::vec3> &normals) {
+    for(int i = 0; i < positions.size(); i++){
+        vertices.push_back( Vertex{positions[i],normals[i] } );
+    }
+}
+
 std::vector<glm::vec3> Mesh::computeFaceNormals(const std::vector<glm::vec3> &positions) {
     return std::vector<glm::vec3>();//TODO
 }
