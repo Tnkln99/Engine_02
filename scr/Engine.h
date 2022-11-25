@@ -1,7 +1,7 @@
 #ifndef SNAKE_ENGINE_H
 #define SNAKE_ENGINE_H
 
-#include "scenes/Scene04_CameraSandBox.h"
+#include "scenes/Scene02_VertexNormals.h"
 #include "Window.h"
 
 class Engine{
@@ -9,7 +9,7 @@ private:
     Window window;
     bool engineRunning = true;
 
-    Scene04_CameraSandBox scene;
+    Scene02_VertexNormals scene;
 public:
     Engine();
 
