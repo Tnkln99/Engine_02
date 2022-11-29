@@ -1,7 +1,7 @@
 #ifndef SNAKE_ENGINE_H
 #define SNAKE_ENGINE_H
 
-#include "scenes/Scene01_TessGeomShaders.h"
+#include "scenes/Scene05_LightSandBox.h"
 #include "Window.h"
 
 class Engine{
@@ -9,8 +9,7 @@ private:
     Window window;
     bool engineRunning = true;
 
-
-    Scene01_TessGeomShaders scene;
+    Scene05_LightSandBox scene;
 public:
     Engine();
 

@@ -10,7 +10,7 @@ Scene04_CameraSandBox::~Scene04_CameraSandBox() {
 }
 
 void Scene04_CameraSandBox::load(GLFWwindow * window) {
-    Assets::loadShader("shaders/Scene04/default.vert", "shaders/Scene04/default.frag", "", "", "shaders/Scene04/default.geom", "Default");
+    Assets::loadShader("../shaders/Scene04/default.vert", "../shaders/Scene04/default.frag", "", "", "../shaders/Scene04/default.geom", "Default");
 
     shader = Assets::getShader("Default");
 

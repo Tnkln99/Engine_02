@@ -284,8 +284,9 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
     }
 }
 
+//TODO
 std::vector<glm::vec3> Mesh::computeFaceNormals(const std::vector<glm::vec3> &positions) {
-    return std::vector<glm::vec3>();//TODO
+    return std::vector<glm::vec3>();
 }
 
 

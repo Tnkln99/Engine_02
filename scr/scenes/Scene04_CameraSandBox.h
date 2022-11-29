@@ -2,7 +2,6 @@
 #define ENGINE_02_SCENE04_CAMERASANDBOX_H
 
 #include "Scene.h"
-class Camera;
 
 class Scene04_CameraSandBox : public Scene{
 private:
@@ -11,6 +10,7 @@ private:
     Shader shader;
 
     Mesh mesh;
+
     Object* object;
     Object* object2;
 public:

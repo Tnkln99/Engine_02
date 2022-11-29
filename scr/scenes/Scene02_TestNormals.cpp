@@ -9,8 +9,8 @@ Scene02_TestNormals::~Scene02_TestNormals() {
 }
 
 void Scene02_TestNormals::load(GLFWwindow * window) {
-    Assets::loadShader("shaders/Scene02/normal.vert", "shaders/Scene02/normal.frag", "", "", "shaders/Scene02/normal.geom", "Normals");
-    Assets::loadShader("shaders/Scene02/default.vert", "shaders/Scene02/default.frag", "", "", "", "Default");
+    Assets::loadShader("../shaders/Scene02/normal.vert", "../shaders/Scene02/normal.frag", "", "", "../shaders/Scene02/normal.geom", "Normals");
+    Assets::loadShader("../shaders/Scene02/default.vert", "../shaders/Scene02/default.frag", "", "", "", "Default");
 
     shader = Assets::getShader("Default");
 

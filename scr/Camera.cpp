@@ -98,4 +98,8 @@ const glm::mat4 & Camera::getProjMatrix() {
     return projMatrix;
 }
 
+glm::vec3 Camera::getCameraPos() {
+    return cameraPos;
+}
+
 

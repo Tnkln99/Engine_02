@@ -57,12 +57,7 @@ void Window::clearBuffer() {
 }
 
 void Window::load() {
-    // Init logging
-    LOG_CONFIG.reporting_level = Debug;
-    LOG_CONFIG.restart = true;
-    if (LOG_CONFIG.restart) {
-        Log::restart();
-    }
+
     // Initialize GLFW
     glfwInit();
 

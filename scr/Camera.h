@@ -37,6 +37,8 @@ public:
     void getCameraInput(GLFWwindow * window);
     void mouse_callback(double xpos, double ypos);
 
+    glm::vec3 getCameraPos();
+
     void update();
 };
 

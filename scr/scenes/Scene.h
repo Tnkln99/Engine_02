@@ -11,6 +11,9 @@
 #include <glm/ext/matrix_transform.hpp>
 
 class Object;
+class RenderableObject;
+class Camera;
+class Light;
 
 class Scene{
 public:

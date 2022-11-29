@@ -13,7 +13,7 @@ void Scene03_ToSphere::load(GLFWwindow * window) {
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('i');
+    mesh.loadPreMade('c');
 
     object = new Object {0, 0, 0, &mesh};
     //object2 = new Object {0, 0, -5, &mesh};
