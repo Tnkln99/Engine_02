@@ -59,5 +59,3 @@ void Object::setColor(float r, float g, float b) {
     color.g = g;
     color.b = b;
 }
-
-
