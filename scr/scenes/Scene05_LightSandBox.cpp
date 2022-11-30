@@ -16,10 +16,10 @@ void Scene05_LightSandBox::load(GLFWwindow *window) {
     shader = Assets::getShader("Default");
 
     //t->tore c->cube s->sphere
-    mesh.loadPreMade('c');
+    mesh.loadPreMade('t');
 
     object = new RenderableObject {0, 0, -10, &mesh};
-    light = new Light {5, 0, -10, &mesh};
+    light = new Light {-5, 0, -10, &mesh};
 
     light->show(true);
 
@@ -51,9 +51,7 @@ void Scene05_LightSandBox::draw() {
     shader.setVector3f("viewPos", camera->getCameraPos());
 
     shader.setVector3f("light.position", light->getPosition());
-    /* std::cout<<"x: "<< light->getPosition().x << " y: "<<light->getPosition().y << " z: "<< light->getPosition().z <<std::endl;
-    std::cout<<"x: "<< object->getPosition().x << " y: "<<object->getPosition().y << " z: "<< object->getPosition().z <<std::endl;
-    std::cout<<std::endl; */
+    
     shader.setVector3f("light.ambient",  light->getAmbient());
     shader.setVector3f("light.diffuse",  light->getDiffuse());
     shader.setVector3f("light.specular", light->getSpecular());

@@ -8,7 +8,7 @@ Scene01_TessGeomShaders::~Scene01_TessGeomShaders(){
 }
 
 void Scene01_TessGeomShaders::load(GLFWwindow * window){
-    Assets::loadShader("shaders/Scene01/default.vert", "shaders/Scene01/default.frag", "shaders/Scene01/default.tesc", "shaders/Scene01/default.tese", "shaders/Scene01/default.geom", "Default");
+    Assets::loadShader("../shaders/Scene01/default.vert", "../shaders/Scene01/default.frag", "../shaders/Scene01/default.tesc", "../shaders/Scene01/default.tese", "shaders/Scene01/default.geom", "Default");
 
     shader = Assets::getShader("Default");
 
