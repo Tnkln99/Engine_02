@@ -3,12 +3,12 @@
 #include "Mesh.h"
 #include "ext/matrix_transform.inl"
 
-Light::Light(float xP, float yP, float zP, Mesh *mesh) : mesh {mesh}, Object(xP, yP, zP) {
+Light::Light(float xP, float yP, float zP, Mesh *mesh) : debugMesh {mesh}, Object(xP, yP, zP) {
     setColor(1,1,1);
 }
 
 void Light::show(bool condition) {
-    if(mesh != nullptr) {
+    if(debugMesh != nullptr) {
         showSource = condition;
     }
 }
@@ -33,9 +33,9 @@ float Light::getIntensity() const{
 
 //checking if there is a debugger mesh, for light or not
 void Light::draw(Shader &shader, GLenum face) {
-    shader.setMatrix4("transform", getTransform().getMoveMatrix());
-    if(mesh != nullptr && showSource){
-        mesh->draw(face);
+    shader.setMatrix4("transform", transform.getMoveMatrix());
+    if(debugMesh != nullptr && showSource){
+        debugMesh->draw(face);
     }
 }
 

@@ -10,7 +10,6 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
-class Object;
 class RenderableObject;
 class Camera;
 class Light;
@@ -22,10 +21,10 @@ public:
     virtual void load(GLFWwindow * window) = 0;
     virtual void clean() = 0;
 
-    virtual void update() = 0;
+    virtual void update(float dt) = 0;
     virtual void draw() = 0;
 
-    virtual void addInput(GLFWwindow *window) = 0;
+    virtual void addInput(GLFWwindow *window, float deltaTime) = 0;
 };
 
 #endif //ENGINE_02_SCENE_H

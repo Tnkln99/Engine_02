@@ -28,11 +28,15 @@ void Engine::terminate() {
 }
 
 void Engine::update() {
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
     if(window.shouldClose()){
         engineRunning = false;
     }
     window.getInputs();
-    scene.addInput(window.getPointer());
+    scene.addInput(window.getPointer(), deltaTime);
 
-    scene.update();
+    scene.update(deltaTime);
 }

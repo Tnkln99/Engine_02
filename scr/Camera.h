@@ -1,18 +1,16 @@
 #ifndef ENGINE_02_CAMERA_H
 #define ENGINE_02_CAMERA_H
 
-#include <glm/glm.hpp>
+#include "Object.h"
+
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <glm/glm.hpp>
 
-class Camera {
+
+class Camera :public Object{
 private:
-    float deltaTime = 0.0f;	// Time between current frame and last frame
-    float lastFrame = 0.0f; // Time of last frameu
-
-    glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
-    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
 
     glm::mat4 view = glm::mat4(1.0f);
     glm::mat4 projMatrix = glm::mat4(1.0f);
@@ -27,12 +25,12 @@ private:
     float pitch =  0.0f;
     float fov   =  45.0f;
 public:
-    Camera(GLFWwindow * window);
+    Camera(float x, float y, float z, GLFWwindow * window);
 
     const glm::mat4 & getViewMatrix();
     const glm::mat4 & getProjMatrix();
 
-    void getCameraInput(GLFWwindow * window);
+    void getCameraInput(GLFWwindow * window, float dt);
     void mouse_callback(double xpos, double ypos);
 
     glm::vec3 getCameraPos();

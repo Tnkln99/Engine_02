@@ -10,11 +10,12 @@ class Shader;
 //TODO complete this class..
 class Light : public Object{
 private:
-    Mesh* mesh;
+    Mesh* debugMesh;
 
-    bool showSource = false;
     float intensity;
     glm::vec3 color;
+
+    bool showSource = false;
 public:
     Light(float xP, float yP, float zP, Mesh* mesh = nullptr);
 
@@ -29,7 +30,7 @@ public:
 
     void draw(Shader& shader, GLenum face);
 
-        virtual void update();
+    virtual void update();
 };
 
 

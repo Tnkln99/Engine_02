@@ -11,23 +11,23 @@ uniform float stretch = 0.7;
 
 uniform mat4 proj_matrix;
 uniform mat4 view_matrix;
-uniform mat4 transform;
+//uniform mat4 transform;
 
 
 void make_face(vec3 a, vec3 b, vec3 c)
 {
     vec3 face_normal = normalize(cross(c - a, c - b));
-    vec4 face_color = vec4(0.2, 0.4, 0.2, 1.0) * (mat3(view_matrix * transform) * face_normal).z;
+    vec4 face_color = vec4(0.2, 0.4, 0.2, 1.0) * (mat3(view_matrix) * face_normal).z;
 
-    gl_Position = proj_matrix * view_matrix * transform * vec4(a, 1.0);
+    gl_Position = proj_matrix * view_matrix * vec4(a, 1.0);
     gs_out.color = face_color;
     EmitVertex();
 
-    gl_Position = proj_matrix * view_matrix * transform * vec4(b, 1.0);
+    gl_Position = proj_matrix * view_matrix * vec4(b, 1.0);
     gs_out.color = face_color;
     EmitVertex();
 
-    gl_Position = proj_matrix * view_matrix * transform * vec4(c, 1.0);
+    gl_Position = proj_matrix * view_matrix * vec4(c, 1.0);
     gs_out.color = face_color;
     EmitVertex();
 

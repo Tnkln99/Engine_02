@@ -4,8 +4,8 @@
 
 
 
-Camera::Camera(GLFWwindow * window) {
-    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+Camera::Camera(float x, float y, float z, GLFWwindow * window) : Object(x, y, z){ 
+    view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
 
     int windowWidth;
     int windowHeight;
@@ -22,12 +22,12 @@ Camera::Camera(GLFWwindow * window) {
     } );
 }
 
-void Camera::getCameraInput(GLFWwindow * window) {
-    float currentFrame = glfwGetTime();
-    deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
+void Camera::getCameraInput(GLFWwindow * window, float dt) {    
+    float cameraSpeed = 6.0f * dt;
 
-    float cameraSpeed = 6.0f * deltaTime;
+    glm::vec3 cameraPos = transform.getPosition();
+    glm::vec3 cameraFront = transform.getDirection();
+
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cameraPos += cameraSpeed * cameraFront;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -36,6 +36,8 @@ void Camera::getCameraInput(GLFWwindow * window) {
         cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+
+    transform.setPosition(cameraPos);
 
     int mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 
@@ -66,28 +68,19 @@ void Camera::mouse_callback(double xpos, double ypos) {
     float xoffset = xpos - lastMouseX;
     float yoffset = lastMouseY - ypos;
 
-
     float sensitivity = 0.005f;
+
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
     yaw   += xoffset;
     pitch += yoffset;
 
-    if(pitch > 89.0f)
-        pitch = 89.0f;
-    if(pitch < -89.0f)
-        pitch = -89.0f;
-
-    glm::vec3 direction;
-    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    direction.y = sin(glm::radians(pitch));
-    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraFront = glm::normalize(direction);
+    transform.computeDirection(yaw, pitch);
 }
 
 void Camera::update() {
-    view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
 }
 
 const glm::mat4 & Camera::getViewMatrix() {
@@ -96,10 +89,6 @@ const glm::mat4 & Camera::getViewMatrix() {
 
 const glm::mat4 & Camera::getProjMatrix() {
     return projMatrix;
-}
-
-glm::vec3 Camera::getCameraPos() {
-    return cameraPos;
 }
 
 

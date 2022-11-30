@@ -1,5 +1,7 @@
 #include "Material.h"
 
+Material::Material(){ }
+
 float Material::getShininess() const{
     return shininess;
 }

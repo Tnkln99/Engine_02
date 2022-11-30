@@ -7,7 +7,3 @@ Object::Object(float xP, float yP, float zP)
 {
     transform.setPosition(xP, yP, zP);
 }
-
-const Transformable & Object::getTransform(){
-    return transform;
-}

@@ -11,7 +11,8 @@ private:
 
     Mesh mesh;
 
-    Object* object;
+    RenderableObject* object;
+    Camera* camera;
     //Object* object2;
 
     GLfloat innerTess {0.0f};
@@ -23,10 +24,10 @@ public:
     void load(GLFWwindow * window) override;
     void clean() override;
 
-    void update() override;
+    void update(float dt) override;
     void draw() override;
 
-    void addInput(GLFWwindow * window) override;
+    void addInput(GLFWwindow * window, float deltaTime) override;
 };
 
 
