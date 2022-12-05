@@ -10,8 +10,8 @@ Scene05_LightSandBox::~Scene05_LightSandBox() {
 }
 
 void Scene05_LightSandBox::load(GLFWwindow *window) {
-    Assets::loadShader("../shaders/Scene05/default.vert", "../shaders/Scene05/default.frag", "", "", "", "Default");
-    Assets::loadShader("../shaders/Scene05/light.vert", "../shaders/Scene05/light.frag", "", "", "", "Light");
+    Assets::loadShader("shaders/Scene05/default.vert", "shaders/Scene05/default.frag", "", "", "", "Default");
+    Assets::loadShader("shaders/Scene05/light.vert", "shaders/Scene05/light.frag", "", "", "", "Light");
 
     shader = Assets::getShader("Default");
 
