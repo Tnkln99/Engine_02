@@ -3,3 +3,4 @@ Testing
 .idea
 build
 lib
+cmake-build-debug
