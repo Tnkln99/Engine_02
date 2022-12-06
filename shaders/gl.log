@@ -1,39 +1,14 @@
-22-12-05 16:17:56 INFO : 	program 3 GL_VALIDATE_STATUS = 1
-22-12-05 16:17:56 INFO : 	-----------------------------
-22-12-05 16:17:56 INFO : 	Shader programme 3 info:
-22-12-05 16:17:56 INFO : 	GL_LINK_STATUS = 1
-22-12-05 16:17:56 INFO : 	GL_ATTACHED_SHADERS = 2
-22-12-05 16:17:56 INFO : 	GL_ACTIVE_ATTRIBUTES = 2
-22-12-05 16:17:56 INFO : 	  0) type:vec3 name:aNorm location:1
-22-12-05 16:17:56 INFO : 	  1) type:vec3 name:aPos location:0
-22-12-05 16:17:56 INFO : 	GL_ACTIVE_UNIFORMS = 12
-22-12-05 16:17:56 INFO : 	  0) type:vec3 name:light.position location:0
-22-12-05 16:17:56 INFO : 	  1) type:vec3 name:light.ambient location:1
-22-12-05 16:17:56 INFO : 	  2) type:vec3 name:light.diffuse location:2
-22-12-05 16:17:56 INFO : 	  3) type:vec3 name:light.specular location:3
-22-12-05 16:17:56 INFO : 	  4) type:vec3 name:material.ambient location:4
-22-12-05 16:17:56 INFO : 	  5) type:vec3 name:material.diffuse location:5
-22-12-05 16:17:56 INFO : 	  6) type:vec3 name:material.specular location:6
-22-12-05 16:17:56 INFO : 	  7) type:float name:material.shininess location:7
-22-12-05 16:17:56 INFO : 	  8) type:mat4 name:proj_matrix location:8
-22-12-05 16:17:56 INFO : 	  9) type:mat4 name:transform location:9
-22-12-05 16:17:56 INFO : 	  10) type:vec3 name:viewPos location:10
-22-12-05 16:17:56 INFO : 	  11) type:mat4 name:view_matrix location:11
-22-12-05 16:17:56 INFO : 	program info log for GL index3
-22-12-05 16:17:56 INFO : 	Validation successful.
-
-22-12-05 16:17:56 INFO : 	program 6 GL_VALIDATE_STATUS = 1
-22-12-05 16:17:56 INFO : 	-----------------------------
-22-12-05 16:17:56 INFO : 	Shader programme 6 info:
-22-12-05 16:17:56 INFO : 	GL_LINK_STATUS = 1
-22-12-05 16:17:56 INFO : 	GL_ATTACHED_SHADERS = 2
-22-12-05 16:17:56 INFO : 	GL_ACTIVE_ATTRIBUTES = 1
-22-12-05 16:17:56 INFO : 	  0) type:vec4 name:Position location:0
-22-12-05 16:17:56 INFO : 	GL_ACTIVE_UNIFORMS = 4
-22-12-05 16:17:56 INFO : 	  0) type:vec3 name:light_color location:0
-22-12-05 16:17:56 INFO : 	  1) type:mat4 name:proj_matrix location:1
-22-12-05 16:17:56 INFO : 	  2) type:mat4 name:transform location:2
-22-12-05 16:17:56 INFO : 	  3) type:mat4 name:view_matrix location:3
-22-12-05 16:17:56 INFO : 	program info log for GL index6
-22-12-05 16:17:56 INFO : 	Validation successful.
+22-12-06 21:07:05 INFO : 	program 11 GL_VALIDATE_STATUS = 1
+22-12-06 21:07:05 INFO : 	-----------------------------
+22-12-06 21:07:05 INFO : 	Shader programme 11 info:
+22-12-06 21:07:05 INFO : 	GL_LINK_STATUS = 1
+22-12-06 21:07:05 INFO : 	GL_ATTACHED_SHADERS = 3
+22-12-06 21:07:05 INFO : 	GL_ACTIVE_ATTRIBUTES = 1
+22-12-06 21:07:05 INFO : 	  0) type:vec3 name:aPos location:0
+22-12-06 21:07:05 INFO : 	GL_ACTIVE_UNIFORMS = 3
+22-12-06 21:07:05 INFO : 	  0) type:mat4 name:proj_matrix location:0
+22-12-06 21:07:05 INFO : 	  1) type:mat4 name:transform location:1
+22-12-06 21:07:05 INFO : 	  2) type:mat4 name:view_matrix location:2
+22-12-06 21:07:05 INFO : 	program info log for GL index11
+22-12-06 21:07:05 INFO : 	Validation successful.
 
