@@ -14,6 +14,6 @@ uniform mat4 transform;
 
 void main()
 {
-    gl_Position = proj_matrix * view_matrix * transform * vec4(Position.xyz,1.0);
-    vs_out.color = vec4(0.2, 0.4, 0.2, 1.0) * (mat3(proj_matrix * view_matrix * transform) * Normal.xyz).z;
+    gl_Position = proj_matrix * view_matrix * transform * Position;
+    vs_out.color = vec4(0.2, 0.4, 0.2, 1.0) * (mat3(proj_matrix * view_matrix * transform) * Normal.xyz).z;;
 }

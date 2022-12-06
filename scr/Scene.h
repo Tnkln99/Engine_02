@@ -3,15 +3,18 @@
 
 #include <vector>
 
-#include "../Assets.h"
-#include "../Object.h"
+#include "Assets.h"
+#include "Object.h"
 #include "GLFW/glfw3.h"
-#include "../Mesh.h"
+#include "Mesh.h"
 #include <vector>
 
 class EngineCamera;
 
 class Scene{
+protected:
+    EngineCamera * camera;
+    std::vector<Object*> objects;
 public:
     virtual ~Scene() = default;
 
@@ -20,13 +23,12 @@ public:
     };
 
     virtual void load(GLFWwindow * window) = 0;
+    virtual void clean() = 0;
 
     virtual void update(float dt) = 0;
+    virtual void draw() = 0;
 
     virtual void addInput(GLFWwindow *window, float deltaTime) = 0;
-
-    EngineCamera * camera;
-    std::vector<Object*> objects;
 };
 
 #endif //ENGINE_02_SCENE_H

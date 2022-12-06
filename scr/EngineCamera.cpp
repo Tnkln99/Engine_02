@@ -1,10 +1,11 @@
-#include "Camera.h"
+#include "EngineCamera.h"
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
 
 
-Camera::Camera(float x, float y, float z, GLFWwindow * window) : Object(x, y, z){ 
+EngineCamera::EngineCamera(GLFWwindow * window, float x, float y, float z) { 
+    transform.setPosition(glm::vec3(x,y,z));
     view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
 
     int windowWidth;
@@ -17,25 +18,24 @@ Camera::Camera(float x, float y, float z, GLFWwindow * window) : Object(x, y, z)
 
     glfwSetCursorPosCallback( window, []( GLFWwindow* window, double x, double y )
     {
-        Camera* camera = static_cast<Camera*>( glfwGetWindowUserPointer( window ) );
+        EngineCamera* camera = static_cast<EngineCamera*>( glfwGetWindowUserPointer( window ) );
         camera->mouse_callback( x, y );
     } );
 }
 
-void Camera::getCameraInput(GLFWwindow * window, float dt) {    
+void EngineCamera::getCameraInput(GLFWwindow * window, float dt) {    
     float cameraSpeed = 6.0f * dt;
 
     glm::vec3 cameraPos = transform.getPosition();
-    glm::vec3 cameraFront = transform.getDirection();
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
+        cameraPos += cameraSpeed * transform.getDirection();
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
+        cameraPos -= cameraSpeed * transform.getDirection();
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        cameraPos -= glm::normalize(glm::cross(transform.getDirection(), cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        cameraPos += glm::normalize(glm::cross(transform.getDirection(), cameraUp)) * cameraSpeed;
 
     transform.setPosition(cameraPos);
 
@@ -54,7 +54,7 @@ void Camera::getCameraInput(GLFWwindow * window, float dt) {
     }
 }
 
-void Camera::mouse_callback(double xpos, double ypos) {
+void EngineCamera::mouse_callback(double xpos, double ypos) {
     if (firstMouse)
     {
         lastMouseX = xpos;
@@ -79,15 +79,16 @@ void Camera::mouse_callback(double xpos, double ypos) {
     transform.computeDirection(yaw, pitch);
 }
 
-void Camera::update() {
+void EngineCamera::update() {
     view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
+    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
 }
 
-const glm::mat4 & Camera::getViewMatrix() {
+const glm::mat4 & EngineCamera::getViewMatrix() {
     return view;
 }
 
-const glm::mat4 & Camera::getProjMatrix() {
+const glm::mat4 & EngineCamera::getProjMatrix() {
     return projMatrix;
 }
 

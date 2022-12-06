@@ -13,7 +13,7 @@ void Engine::run() {
         window.clearBuffer();
 
         update();
-        scene.draw();
+        renderer.drawAll(scene);
 
         window.swapBuffer();
         window.getEvents();
@@ -22,9 +22,10 @@ void Engine::run() {
 }
 
 void Engine::terminate() {
-    scene.clean();
+    //scene.clean();
     // Delete window before ending the program
     window.clean();
+    renderer.cleanRenderer();
 }
 
 void Engine::update() {

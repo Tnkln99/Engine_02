@@ -1,15 +1,16 @@
 #ifndef ENGINE_02_CAMERA_H
 #define ENGINE_02_CAMERA_H
-
-#include "Object.h"
+#include "Transformable.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <glm/glm.hpp>
 
 
-class Camera :public Object{
+class EngineCamera{
 private:
+    Transformable transform;
+
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
 
     glm::mat4 view = glm::mat4(1.0f);
@@ -25,7 +26,7 @@ private:
     float pitch =  0.0f;
     float fov   =  45.0f;
 public:
-    Camera(float x, float y, float z, GLFWwindow * window);
+    EngineCamera(GLFWwindow * window, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 
     const glm::mat4 & getViewMatrix();
     const glm::mat4 & getProjMatrix();

@@ -1,7 +1,5 @@
 #include "Material.h"
 
-Material::Material(){ }
-
 float Material::getShininess() const{
     return shininess;
 }
@@ -16,6 +14,10 @@ const glm::vec3 & Material::getDiffuse() const{
 
 const glm::vec3 & Material::getSpecular() const{
     return specular;
+}
+
+Shader & Material::getShader() {
+    return shader;
 }
 
 void Material::setShininess(float shineness){
@@ -44,4 +46,18 @@ void Material::setDiffuse(glm::vec3 diffuse){
     this->diffuse.y = diffuse.y;
     this->diffuse.x = diffuse.x;
     this->diffuse.z = diffuse.z;
+}
+
+void Material::setSpecular(float x, float y, float z) {
+    this->specular.y = specular.y;
+    this->specular.x = specular.x;
+    this->specular.z = specular.z;
+}
+
+void Material::setSpecular(glm::vec3 specular) {
+    this->specular = specular;
+}
+
+void Material::setShader(Shader shader){
+    this->shader = shader;
 }
