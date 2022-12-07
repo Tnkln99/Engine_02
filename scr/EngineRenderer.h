@@ -2,14 +2,12 @@
 #define ENGINE_02_ENGINERENDERER_H
 
 #include <vector>
-#include "Scenes/Scene.h"
+#include "Scene.h"
 
 class EngineRenderer {
 protected:
     std::vector<Component*> renderComponent;
-    std::vector<GLuint*> loadedMeshIds;
-
-    GLuint VAO;
+    std::vector<unsigned int*> loadedMeshIds;
 public:
     virtual ~EngineRenderer() = default;
 

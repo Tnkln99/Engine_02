@@ -49,6 +49,7 @@ void EngineRendererGL::drawAll(const Scene &scene) {
 }
 
 void EngineRendererGL::drawMesh(Mesh *mesh) {
+    // todo change the mesh loading system of the engine
     auto it = find(loadedMeshIds.begin(), loadedMeshIds.end(), &mesh->getId());
     if(it == loadedMeshIds.end()){
         loadedMeshIds.emplace_back(&mesh->getId());

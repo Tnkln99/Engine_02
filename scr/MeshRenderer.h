@@ -20,8 +20,6 @@ public:
 
     Material & getMaterial() override;
     Mesh * getMesh() override;
-
-    void onComponentAdd() override;
 };
 
 #endif

@@ -8,6 +8,9 @@ MeshRenderer::MeshRenderer(Object * owner) : RenderComponent(owner, "mesh render
 {
     material = Assets::getMaterial("Default");
     mesh = getOwner()->findComponentByType<Mesh>();
+    if(mesh == nullptr){
+        mesh = new Mesh{owner};
+    }
 }
 
 void MeshRenderer::setMaterial(const Material & material){
@@ -20,10 +23,6 @@ void MeshRenderer::setMesh(Mesh * mesh){
 
 Material & MeshRenderer::getMaterial(){
     return material;
-}
-
-void MeshRenderer::onComponentAdd(){
-    mesh = getOwner()->findComponentByType<Mesh>();
 }
 
 Mesh *MeshRenderer::getMesh() {

@@ -81,7 +81,6 @@ void EngineCamera::mouse_callback(double xpos, double ypos) {
 
 void EngineCamera::update() {
     view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
-    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
 }
 
 const glm::mat4 & EngineCamera::getViewMatrix() {

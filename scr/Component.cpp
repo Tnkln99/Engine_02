@@ -21,10 +21,6 @@ const std::string & Component::getName(){
     return name;
 }
 
-void Component::onComponentAdd() {
-
-}
-
 void Component::update(float dt) {
 
 }

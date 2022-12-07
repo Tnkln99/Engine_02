@@ -1,6 +1,6 @@
 #include "DefaultScene.h"
-#include "../EngineCamera.h"
-#include "../MeshRenderer.h"
+#include "EngineCamera.h"
+#include "MeshRenderer.h"
 
 DefaultScene::DefaultScene() { }
 
@@ -12,7 +12,7 @@ void DefaultScene::load(GLFWwindow * window){
     Assets::loadMaterial("../shaders/default.vert", "../shaders/default.frag", "", "", "", "Default");
 
     mainObject = new Object {this, 0.0f, 0.0f, -5.0f, "object"};
-    new Mesh(mainObject);
+    new Mesh{mainObject};
     new MeshRenderer{mainObject};
 
     camera = new EngineCamera(window);

@@ -12,9 +12,6 @@
 class EngineCamera;
 
 class Scene{
-protected:
-    EngineCamera * camera;
-    std::vector<Object*> objects;
 public:
     virtual ~Scene() = default;
 
@@ -23,12 +20,13 @@ public:
     };
 
     virtual void load(GLFWwindow * window) = 0;
-    virtual void clean() = 0;
 
     virtual void update(float dt) = 0;
-    virtual void draw() = 0;
 
     virtual void addInput(GLFWwindow *window, float deltaTime) = 0;
+
+    EngineCamera * camera;
+    std::vector<Object*> objects;
 };
 
 #endif //ENGINE_02_SCENE_H

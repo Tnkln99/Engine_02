@@ -1,19 +1,24 @@
 #include "Engine.h"
+#include <GLFW/glfw3.h>
 
 Engine::Engine() {
     window.load();
 
     scene.load(window.getPointer());
+
+    ui.load(window.getPointer());
 }
 
 void Engine::run() {
     while (engineRunning)
     {
+        window.getEvents();
         window.setBackgroundColor(0.07f, 0.13f, 0.17f, 1.0f);
         window.clearBuffer();
 
         update();
         renderer.drawAll(scene);
+        ui.render();
 
         window.swapBuffer();
         window.getEvents();
@@ -26,6 +31,7 @@ void Engine::terminate() {
     // Delete window before ending the program
     window.clean();
     renderer.cleanRenderer();
+    ui.terminate();
 }
 
 void Engine::update() {
@@ -33,11 +39,17 @@ void Engine::update() {
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
+    ui.update();
+
     if(window.shouldClose()){
         engineRunning = false;
     }
+
+
     window.getInputs();
-    scene.addInput(window.getPointer(), deltaTime);
+
+    if(!ui.getIo() -> WantCaptureMouse)
+        scene.addInput(window.getPointer(), deltaTime);
 
     scene.update(deltaTime);
 }

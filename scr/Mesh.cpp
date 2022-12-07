@@ -2,7 +2,7 @@
 
 
 Mesh::Mesh(Object * owner) : Component(owner, "mesh"){
-    loadPreMade('t');
+    loadPreMade('i');
 }
 
 unsigned int & Mesh::getId() {

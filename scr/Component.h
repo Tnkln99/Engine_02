@@ -19,8 +19,6 @@ public:
     const Object * getOwner();
     const std::string & getName();
 
-    //Calling this after every component added to the same owner
-    virtual void onComponentAdd();
     //update function for all components
     virtual void update(float dt);
 };

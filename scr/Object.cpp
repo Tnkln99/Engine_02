@@ -11,10 +11,6 @@ Object::Object(Scene * owner, float xP, float yP, float zP, std::string name) : 
 
 void Object::addComponent(Component * sub){
     components.emplace_back(sub);
-    std::vector<Component*>::iterator it;
-    for(it = components.begin(); it != components.end(); it++) {
-        (*it)->onComponentAdd();
-    }
 }
 
 void Object::addRenderComponents(RenderComponent *sub) {
