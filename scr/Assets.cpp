@@ -5,26 +5,26 @@
 #include <memory>
 
 // Instantiate static variables
-std::map<std::string, Shader> Assets::shaders;
+std::map<std::string, Material> Assets::materials;
 //std::map<std::string, Texture2D> Assets::textures;
 //std::map<std::string, TextureKtx> Assets::ktxTextures;
 //std::map<std::string, ComputeShader> Assets::computeShaders;
 
-Shader Assets::loadShader(const std::string &vShaderFile, const std::string &fShaderFile,
+Material Assets::loadMaterial(const std::string &vShaderFile, const std::string &fShaderFile,
                                    const std::string &tcShaderFile, const std::string &teShaderFile,
                                    const std::string &gShaderFile, const std::string &name) {
-    shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, tcShaderFile, teShaderFile, gShaderFile);
-    return shaders[name];
+    materials[name].setShader(loadShaderFromFile(vShaderFile, fShaderFile, tcShaderFile, teShaderFile, gShaderFile));
+    return materials[name];
 }
 
-Shader& Assets::getShader(const std::string &name) {
-    return shaders[name];
+Material & Assets::getMaterial(const std::string &name) {
+    return materials[name];
 }
 
 void Assets::clear() {
     // (Properly) delete all shaders
-    for (auto iter : shaders)
-        glDeleteProgram(iter.second.id);
+    for (auto iter : materials)
+        glDeleteProgram(iter.second.getShader().id);
 
 
     /*for (auto iter : computeShaders)

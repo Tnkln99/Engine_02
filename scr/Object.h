@@ -1,50 +1,55 @@
-#ifndef CUBEOBJECT_H
-#define CUBEOBJECT_H
+#ifndef OBJECT_H
+#define OBJECT_H
+
+#include "Transformable.h"
 
 #include <ctime>
-#define _USE_MATH_DEFINES
 #include <glad/glad.h>
 #include <cmath>
-#include <glm/glm.hpp>
+#include <vector>
+#include <string>
 
+enum class Behavior{
+    Destroy, Stack, Keep
+};
 
-class Shader;
-class Mesh;
+class Component;
+class RenderComponent;
+class Scene;
 
 class Object {
 private:
-    float x { 0.0f };
-    float y { 0.0f };
-    float z { 0.0f };
-protected:
-    glm::mat4 transform = glm::mat4(1.0f);
-    Mesh* objectMesh;
+  Scene * owner;
 
-    glm::vec3 color;
+  std::vector<Component*> components;
+  std::vector<RenderComponent*> renderComponents;
+  Behavior behaviorOnLoad = Behavior::Destroy;
 
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
+  std::string name; 
 public:
-  Object(float xP, float yP, float zP, Mesh* mesh);
+  Transformable transform; 
 
-  virtual void update();
-  virtual void draw(Shader& shader, GLenum face);
+  Object(Scene * owner, float xP, float yP, float zP, std::string  name = "Object");
 
-  [[nodiscard]] float getX() const { return x; }
-  [[nodiscard]] float getY() const { return y; }
-  [[nodiscard]] float getZ() const { return z; }
-  [[nodiscard]] const glm::vec3 & getColor();
+  void addComponent(Component * sub);
+  void addRenderComponents(RenderComponent * sub);
+  Component * findComponentByName(const std::string & nameComponent);
 
-  [[nodiscard]] glm::vec3 getPosition() const;
-  [[nodiscard]] glm::vec3 getAmbient() const;
-  [[nodiscard]] glm::vec3 getDiffuse() const;
-  [[nodiscard]] glm::vec3 getSpecular() const;
+  template <typename T>
+  T* findComponentByType() const{
+      std::vector<Component*>::const_iterator it;
+      for(it = components.begin(); it != components.end(); it++){
+          if(T* type = dynamic_cast<T*>(*it)){
+              return type;
+          }
+      }
+      return nullptr;
+  };
 
-  void setPosition(float xP, float yP, float zP);
-  void setColor(float r, float g, float b);
+  std::vector<RenderComponent*> & getRenderComponents();
 
-  void clean();
+  virtual void update(float dt);
+  void updateComponents(float dt);
 };
 
 #endif

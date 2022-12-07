@@ -10,26 +10,31 @@
 #include <vector>
 #include <cmath>
 
+#include "Component.h"
+
 struct Vertex{
     glm::vec3 positions;
     glm::vec3 normals;
 };
 
+class Object;
 
-class Mesh {
+class Mesh : public Component{
 private:
-    GLuint VAO;
+    unsigned int id;
 
     std::vector<Vertex> vertices;
-    std::vector<GLuint> indices;
+    std::vector<unsigned int> indices;
 public:
+    explicit Mesh(Object * owner);
+
+    unsigned int & getId();
+    const std::vector<unsigned int> & getIndices();
+    const std::vector<Vertex> & getVertices();
+
     void loadPreMade(char c);
 
-    void draw(GLenum face);
-    void clean();
-
     std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
-    std::vector<glm::vec3> computeFaceNormals(const std::vector<glm::vec3>& positions);
     void fillVertices(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& normals);
 
     void generateSphere(int nX, int nY);

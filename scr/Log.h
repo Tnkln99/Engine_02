@@ -9,7 +9,7 @@
 #include <fstream>
 #include <sstream>
 
-#define GL_LOG_FILE "../shaders/gl.log"
+#define GL_LOG_FILE "shaders/gl.log"
 
 enum LogLevel
 {

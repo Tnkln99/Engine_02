@@ -1,61 +1,49 @@
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include "Object.h"
-#include "Shader.h"
-#include "Mesh.h"
+#include "RenderComponent.h"
+#include "Scene.h"
 
 
-Object::Object(float xP, float yP, float zP, Mesh* mesh)
-: objectMesh { mesh }
+Object::Object(Scene * owner, float xP, float yP, float zP, std::string name) : owner{owner}, name{std::move(name)}
 {
-    setColor(0,0,0.1);
-    setPosition(xP, yP, zP);
+    transform.setPosition(xP, yP, zP);
+    owner->addObject(this);
 }
 
-//TODO
-void Object::update() {
-    transform = glm::rotate(transform, 3.0f * glm::radians(0.05f) * glm::radians(10.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+void Object::addComponent(Component * sub){
+    components.emplace_back(sub);
 }
 
-void Object::draw(Shader& shader, GLenum face) {
-    shader.setMatrix4("transform", transform);
-    objectMesh->draw(face);
+void Object::addRenderComponents(RenderComponent *sub) {
+    renderComponents.emplace_back(sub);
 }
 
-const glm::vec3 &Object::getColor() {
-    return color;
+Component * Object::findComponentByName(const std::string & nameComponent){
+    std::vector<Component*>::iterator it;
+    for(it = components.begin(); it != components.end(); it++) {
+        if((*it)->getName() == nameComponent){
+            return (*it);
+        }
+    }
+    return nullptr;
 }
 
-glm::vec3 Object::getAmbient() const {
-    return ambient;
+std::vector<RenderComponent*> & Object::getRenderComponents() {
+    return renderComponents;
 }
 
-glm::vec3 Object::getDiffuse() const {
-    return diffuse;
+void Object::updateComponents(float dt){
+    std::vector<Component*>::iterator it;
+    for(it = components.begin(); it != components.end(); it++) {
+        (*it)->update(dt);
+    }
 }
 
-glm::vec3 Object::getSpecular() const {
-    return specular;
+void Object::update(float dt) {
+
 }
 
-glm::vec3 Object::getPosition() const {
-    glm::vec3 pos {x,y,z};
-    return pos;
-}
 
-void Object::setPosition(float xP, float yP, float zP) {
-  x = xP;
-  y = yP;
-  z = zP;
-  transform = glm::translate(transform, glm::vec3(x,y,z));
-}
 
-void Object::clean() {
-    objectMesh->clean();
-}
 
-void Object::setColor(float r, float g, float b) {
-    color.r = r;
-    color.g = g;
-    color.b = b;
-}
+
+

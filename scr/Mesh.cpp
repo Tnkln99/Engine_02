@@ -1,6 +1,22 @@
 #include "Mesh.h"
 
 
+Mesh::Mesh(Object * owner) : Component(owner, "mesh"){
+    loadPreMade('i');
+}
+
+unsigned int & Mesh::getId() {
+    return id;
+}
+
+const std::vector<unsigned int> &Mesh::getIndices() {
+    return indices;
+}
+
+const std::vector<Vertex> &Mesh::getVertices() {
+    return vertices;
+}
+
 void Mesh::loadPreMade(char c) {
     if(c == 'c'){
         generateCube();
@@ -18,45 +34,6 @@ void Mesh::loadPreMade(char c) {
         std::cout<<"error loading the mesh.. "<<std::endl;
         exit(1);
     }
-
-    GLuint EBO, VBO;
-    // Generate the VAO and VBO with only 1 object each
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    // Make the VAO the current Vertex Array Object by binding it
-    glBindVertexArray(VAO);
-
-    // Bind the VBO_N specifying it's a GL_ARRAY_BUFFER
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    // Introduce the positions into the VBO
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-
-
-    // Bind the EBO specifying it's a GL_ELEMENT_ARRAY_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    // Introduce the indices into the EBO
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-
-
-    // Setup vertex attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-}
-
-void Mesh::draw(GLenum face) {
-    glBindVertexArray(VAO);
-    glDrawElements(face , indices.size(), GL_UNSIGNED_INT, nullptr);
-    glBindVertexArray(0);
-}
-
-void Mesh::clean() {
-    glDeleteVertexArrays(1, &VAO);
 }
 
 void Mesh::generateSphere(int nX, int nY) {
@@ -283,14 +260,3 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
 }
-
-//TODO
-std::vector<glm::vec3> Mesh::computeFaceNormals(const std::vector<glm::vec3> &positions) {
-    return std::vector<glm::vec3>();
-}
-
-
-
-
-
-
