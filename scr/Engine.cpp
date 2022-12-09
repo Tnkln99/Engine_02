@@ -1,5 +1,7 @@
 #include "Engine.h"
+#include "Components/MeshRenderer.h"
 #include <GLFW/glfw3.h>
+
 
 Engine::Engine() {
     window.load();
@@ -18,7 +20,7 @@ void Engine::run() {
 
         update();
         renderer.drawAll(scene);
-        ui.render();
+        ui.render(scene);
 
         window.swapBuffer();
         window.getEvents();
@@ -53,3 +55,5 @@ void Engine::update() {
 
     scene.update(deltaTime);
 }
+
+

@@ -9,8 +9,8 @@
 
 class Window{
 private:
-    float windowWidth{800};
-    float windowHeight{800};
+    int windowWidth;
+    int windowHeight;
     GLFWwindow* window;
 public:
     void getInputs();
@@ -20,8 +20,8 @@ public:
     [[nodiscard]] float getWidth() const;
     [[nodiscard]] GLFWwindow* getPointer() const;
 
-    void setHeight(float height);
-    void setWidth(float width);
+    void setHeight(int height);
+    void setWidth(int width);
     void setBackgroundColor(float r, float b, float g,float t);
 
     void swapBuffer();

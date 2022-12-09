@@ -1,6 +1,6 @@
 #include "EngineRendererGL.h"
 #include "EngineCamera.h"
-#include "RenderComponent.h"
+#include "Components/RenderComponent.h"
 
 void EngineRendererGL::loadMesh(Mesh *mesh){
     GLuint EBO, VBO;
@@ -35,12 +35,12 @@ void EngineRendererGL::loadMesh(Mesh *mesh){
     glBindVertexArray(0);
 }
 
-void EngineRendererGL::drawAll(const Scene &scene) {
-    for(auto & object : scene.objects){
+void EngineRendererGL::drawAll(Scene & scene) {
+    for(auto & object : scene.getObjects()){
         for(auto & component : object->getRenderComponents()){
             component->getMaterial().getShader().use();
-            component->getMaterial().getShader().setMatrix4("proj_matrix", scene.camera->getProjMatrix());
-            component->getMaterial().getShader().setMatrix4("view_matrix", scene.camera->getViewMatrix());
+            component->getMaterial().getShader().setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+            component->getMaterial().getShader().setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
             component->getMaterial().getShader().setMatrix4("transform", component->getOwner()->transform.getMoveMatrix());
             if(component->getMesh() != nullptr)
                 drawMesh(component->getMesh());

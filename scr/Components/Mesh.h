@@ -1,10 +1,7 @@
 #ifndef CUBEMESH_H
 #define CUBEMESH_H
 
-#define _USE_MATH_DEFINES
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "glad/glad.h"
 #include <glm/glm.hpp>
 #include <iostream>
 #include <vector>
@@ -22,13 +19,15 @@ class Object;
 class Mesh : public Component{
 private:
     unsigned int id;
+    char typeOfMesh;
 
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 public:
-    explicit Mesh(Object * owner);
+    explicit Mesh();
 
     unsigned int & getId();
+    [[nodiscard]] char getTypeOfMesh() const;
     const std::vector<unsigned int> & getIndices();
     const std::vector<Vertex> & getVertices();
 
@@ -43,6 +42,9 @@ public:
     void generateIcosahedron();
 
     void connectDots(int a, int b, int c);
+
+    void load(Object * owner) override;
+    Component * clone() override;
 };
 
 #endif

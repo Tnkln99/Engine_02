@@ -11,7 +11,7 @@ private:
     Material material;
     Mesh* mesh;
 public:
-    explicit MeshRenderer(Object * owner);
+    explicit MeshRenderer();
 
     //if there is already a material this methode will change it with the new input
     void setMaterial(const Material & material);
@@ -20,6 +20,9 @@ public:
 
     Material & getMaterial() override;
     Mesh * getMesh() override;
+
+    void load(Object * owner) override;
+    Component * clone() override;
 };
 
 #endif

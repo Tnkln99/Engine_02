@@ -5,28 +5,40 @@
 
 #include "Assets.h"
 #include "Object.h"
-#include "GLFW/glfw3.h"
-#include "Mesh.h"
+#include "Components/Mesh.h"
 #include <vector>
+
+#include <GLFW/glfw3.h>
 
 class EngineCamera;
 
-class Scene{
+class Scene  {
+private:
+    EngineCamera * camera;
+    std::vector<Object*> objects;
+    std::vector<Mesh*> meshes;
 public:
-    virtual ~Scene() = default;
+    Scene();
+    ~Scene();
 
     void addObject(Object * object){
         objects.emplace_back(object);
     };
 
-    virtual void load(GLFWwindow * window) = 0;
+    EngineCamera * getCamera();
+    const std::vector<Object*> & getObjects();
+    const std::vector<Mesh*> & getMeshes();
 
-    virtual void update(float dt) = 0;
+    void load(GLFWwindow * window);
 
-    virtual void addInput(GLFWwindow *window, float deltaTime) = 0;
+    void update(float dt);
 
-    EngineCamera * camera;
-    std::vector<Object*> objects;
+    void addInput(GLFWwindow * window, float deltaTime);
+    void addObject();
+    void addMesh(Mesh * mesh);
+
+    Mesh * findTypeOfMesh(char typeOfMesh);
 };
 
-#endif //ENGINE_02_SCENE_H
+
+#endif //ENGINE_02_DefaultScene_H

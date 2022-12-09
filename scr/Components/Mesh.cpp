@@ -1,12 +1,25 @@
 #include "Mesh.h"
+#include "../Scene.h"
 
 
-Mesh::Mesh(Object * owner) : Component(owner, "mesh"){
-    loadPreMade('i');
+Mesh::Mesh() : Component("mesh"){
+
+}
+
+void Mesh::load(Object *owner) {
+    Component::load(owner);
+    typeOfMesh = 't';
+    loadPreMade('t');
+    owner->getScene()->addMesh(this);
+
 }
 
 unsigned int & Mesh::getId() {
     return id;
+}
+
+char Mesh::getTypeOfMesh() const {
+    return typeOfMesh;
 }
 
 const std::vector<unsigned int> &Mesh::getIndices() {
@@ -260,3 +273,11 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
 }
+
+Component *Mesh::clone() {
+    return new Mesh(*this);
+}
+
+
+
+

@@ -31,11 +31,11 @@ float Window::getWidth() const{
     return windowWidth;
 }
 
-void Window::setHeight(float height) {
+void Window::setHeight(int height) {
     windowHeight = height;
 }
 
-void Window::setWidth(float width) {
+void Window::setWidth(int width) {
     windowWidth = width;
 }
 
@@ -69,8 +69,13 @@ void Window::load() {
     // So that means we only have the modern functions
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // Create a GLFWwindow object of 800 by 800 pixels, naming it "Engine"
-    window = glfwCreateWindow((int)windowWidth, (int)windowHeight, "Engine_02", NULL, NULL);
+    const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+    windowWidth = mode->width;
+    windowHeight = mode->height;
+
+    window = glfwCreateWindow(windowWidth, windowHeight, "Engine_02", NULL, NULL);
+
     // Error check if the window fails to create
     if (window == NULL)
     {

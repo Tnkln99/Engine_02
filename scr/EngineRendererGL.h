@@ -9,7 +9,7 @@ class EngineRendererGL : public EngineRenderer{
 public:
     void loadMesh(Mesh * mesh) override;
 
-    void drawAll(const Scene & scene) override;
+    void drawAll(Scene & scene) override;
     void drawMesh(Mesh * mesh) override;
 
     void cleanRenderer() override;

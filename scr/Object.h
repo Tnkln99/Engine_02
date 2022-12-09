@@ -47,6 +47,9 @@ public:
   };
 
   std::vector<RenderComponent*> & getRenderComponents();
+  std::vector<Component*> & getComponents();
+  const std::string & getName();
+  Scene * getScene();
 
   virtual void update(float dt);
   void updateComponents(float dt);

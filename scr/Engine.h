@@ -2,9 +2,13 @@
 #define ENGINE_H
 
 #include "Window.h"
-#include "DefaultScene.h"
+#include "Scene.h"
 #include "EngineRendererGL.h"
 #include "UI/UiManager.h"
+#include "Components/ComponentFactory.h"
+
+
+#include <GLFW/glfw3.h>
 
 class Engine{
 private:
@@ -16,7 +20,7 @@ private:
     Window window;
     bool engineRunning = true;
 
-    DefaultScene scene;
+    Scene scene;
 
     EngineRendererGL renderer;
 public:

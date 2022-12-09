@@ -1,9 +1,13 @@
 #include "Component.h"
-#include "Object.h"
+#include "../Object.h"
 
-Component::Component(Object * owner, const std::string & name, int updateOrder): owner{owner}{
+Component::Component(const std::string & name, int updateOrder){
     this->name = name;
     this->updateOrder = updateOrder;
+}
+
+void Component::load(Object *owner) {
+    this->owner = owner;
     owner->addComponent(this);
 }
 
@@ -24,5 +28,9 @@ const std::string & Component::getName(){
 void Component::update(float dt) {
 
 }
+
+
+
+
 
 

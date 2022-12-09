@@ -1,5 +1,5 @@
 #include "Object.h"
-#include "RenderComponent.h"
+#include "Components/RenderComponent.h"
 #include "Scene.h"
 
 
@@ -31,6 +31,18 @@ std::vector<RenderComponent*> & Object::getRenderComponents() {
     return renderComponents;
 }
 
+std::vector<Component *> &Object::getComponents() {
+    return components;
+}
+
+const std::string &Object::getName() {
+    return name;
+}
+
+Scene *Object::getScene() {
+    return owner;
+}
+
 void Object::updateComponents(float dt){
     std::vector<Component*>::iterator it;
     for(it = components.begin(); it != components.end(); it++) {
@@ -41,7 +53,6 @@ void Object::updateComponents(float dt){
 void Object::update(float dt) {
 
 }
-
 
 
 
