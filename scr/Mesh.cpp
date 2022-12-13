@@ -1,17 +1,9 @@
 #include "Mesh.h"
-#include "../Scene.h"
 
 
-Mesh::Mesh() : Component("mesh"){
-
-}
-
-void Mesh::load(Object *owner) {
-    Component::load(owner);
-    typeOfMesh = 't';
-    loadPreMade('t');
-    owner->getScene()->addMesh(this);
-
+Mesh::Mesh(){
+    typeOfMesh = 'i';
+    loadPreMade('i');
 }
 
 unsigned int & Mesh::getId() {
@@ -232,7 +224,7 @@ void Mesh::connectDots(int a, int b, int c) {
 
 
 
- std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& positions) {
+std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& positions) {
     std::vector<glm::vec3> normals;
 
     for(int i = 0; i < positions.size(); i ++){
@@ -272,10 +264,6 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
     for(int i = 0; i < positions.size(); i++){
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
-}
-
-Component *Mesh::clone() {
-    return new Mesh(*this);
 }
 
 

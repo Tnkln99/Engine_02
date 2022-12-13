@@ -5,8 +5,9 @@
 
 #include "Assets.h"
 #include "Object.h"
-#include "Components/Mesh.h"
+#include "Components/MeshC.h"
 #include <vector>
+#include <algorithm>
 
 #include <GLFW/glfw3.h>
 
@@ -17,17 +18,21 @@ private:
     EngineCamera * camera;
     std::vector<Object*> objects;
     std::vector<Mesh*> meshes;
+    // after loading these meshes renderer will clear this vector
+    std::vector<Mesh*>  meshesWaitingToBeLoad;
 public:
     Scene();
     ~Scene();
 
-    void addObject(Object * object){
+    void addObject(Object* object){
         objects.emplace_back(object);
     };
 
-    EngineCamera * getCamera();
+    EngineCamera* getCamera();
     const std::vector<Object*> & getObjects();
     const std::vector<Mesh*> & getMeshes();
+    // WTBL = waiting to be load
+    std::vector<Mesh*> & getMeshesWTBL();
 
     void load(GLFWwindow * window);
 

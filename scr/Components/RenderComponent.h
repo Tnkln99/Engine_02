@@ -5,7 +5,7 @@
 #include "../Material.h"
 
 class Object;
-class Mesh;
+class MeshC;
 
 class RenderComponent : public Component{
 private:
@@ -15,7 +15,7 @@ public:
     RenderComponent();
 
     virtual Material & getMaterial() = 0;
-    virtual Mesh * getMesh() = 0;
+    virtual MeshC * getMeshC() = 0;
 };
 
 

@@ -1,5 +1,5 @@
-#ifndef CUBEMESH_H
-#define CUBEMESH_H
+#ifndef ENGINE_02_MESH_H
+#define ENGINE_02_MESH_H
 
 #include "glad/glad.h"
 #include <glm/glm.hpp>
@@ -7,16 +7,12 @@
 #include <vector>
 #include <cmath>
 
-#include "Component.h"
-
 struct Vertex{
     glm::vec3 positions;
     glm::vec3 normals;
 };
 
-class Object;
-
-class Mesh : public Component{
+class Mesh{
 private:
     unsigned int id;
     char typeOfMesh;
@@ -42,9 +38,6 @@ public:
     void generateIcosahedron();
 
     void connectDots(int a, int b, int c);
-
-    void load(Object * owner) override;
-    Component * clone() override;
 };
 
 #endif

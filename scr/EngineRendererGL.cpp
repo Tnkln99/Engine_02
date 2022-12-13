@@ -41,20 +41,22 @@ void EngineRendererGL::drawAll(Scene & scene) {
             component->getMaterial().getShader().use();
             component->getMaterial().getShader().setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
             component->getMaterial().getShader().setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-            component->getMaterial().getShader().setMatrix4("transform", component->getOwner()->transform.getMoveMatrix());
-            if(component->getMesh() != nullptr)
-                drawMesh(component->getMesh());
+            component->getMaterial().getShader().setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+            if(scene.getMeshesWTBL().size() == 0){
+                drawMesh(component->getMeshC()->getMesh());
+            }
+            else{
+                for(auto & mesh : scene.getMeshesWTBL()){
+                    loadMesh(mesh);
+                }
+                scene.getMeshesWTBL().clear();
+            }
+
         }
     }
 }
 
 void EngineRendererGL::drawMesh(Mesh *mesh) {
-    // todo change the mesh loading system of the engine
-    auto it = find(loadedMeshIds.begin(), loadedMeshIds.end(), &mesh->getId());
-    if(it == loadedMeshIds.end()){
-        loadedMeshIds.emplace_back(&mesh->getId());
-        loadMesh(mesh);
-    }
     glBindVertexArray(mesh->getId());
     glDrawElements(GL_TRIANGLES , mesh->getIndices().size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);

@@ -2,6 +2,7 @@
 #define COMPONENT_H
 
 #include <string>
+#include <memory>
 
 class Object;
 
@@ -12,12 +13,12 @@ private:
     int updateOrder;
     Object * owner;
 public:
-    Component(const std::string & name, int updateOrder = 100);
+    explicit Component(const std::string & name, int updateOrder = 100);
     Component() = default;
-    ~Component();
+    virtual ~Component();
 
     [[nodiscard]] int getUpdateOrder() const;
-    const Object * getOwner();
+    Object * getOwner();
     const std::string & getName();
 
     virtual void load(Object * owner);
@@ -25,7 +26,7 @@ public:
     //update function for all components
     virtual void update(float dt);
 
-    virtual Component * clone() = 0;
+    virtual Component* clone() = 0;
 };
 
 #endif

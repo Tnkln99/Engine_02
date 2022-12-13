@@ -8,6 +8,9 @@
 class UiManager {
 private:
     ImGuiIO * io;
+
+    Object * selectedObject = nullptr;
+
     int windowWidth;
     int windowHeight;
 public:
@@ -21,6 +24,7 @@ public:
 
     void render(Scene & scene);
 
+    void mainMenuBar();
     void objectHierarchy(Scene & scene);
     void components(Object * object);
 

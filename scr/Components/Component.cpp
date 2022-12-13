@@ -6,18 +6,18 @@ Component::Component(const std::string & name, int updateOrder){
     this->updateOrder = updateOrder;
 }
 
+Component::~Component() = default;
+
 void Component::load(Object *owner) {
     this->owner = owner;
     owner->addComponent(this);
 }
 
-Component::~Component() = default;
-
 int Component::getUpdateOrder() const{
     return updateOrder;
 }
 
-const Object * Component::getOwner(){
+Object * Component::getOwner(){
     return owner;
 }
 
