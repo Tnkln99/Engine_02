@@ -10,7 +10,7 @@ MeshRendererC::MeshRendererC() : RenderComponent("mesh renderer")
 }
 
 MeshRendererC::~MeshRendererC() {
-
+    delete mesh;
 }
 
 void MeshRendererC::load(Object *owner) {

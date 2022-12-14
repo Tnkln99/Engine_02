@@ -11,13 +11,16 @@ void loadComponents(){
 Scene::Scene() { }
 
 Scene::~Scene(){
+    for(auto & mesh : meshes) {
+        delete mesh;
+    }
 }
 
 EngineCamera *Scene::getCamera() {
-    return camera;
+    return camera.get();
 }
 
-const std::vector<Object*> &Scene::getObjects() {
+const std::vector<std::unique_ptr<Object>> &Scene::getObjects() {
     return objects;
 }
 
@@ -29,7 +32,7 @@ void Scene::load(GLFWwindow * window){
     Assets::loadMaterial("../shaders/default.vert", "../shaders/default.frag", "", "", "", "Default");
     loadComponents();
 
-    camera = new EngineCamera(window,0,0,10);
+    camera = std::make_unique<EngineCamera>(window,0,0,10);
 }
 
 void Scene::update(float dt) {
@@ -46,7 +49,7 @@ void Scene::addInput(GLFWwindow *window, float dt) {
 void Scene::addObject() {
     std::string name = "Object";
     name += std::to_string(objects.size());
-    new Object(this, 0,0,0,name);
+    objects.push_back(std::move(std::make_unique<Object>(this,0,0,0,name)));
 }
 
 void Scene::addMesh(Mesh * mesh) {

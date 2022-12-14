@@ -46,6 +46,9 @@ void UiManager::terminate() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+
+    delete selectedObject;
+    delete io;
 }
 
 void UiManager::mainMenuBar() {
@@ -69,7 +72,7 @@ void UiManager::objectHierarchy(Scene &scene) {
     for(auto & object : scene.getObjects()) {
         const char * name = object->getName().c_str();
         if (ImGui::Selectable(name)){
-            selectedObject = object;
+            selectedObject = object.get();
         }
     }
 
@@ -77,7 +80,7 @@ void UiManager::objectHierarchy(Scene &scene) {
 
 }
 
-void UiManager::components(Object * object) {
+void UiManager::components(Object* object) {
     const char * title = object->getName().c_str();
     ImGui::Begin("components", nullptr,ImGuiWindowFlags_NoMove);
 

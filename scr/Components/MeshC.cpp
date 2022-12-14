@@ -7,7 +7,7 @@ MeshC::MeshC() : Component("mesh"){
 }
 
 MeshC::~MeshC() {
-    delete mesh;
+    //delete mesh;
 }
 
 void MeshC::load(Object *owner) {
@@ -18,7 +18,7 @@ void MeshC::load(Object *owner) {
     else {
         mesh = new Mesh;
     }
-    owner->getScene()->addMesh(std::move(mesh));
+    owner->getScene()->addMesh(mesh);
 }
 
 Component * MeshC::clone() {

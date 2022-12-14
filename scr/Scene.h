@@ -15,8 +15,8 @@ class EngineCamera;
 
 class Scene  {
 private:
-    EngineCamera * camera;
-    std::vector<Object*> objects;
+    std::unique_ptr<EngineCamera> camera;
+    std::vector<std::unique_ptr<Object>> objects;
     std::vector<Mesh*> meshes;
     // after loading these meshes renderer will clear this vector
     std::vector<Mesh*>  meshesWaitingToBeLoad;
@@ -24,12 +24,12 @@ public:
     Scene();
     ~Scene();
 
-    void addObject(Object* object){
-        objects.emplace_back(object);
+    void addObject(std::unique_ptr<Object> object){
+        objects.push_back(std::move(object));
     };
 
     EngineCamera* getCamera();
-    const std::vector<Object*> & getObjects();
+    const std::vector<std::unique_ptr<Object>> & getObjects();
     const std::vector<Mesh*> & getMeshes();
     // WTBL = waiting to be load
     std::vector<Mesh*> & getMeshesWTBL();

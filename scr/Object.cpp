@@ -6,11 +6,17 @@
 Object::Object(Scene* owner, float xP, float yP, float zP, std::string name) : owner{owner}, name{std::move(name)}
 {
     transform.setPosition(xP, yP, zP);
-    owner->addObject(this);
 }
 
 Object::~Object() {
-
+    for(auto & component : components){
+        delete component;
+    }
+    components.clear();
+    for(auto & renderComponent: renderComponents){
+        delete renderComponent;
+    }
+    renderComponents.clear();
 }
 
 void Object::addComponent(Component * sub){
