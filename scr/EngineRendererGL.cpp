@@ -36,36 +36,36 @@ void EngineRendererGL::loadMesh(Mesh *mesh){
 }
 
 void EngineRendererGL::forwardRender(Scene & scene) {
-    for(auto & light : scene.getLights()){
-        for(auto & object : scene.getObjects()){
-            for(auto & component : object->getRenderComponents()){
-                component->getMaterial().getShader().use();
-                component->getMaterial().getShader().setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-                component->getMaterial().getShader().setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-                component->getMaterial().getShader().setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+    for(auto & object : scene.getObjects()){
+        for(auto & component : object->getRenderComponents()){
+            component->getMaterial().getShader().use();
+            component->getMaterial().getShader().setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+            component->getMaterial().getShader().setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+            component->getMaterial().getShader().setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
 
-                component->getMaterial().getShader().setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
+            component->getMaterial().getShader().setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
 
-                component->getMaterial().getShader().setVector3f("material.ambient", component->getMaterial().getAmbient());
-                component->getMaterial().getShader().setVector3f("material.diffuse", component->getMaterial().getDiffuse());
-                component->getMaterial().getShader().setVector3f("material.specular", component->getMaterial().getDiffuse());
-                component->getMaterial().getShader().setFloat("material.shininess", component->getMaterial().getShininess());
+            component->getMaterial().getShader().setVector3f("material.ambient", component->getMaterial().getAmbient());
+            component->getMaterial().getShader().setVector3f("material.diffuse", component->getMaterial().getDiffuse());
+            component->getMaterial().getShader().setVector3f("material.specular", component->getMaterial().getDiffuse());
+            component->getMaterial().getShader().setFloat("material.shininess", component->getMaterial().getShininess());
 
-                component->getMaterial().getShader().setVector3f("light.position", light->getOwner()->getTransform().getPosition());
+            for(auto & light : scene.getLights()) {
+                component->getMaterial().getShader().setVector3f("light.position",
+                                                                 light->getOwner()->getTransform().getPosition());
                 component->getMaterial().getShader().setVector3f("light.ambient", light->getAmbientColor());
                 component->getMaterial().getShader().setVector3f("light.diffuse", light->getDiffuseColor());
                 component->getMaterial().getShader().setVector3f("light.specular", light->getSpecular());
-
-                if(scene.getMeshesWTBL().size() != 0){
-                    for(auto & mesh : scene.getMeshesWTBL()){
-                        loadMesh(mesh);
-                    }
-                    scene.getMeshesWTBL().clear();
-                }
-                drawMesh(component->getMeshC()->getMesh());
             }
-        }
 
+            if(scene.getMeshesWTBL().size() != 0){
+                for(auto & mesh : scene.getMeshesWTBL()){
+                    loadMesh(mesh);
+                }
+                scene.getMeshesWTBL().clear();
+            }
+            drawMesh(component->getMeshC()->getMesh());
+        }
     }
 
 }
