@@ -32,6 +32,8 @@ public:
   Object(Scene* owner, float xP, float yP, float zP, std::string  name = "Object");
   ~Object();
 
+  void setName(std::string name);
+
   void addComponent(Component * sub);
   void addRenderComponents(RenderComponent * sub);
 

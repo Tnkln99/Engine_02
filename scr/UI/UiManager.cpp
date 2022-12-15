@@ -46,9 +46,6 @@ void UiManager::terminate() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-
-    delete selectedObject;
-    delete io;
 }
 
 void UiManager::mainMenuBar() {

@@ -9,14 +9,11 @@ Object::Object(Scene* owner, float xP, float yP, float zP, std::string name) : o
 }
 
 Object::~Object() {
-    for(auto & component : components){
-        delete component;
-    }
-    components.clear();
-    for(auto & renderComponent: renderComponents){
-        delete renderComponent;
-    }
-    renderComponents.clear();
+
+}
+
+void Object::setName(std::string name) {
+    this->name = name;
 }
 
 void Object::addComponent(Component * sub){
@@ -58,3 +55,5 @@ void Object::updateComponents(float dt){
 void Object::update(float dt) {
 
 }
+
+

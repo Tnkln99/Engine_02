@@ -2,8 +2,8 @@
 
 
 Mesh::Mesh(){
-    typeOfMesh = 'i';
-    loadPreMade('i');
+    typeOfMesh = 't';
+    loadPreMade('t');
 }
 
 unsigned int & Mesh::getId() {

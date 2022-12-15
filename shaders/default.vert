@@ -1,19 +1,22 @@
 #version 450 core
 
-layout (location = 0) in vec4 Position;
-layout (location = 1) in vec4 Normal;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNorm;
 
 out VS_OUT
 {
-    vec4 color;
+    vec3 normal;
+    vec3 fragPos;
 } vs_out;
 
 uniform mat4 proj_matrix;
 uniform mat4 view_matrix;
 uniform mat4 transform;
 
+
 void main()
 {
-    gl_Position = proj_matrix * view_matrix * transform * Position;
-    vs_out.color = vec4(0.2, 0.4, 0.2, 1.0) * (mat3(proj_matrix * view_matrix * transform) * Normal.xyz).z;;
+    gl_Position = proj_matrix * view_matrix * transform * vec4(aPos,1);
+    vs_out.normal = mat3(transpose(inverse(transform))) * aNorm;
+    vs_out.fragPos = vec3(transform * vec4(aPos, 1.0));
 }
