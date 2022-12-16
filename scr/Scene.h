@@ -17,7 +17,6 @@ class EngineCamera;
 class Scene  {
 private:
     std::unique_ptr<EngineCamera> camera;
-    std::unique_ptr<Object> defaultLight;
 
     std::vector<std::unique_ptr<Object>> objects;
     std::vector<LightC*> lights;
@@ -28,8 +27,9 @@ public:
     Scene();
     ~Scene();
 
-    void addObject(std::unique_ptr<Object> object){
-        objects.push_back(std::move(object));
+    void addObject(Object * object){
+        std::unique_ptr<Object> newObject(object);
+        objects.push_back(std::move(newObject));
     };
 
     EngineCamera* getCamera();

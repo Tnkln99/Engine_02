@@ -31,6 +31,7 @@ void Engine::terminate() {
     ui.terminate();
     renderer.cleanRenderer();
     window.clean();
+    ComponentFactory::clear();
 }
 
 void Engine::update() {
@@ -43,7 +44,6 @@ void Engine::update() {
     if(window.shouldClose()){
         engineRunning = false;
     }
-
 
     window.getInputs();
 

@@ -12,6 +12,9 @@ void loadComponents(){
 Scene::Scene() { }
 
 Scene::~Scene(){
+    for(auto & mesh : meshes){
+        delete mesh;
+    }
 }
 
 EngineCamera *Scene::getCamera() {
@@ -35,11 +38,6 @@ void Scene::load(GLFWwindow * window){
     loadComponents();
 
     camera = std::make_unique<EngineCamera>(window,0,0,10);
-
-    //defaultLight = std::make_unique<Object>(this,3,3,3, "DefaultLight");
-    //objects.push_back(std::move(defaultLight));
-    //Component* newComp = ComponentFactory::Create("Light");
-    //newComp->load(objects[0].get());
 }
 
 void Scene::update(float dt) {
@@ -56,7 +54,7 @@ void Scene::addInput(GLFWwindow *window, float dt) {
 void Scene::addObject() {
     std::string name = "Object";
     name += std::to_string(objects.size());
-    objects.push_back(std::move(std::make_unique<Object>(this,0,0,0,name)));
+    new Object(this,0,0,0,name);
 }
 
 void Scene::addMesh(Mesh * mesh) {

@@ -11,13 +11,13 @@ LightC::LightC() : Component("light") {
 }
 
 LightC::~LightC() {
-    delete editModeMesh;
+
 }
 
 void LightC::load(Object *owner) {
     Component::load(owner);
-    if(owner->getScene()->findTypeOfMesh('s') != nullptr){
-        editModeMesh = owner->getScene()->findTypeOfMesh('s');
+    if(owner->getScene()->findTypeOfMesh('t') != nullptr){
+        editModeMesh = owner->getScene()->findTypeOfMesh('t');
     }
     else {
         editModeMesh = new Mesh;

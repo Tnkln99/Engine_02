@@ -50,12 +50,22 @@ void EngineRendererGL::forwardRender(Scene & scene) {
             component->getMaterial().getShader().setVector3f("material.specular", component->getMaterial().getDiffuse());
             component->getMaterial().getShader().setFloat("material.shininess", component->getMaterial().getShininess());
 
+            int lightNo = 0;
             for(auto & light : scene.getLights()) {
-                component->getMaterial().getShader().setVector3f("light.position",
+                //component->getMaterial().getShader().setInteger("light_count",
+                //                                                 scene.getLights().size());
+
+                std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
+                std::string stringLightAmbient = "light[" + std::to_string(lightNo) + "].ambient";
+                std::string stringLightNoDiffuse = "light[" + std::to_string(lightNo) + "].diffuse";
+                std::string stringLightNoSpecular = "light[" + std::to_string(lightNo) + "].specular";
+
+                component->getMaterial().getShader().setVector3f(stringLightNoPos.c_str(),
                                                                  light->getOwner()->getTransform().getPosition());
-                component->getMaterial().getShader().setVector3f("light.ambient", light->getAmbientColor());
-                component->getMaterial().getShader().setVector3f("light.diffuse", light->getDiffuseColor());
-                component->getMaterial().getShader().setVector3f("light.specular", light->getSpecular());
+                component->getMaterial().getShader().setVector3f(stringLightAmbient.c_str(), light->getAmbientColor());
+                component->getMaterial().getShader().setVector3f(stringLightNoDiffuse.c_str(), light->getDiffuseColor());
+                component->getMaterial().getShader().setVector3f(stringLightNoSpecular.c_str(), light->getSpecular());
+                lightNo++;
             }
 
             if(scene.getMeshesWTBL().size() != 0){

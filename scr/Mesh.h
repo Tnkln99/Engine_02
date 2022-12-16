@@ -21,6 +21,7 @@ private:
     std::vector<unsigned int> indices;
 public:
     explicit Mesh();
+    ~Mesh();
 
     unsigned int & getId();
     [[nodiscard]] char getTypeOfMesh() const;
