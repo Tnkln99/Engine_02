@@ -13,6 +13,8 @@ public:
 
     //Celle qui va créer les objets
     [[nodiscard]] static Component* Create(const std::string& key);
+
+    static void clear();
 };
 
 

@@ -15,10 +15,16 @@ private:
     float intensity;
     glm::vec3 color;
 
+    glm::vec3 ambientColor;
+    glm::vec3 diffuseColor;
+    const glm::vec3 specular = {1,1,1};
+
     bool showSource = false;
 public:
-    explicit LightC(Object * owner);
+    explicit LightC();
     ~LightC() override;
+
+    void load(Object *owner) override;
 
     void show(bool condition);
     void setColor(float r, float g, float b);
@@ -27,9 +33,13 @@ public:
 
     [[nodiscard]] bool doesShow() const;
     [[nodiscard]] float getIntensity() const;
-    const glm::vec3 & getColor();
+    const glm::vec3 & getAmbientColor();
+    const glm::vec3 & getDiffuseColor();
+    const glm::vec3 & getSpecular();
 
-    void load(Object *owner) override;
+    Mesh * getEditModeMesh();
+
+    Component * clone() override;
 };
 
 

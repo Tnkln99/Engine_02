@@ -34,6 +34,8 @@ public:
     void getCameraInput(GLFWwindow * window, float dt);
     void mouse_callback(double xpos, double ypos);
 
+    const Transformable & getTransform();
+
     void update();
 };
 

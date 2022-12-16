@@ -7,13 +7,13 @@ MeshC::MeshC() : Component("mesh"){
 }
 
 MeshC::~MeshC() {
-    //delete mesh;
+
 }
 
 void MeshC::load(Object *owner) {
     Component::load(owner);
-    if(owner->getScene()->findTypeOfMesh('i') != nullptr){
-        mesh = owner->getScene()->findTypeOfMesh('i');
+    if(owner->getScene()->findTypeOfMesh('t') != nullptr){
+        mesh = owner->getScene()->findTypeOfMesh('t');
     }
     else {
         mesh = new Mesh;

@@ -2,8 +2,12 @@
 
 
 Mesh::Mesh(){
-    typeOfMesh = 'i';
-    loadPreMade('i');
+    typeOfMesh = 't';
+    loadPreMade('t');
+}
+
+Mesh::~Mesh() {
+    std::cout<<"Mesh is deleting"<<std::endl;
 }
 
 unsigned int & Mesh::getId() {
@@ -265,7 +269,3 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
 }
-
-
-
-

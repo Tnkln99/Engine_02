@@ -6,12 +6,13 @@
 void loadComponents(){
     ComponentFactory::Register("Mesh", new MeshC);
     ComponentFactory::Register("MeshRenderer", new MeshRendererC);
+    ComponentFactory::Register("Light", new LightC);
 }
 
 Scene::Scene() { }
 
 Scene::~Scene(){
-    for(auto & mesh : meshes) {
+    for(auto & mesh : meshes){
         delete mesh;
     }
 }
@@ -22,6 +23,10 @@ EngineCamera *Scene::getCamera() {
 
 const std::vector<std::unique_ptr<Object>> &Scene::getObjects() {
     return objects;
+}
+
+const std::vector<LightC *> &Scene::getLights() {
+    return lights;
 }
 
 const std::vector<Mesh*> &Scene::getMeshes() {
@@ -49,7 +54,7 @@ void Scene::addInput(GLFWwindow *window, float dt) {
 void Scene::addObject() {
     std::string name = "Object";
     name += std::to_string(objects.size());
-    objects.push_back(std::move(std::make_unique<Object>(this,0,0,0,name)));
+    new Object(this,0,0,0,name);
 }
 
 void Scene::addMesh(Mesh * mesh) {
@@ -58,6 +63,10 @@ void Scene::addMesh(Mesh * mesh) {
         meshes.emplace_back(mesh);
         meshesWaitingToBeLoad.emplace_back(mesh);
     }
+}
+
+void Scene::addLight(LightC *light) {
+    lights.emplace_back(light);
 }
 
 std::vector<Mesh*> &Scene::getMeshesWTBL() {
@@ -73,11 +82,4 @@ Mesh * Scene::findTypeOfMesh(char typeOfMesh) {
     }
     return nullptr;
 }
-
-
-
-
-
-
-
 

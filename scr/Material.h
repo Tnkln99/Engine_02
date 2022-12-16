@@ -6,14 +6,16 @@
 
 class Material { 
 private:
-    float shininess;
+    float shininess {32.0f};
 
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
+    glm::vec3 ambient{1.0f, 0.5f, 0.31f};
+    glm::vec3 diffuse{1.0f, 0.5f, 0.31f};
+    glm::vec3 specular{0.5f, 0.5f, 0.5f};
 
     Shader shader;
 public:
+    Material();
+
     [[nodiscard]]float getShininess() const;
     [[nodiscard]] const glm::vec3 & getAmbient() const;
     [[nodiscard]] const glm::vec3 & getDiffuse() const;

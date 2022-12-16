@@ -1,12 +1,15 @@
 #include "Component.h"
 #include "../Object.h"
+#include <iostream>
 
 Component::Component(const std::string & name, int updateOrder){
     this->name = name;
     this->updateOrder = updateOrder;
 }
 
-Component::~Component() = default;
+Component::~Component() {
+    std::cout<<"deleting comp "<<name<<std::endl;
+}
 
 void Component::load(Object *owner) {
     this->owner = owner;

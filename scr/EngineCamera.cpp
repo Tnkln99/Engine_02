@@ -91,4 +91,8 @@ const glm::mat4 & EngineCamera::getProjMatrix() {
     return projMatrix;
 }
 
+const Transformable &EngineCamera::getTransform() {
+    return transform;
+}
+
 

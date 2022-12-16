@@ -14,12 +14,11 @@ Engine::Engine() {
 void Engine::run() {
     while (engineRunning)
     {
-        window.getEvents();
         window.setBackgroundColor(0.07f, 0.13f, 0.17f, 1.0f);
         window.clearBuffer();
 
         update();
-        renderer.drawAll(scene);
+        renderer.forwardRender(scene);
         ui.render(scene);
 
         window.swapBuffer();
@@ -29,11 +28,10 @@ void Engine::run() {
 }
 
 void Engine::terminate() {
-    //scene.clean();
-    // Delete window before ending the program
-    window.clean();
-    renderer.cleanRenderer();
     ui.terminate();
+    renderer.cleanRenderer();
+    window.clean();
+    ComponentFactory::clear();
 }
 
 void Engine::update() {
@@ -46,7 +44,6 @@ void Engine::update() {
     if(window.shouldClose()){
         engineRunning = false;
     }
-
 
     window.getInputs();
 

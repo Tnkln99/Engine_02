@@ -35,25 +35,49 @@ void EngineRendererGL::loadMesh(Mesh *mesh){
     glBindVertexArray(0);
 }
 
-void EngineRendererGL::drawAll(Scene & scene) {
+void EngineRendererGL::forwardRender(Scene & scene) {
     for(auto & object : scene.getObjects()){
         for(auto & component : object->getRenderComponents()){
             component->getMaterial().getShader().use();
             component->getMaterial().getShader().setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
             component->getMaterial().getShader().setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
             component->getMaterial().getShader().setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
-            if(scene.getMeshesWTBL().size() == 0){
-                drawMesh(component->getMeshC()->getMesh());
+
+            component->getMaterial().getShader().setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
+
+            component->getMaterial().getShader().setVector3f("material.ambient", component->getMaterial().getAmbient());
+            component->getMaterial().getShader().setVector3f("material.diffuse", component->getMaterial().getDiffuse());
+            component->getMaterial().getShader().setVector3f("material.specular", component->getMaterial().getDiffuse());
+            component->getMaterial().getShader().setFloat("material.shininess", component->getMaterial().getShininess());
+
+            int lightNo = 0;
+            for(auto & light : scene.getLights()) {
+                //component->getMaterial().getShader().setInteger("light_count",
+                //                                                 scene.getLights().size());
+
+                std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
+                std::string stringLightAmbient = "light[" + std::to_string(lightNo) + "].ambient";
+                std::string stringLightNoDiffuse = "light[" + std::to_string(lightNo) + "].diffuse";
+                std::string stringLightNoSpecular = "light[" + std::to_string(lightNo) + "].specular";
+
+                component->getMaterial().getShader().setVector3f(stringLightNoPos.c_str(),
+                                                                 light->getOwner()->getTransform().getPosition());
+                component->getMaterial().getShader().setVector3f(stringLightAmbient.c_str(), light->getAmbientColor());
+                component->getMaterial().getShader().setVector3f(stringLightNoDiffuse.c_str(), light->getDiffuseColor());
+                component->getMaterial().getShader().setVector3f(stringLightNoSpecular.c_str(), light->getSpecular());
+                lightNo++;
             }
-            else{
+
+            if(scene.getMeshesWTBL().size() != 0){
                 for(auto & mesh : scene.getMeshesWTBL()){
                     loadMesh(mesh);
                 }
                 scene.getMeshesWTBL().clear();
             }
-
+            drawMesh(component->getMeshC()->getMesh());
         }
     }
+
 }
 
 void EngineRendererGL::drawMesh(Mesh *mesh) {

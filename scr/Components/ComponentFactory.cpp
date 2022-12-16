@@ -1,4 +1,5 @@
 #include "ComponentFactory.h"
+#include <iostream>
 
 std::map<std::string,Component*> ComponentFactory::m_map= std::map<std::string,Component*>();
 
@@ -28,4 +29,10 @@ Component* ComponentFactory::Create(const std::string& key)
     //on pourrait lancer une exeption si la clé n'a pas été trouvée
 
     return tmp;
+}
+
+void ComponentFactory::clear() {
+    for(auto & pair : m_map){
+        delete pair.second;
+    }
 }
