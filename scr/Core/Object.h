@@ -4,7 +4,7 @@
 #include "Transformable.h"
 
 #include <ctime>
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <cmath>
 #include <vector>
 #include <string>

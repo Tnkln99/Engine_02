@@ -1,6 +1,5 @@
 #include "Engine.h"
-#include "Components/MeshRendererC.h"
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 
 Engine::Engine() {

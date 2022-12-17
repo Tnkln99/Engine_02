@@ -4,9 +4,9 @@
 #include <map>
 #include <string>
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 
-#include "Material.h"
+#include "../Core/Material.h"
 
 
 // A static singleton Assets class that hosts several

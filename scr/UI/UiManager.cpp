@@ -1,5 +1,5 @@
 #include "UiManager.h"
-#include "../Components/ComponentFactory.h"
+#include "../Core/Components/ComponentFactory.h"
 
 
 void UiManager::load(GLFWwindow *window) {

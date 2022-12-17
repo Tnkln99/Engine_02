@@ -1,6 +1,6 @@
 #include "EngineRendererGL.h"
-#include "EngineCamera.h"
-#include "Components/RenderComponent.h"
+#include "../Core/EngineCamera.h"
+#include "../Core/Components/RenderComponent.h"
 
 void EngineRendererGL::loadMesh(Mesh *mesh){
     GLuint EBO, VBO;

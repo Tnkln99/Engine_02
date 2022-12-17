@@ -1,16 +1,16 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 
 #include <iostream>
 #include <string>
 #include <fstream>
 
-#include "../lib/maths/Matrix4.h"
-#include "../lib/maths/Matrix4Row.h"
-#include "../lib/maths/Vector4.h"
-#include "../lib/maths/Vector2.h"
+#include "Matrix4.h"
+#include "Matrix4Row.h"
+#include "Vector4.h"
+#include "Vector2.h"
 
 #include <glm/glm.hpp>
 // General purpose shader object. Compiles from file, generates

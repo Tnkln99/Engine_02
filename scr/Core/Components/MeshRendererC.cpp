@@ -1,7 +1,7 @@
 #include "MeshRendererC.h"
 #include "../Object.h"
 #include "MeshC.h"
-#include "../Assets.h"
+#include "../../Assets/Assets.h"
 
 MeshRendererC::MeshRendererC() : RenderComponent("mesh renderer")
 {

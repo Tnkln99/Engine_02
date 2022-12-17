@@ -1,7 +1,7 @@
 #ifndef ENGINE_02_UIMANAGER_H
 #define ENGINE_02_UIMANAGER_H
 
-#include "../Scene.h"
+#include "../Core/Scene.h"
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_glfw.h>
 

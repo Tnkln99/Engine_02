@@ -2,7 +2,7 @@
 #define ENGINE_02_ENGINERENDERER_H
 
 #include <vector>
-#include "Scene.h"
+#include "../Core/Scene.h"
 
 class EngineRenderer {
 protected:

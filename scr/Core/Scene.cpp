@@ -34,7 +34,7 @@ const std::vector<Mesh*> &Scene::getMeshes() {
 }
 
 void Scene::load(GLFWwindow * window){
-    Assets::loadMaterial("../shaders/default.vert", "../shaders/default.frag", "", "", "", "Default");
+    Assets::loadMaterial("../scr/Assets/shaders/default.vert", "../scr/Assets/shaders/default.frag", "", "", "", "Default");
     loadComponents();
 
     camera = std::make_unique<EngineCamera>(window,0,0,10);

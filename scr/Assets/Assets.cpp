@@ -1,5 +1,5 @@
 #include "Assets.h"
-#include "Log.h"
+#include "../Log.h"
 
 #include <iostream>
 #include <memory>

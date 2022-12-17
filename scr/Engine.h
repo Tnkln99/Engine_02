@@ -2,13 +2,13 @@
 #define ENGINE_H
 
 #include "Window.h"
-#include "Scene.h"
-#include "EngineRendererGL.h"
+#include "Core/Scene.h"
+#include "Graphics/EngineRendererGL.h"
 #include "UI/UiManager.h"
-#include "Components/ComponentFactory.h"
+#include "Core/Components/ComponentFactory.h"
 
 
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 class Engine{
 private:

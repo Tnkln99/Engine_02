@@ -3,14 +3,14 @@
 
 #include <vector>
 
-#include "Assets.h"
+#include "../Assets/Assets.h"
 #include "Object.h"
 #include "Components/MeshC.h"
 #include "Components/LightC.h"
 #include <vector>
 #include <algorithm>
 
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 class EngineCamera;
 
