@@ -1,12 +1,11 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "Window.h"
+#include "Graphics/Window.h"
 #include "Core/Scene.h"
 #include "Graphics/EngineRendererGL.h"
 #include "UI/UiManager.h"
 #include "Core/Components/ComponentFactory.h"
-
 
 #include "GLFW/glfw3.h"
 

@@ -13,10 +13,11 @@ Engine::Engine() {
 void Engine::run() {
     while (engineRunning)
     {
+        update();
         window.setBackgroundColor(0.07f, 0.13f, 0.17f, 1.0f);
         window.clearBuffer();
 
-        update();
+
         renderer.forwardRender(scene);
         ui.render(scene);
 
