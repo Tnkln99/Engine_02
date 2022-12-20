@@ -33,12 +33,14 @@ void Window::load() {
     //Load GLAD so it configures OpenGL
     gladLoadGL();
     // Specify the viewport of OpenGL in the Window
-    glViewport(0, 0, (int)windowWidth, (int)windowHeight);
+    glViewport(0, 0, windowWidth, windowHeight);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_CULL_FACE);
 
     glEnable(GL_DEPTH_TEST);
+
+    framebuffer.load();
 }
 
 
@@ -66,11 +68,11 @@ bool Window::shouldClose() {
 }
 
 float Window::getHeight() const{
-    return windowHeight;
+    return (float)windowHeight;
 }
 
 float Window::getWidth() const{
-    return windowWidth;
+    return (float)windowWidth;
 }
 
 void Window::setHeight(int height) {
@@ -98,6 +100,11 @@ void Window::clearBuffer() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void Window::drawToFrameBuffer() {
+    //glActiveTexture(GL_TEXTURE0);
+    framebuffer.renderToTexture();
+}
+
 void Window::getEvents() {
     // Take care of all GLFW events
     glfwPollEvents();
@@ -107,5 +114,13 @@ void Window::clean() {
     glfwDestroyWindow(window);
     // Terminate GLFW before ending the program
     glfwTerminate();
+}
+
+void Window::bindToFrameBuffer() {
+    framebuffer.bind();
+}
+
+int Window::getRenderTexture() {
+    return framebuffer.getTexture();
 }
 

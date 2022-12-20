@@ -54,11 +54,6 @@ public:
     // Properly de-allocates all loaded resources
     static void clear();
 
-private:
-    // Private constructor, that is we do not want any actual resource manager objects.
-    // Its members and functions should be publicly available (static).
-    Assets() {}
-
     // Loads and generates a shader from file
     static Shader loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
                                      const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
@@ -68,6 +63,12 @@ private:
     //static Texture2D loadTextureFromFile(const std::string &file);
 
     //static ComputeShader loadComputeShaderFromFile(const std::string &cShaderFile);
+
+
+private:
+    // Private constructor, that is we do not want any actual resource manager objects.
+    // Its members and functions should be publicly available (static).
+    Assets() {}
 };
 
 #endif

@@ -158,3 +158,16 @@ void UiManager::components(Object* object) {
     ImGui::End();
 }
 
+void UiManager::sceneWindow() {
+    ImGui::Begin("Scene Window");
+
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+    ImGui::GetWindowDrawList()->AddImage(
+            (void*)2, ImVec2(ImGui::GetCursorScreenPos()),
+            ImVec2(ImGui::GetCursorScreenPos().x + 800/2, ImGui::GetCursorScreenPos().y + 800/2), ImVec2(0, 1), ImVec2(1, 0)
+            );
+
+    ImGui::End();
+}
+

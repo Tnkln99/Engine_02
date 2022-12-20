@@ -1,9 +1,9 @@
 #ifndef ENGINE_02_WINDOW_H
 #define ENGINE_02_WINDOW_H
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+
 #include <iostream>
+#include "Framebuffer.h"
 
 
 class Window{
@@ -11,6 +11,8 @@ private:
     int windowWidth;
     int windowHeight;
     GLFWwindow* window;
+
+    Framebuffer framebuffer;
 public:
     void load();
 
@@ -27,6 +29,10 @@ public:
 
     void swapBuffer();
     void clearBuffer();
+    void drawToFrameBuffer();
+    void bindToFrameBuffer();
+
+    int getRenderTexture();
 
     void getEvents();
 

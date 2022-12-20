@@ -1,13 +1,17 @@
 #ifndef ENGINE_02_FRAMEBUFFER_H
 #define ENGINE_02_FRAMEBUFFER_H
 
-#include <glad/glad.h>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+#include "Shader.h"
 
 
 class Framebuffer {
 private:
-    int bufferWith = 600;
-    int bufferHeight = 600;
+    int textureWidth = 800;
+    int textureHeight = 800;
+
+    Shader screenShader;
 
     unsigned int quadVAO;
 
@@ -15,10 +19,15 @@ private:
     unsigned int texture;
     unsigned int rbo;
 public:
-    Framebuffer();
-    ~Framebuffer();
+    void load();
 
-    void renderToBuffer() const;
+    [[nodiscard]]int getTexture() const;
+
+    // binds to framebuffer and enables depth
+    void bind();
+
+    // unbinds from frame buffer and draws everything to texture
+    void renderToTexture();
 };
 
 

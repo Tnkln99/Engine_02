@@ -28,6 +28,8 @@ public:
     void objectHierarchy(Scene & scene);
     void components(Object * object);
 
+    void sceneWindow();
+
     void terminate();
 };
 

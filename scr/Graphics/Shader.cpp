@@ -66,7 +66,6 @@ bool Shader::compileGeometryShader(const GLchar *geometry_source)
 {
     if (geometry_source == nullptr)
     {
-        std::cout<<"no geometry shader"<<std::endl;
         return false;
     }
 
