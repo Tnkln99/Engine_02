@@ -2,7 +2,9 @@
 #define ENGINE_02_UIMANAGER_H
 
 #include "../Core/Scene.h"
+#include "../Graphics/Framebuffer.h"
 #include <imgui_impl_opengl3.h>
+#include <imgui.h>
 #include <imgui_impl_glfw.h>
 
 class UiManager {
@@ -11,14 +13,21 @@ private:
 
     Object * selectedObject = nullptr;
 
+    bool onSceneUi = true;
+
     int windowWidth;
     int windowHeight;
+
+    int textureId;
+    int textureWidth;
+    int textureHeight;
 public:
     UiManager() = default;
 
-    void load(GLFWwindow * window);
+    void load(GLFWwindow * window, Framebuffer & frameBuffer);
 
     ImGuiIO * getIo();
+    [[nodiscard]] bool getOnSceneUi() const;
 
     void update();
 

@@ -2,32 +2,6 @@
 #include "../Assets/Assets.h"
 
 void Framebuffer::load() {
-    screenShader = Assets::loadShaderFromFile("../scr/Assets/shaders/screen.vert","../scr/Assets/shaders/screen.frag","","","");
-    float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-            // positions            // texCoords
-            -1.0f,  1.0f,  0.0f, 1.0f,
-            -1.0f, -1.0f,  0.0f, 0.0f,
-            1.0f, -1.0f,  1.0f, 0.0f,
-
-            -1.0f,  1.0f,  0.0f, 1.0f,
-            1.0f, -1.0f,  1.0f, 0.0f,
-            1.0f,  1.0f,  1.0f, 1.0f
-    };
-
-    unsigned int quadVBO;
-    glGenVertexArrays(1, &quadVAO);
-    glGenBuffers(1, &quadVBO);
-    glBindVertexArray(quadVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-    //screenShader.use();
-    //screenShader.setInteger("screenTexture",0);
-
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     // create a color attachment texture
@@ -48,19 +22,13 @@ void Framebuffer::load() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Framebuffer::renderToTexture(){
+void Framebuffer::prepareToTextureRender(int windowsWidth, int windowsHeight){
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    glViewport(0,0,1920,1080);
+    glViewport(0,0,windowsWidth,windowsHeight);
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     // clear all relevant buffers
     glClearColor(0, 0, 0, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
     glClear(GL_COLOR_BUFFER_BIT);
-
-    screenShader.use();
-    glBindVertexArray(quadVAO);
-    glBindTexture(GL_TEXTURE_2D, texture);	// use the color attachment texture as the texture of the quad plane
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
 }
 
 void Framebuffer::bind() {
@@ -71,4 +39,12 @@ void Framebuffer::bind() {
 
 int Framebuffer::getTexture() const {
     return texture;
+}
+
+int Framebuffer::getTextureWidth() const {
+    return textureWidth;
+}
+
+int Framebuffer::getTextureHeight() const {
+    return textureHeight;
 }

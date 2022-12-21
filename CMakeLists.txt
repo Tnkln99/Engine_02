@@ -18,7 +18,7 @@ if(GIT_FOUND)
 
     set(SUBMODULES lib/glad;lib/glfw;lib/glm;lib/imgui;)
     set(REPOSITORIES https://github.com/Dav1dde/glad.git;https://github.com/glfw/glfw.git;https://github.com/g-truc/glm.git;https://github.com/ocornut/imgui.git;)
-    set(RELEASES master;3.2.1;0.9.9.8;v1.88;)
+    set(RELEASES master;3.2.1;0.9.9.8;docking;)
 
     foreach(UPD_SUB IN LISTS SUBMODULES)
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive --remote -- ${UPD_SUB} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} RESULT_VARIABLE GIT_SUBMOD_RESULT)

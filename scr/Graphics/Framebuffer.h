@@ -8,8 +8,8 @@
 
 class Framebuffer {
 private:
-    int textureWidth = 800;
-    int textureHeight = 800;
+    int textureWidth = 1673;
+    int textureHeight = 871;
 
     Shader screenShader;
 
@@ -22,12 +22,14 @@ public:
     void load();
 
     [[nodiscard]]int getTexture() const;
+    [[nodiscard]]int getTextureWidth() const;
+    [[nodiscard]]int getTextureHeight() const;
 
     // binds to framebuffer and enables depth
     void bind();
 
     // unbinds from frame buffer and draws everything to texture
-    void renderToTexture();
+    void prepareToTextureRender(int windowsWidth, int windowsHeight);
 };
 
 

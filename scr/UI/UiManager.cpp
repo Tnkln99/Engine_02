@@ -2,12 +2,19 @@
 #include "../Core/Components/ComponentFactory.h"
 
 
-void UiManager::load(GLFWwindow *window) {
+void UiManager::load(GLFWwindow *window, Framebuffer & frameBuffer) {
+    textureId = frameBuffer.getTexture();
+    textureHeight = frameBuffer.getTextureHeight();
+    textureWidth = frameBuffer.getTextureWidth();
+
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO & io = ImGui::GetIO();
+
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
 
     this->io = &io;
 
@@ -22,6 +29,10 @@ ImGuiIO *UiManager::getIo() {
     return io;
 }
 
+bool UiManager::getOnSceneUi() const {
+    return onSceneUi;
+}
+
 void UiManager::update() {
     // feed inputs to dear imgui, start new frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -30,11 +41,15 @@ void UiManager::update() {
 }
 
 void UiManager::render(Scene & scene) {
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
     mainMenuBar();
     objectHierarchy(scene);
+    sceneWindow();
 
     if( selectedObject != nullptr )
         components(selectedObject);
+
+    ImGui::ShowDemoWindow();
 
 
     // Render dear imgui into screen
@@ -57,20 +72,25 @@ void UiManager::mainMenuBar() {
 }
 
 void UiManager::objectHierarchy(Scene &scene) {
-    ImGui::Begin("Hierarchy", nullptr,ImGuiWindowFlags_NoMove);
+    ImGui::Begin("Hierarchy", nullptr);
     ImGui::SetWindowSize(ImVec2((float)300, (float)windowHeight));
 
     if(ImGui::Button("Add Object")){
         scene.addObject();
     }
 
+
+
     ImGui::Separator();
 
-    for(auto & object : scene.getObjects()) {
+    for(auto & object : scene.getObjects())
+    {
         const char * name = object->getName().c_str();
-        if (ImGui::Selectable(name)){
+        if (ImGui::Selectable(name))
+        {
             selectedObject = object.get();
         }
+
     }
 
     ImGui::End();
@@ -79,7 +99,7 @@ void UiManager::objectHierarchy(Scene &scene) {
 
 void UiManager::components(Object* object) {
     const char * title = object->getName().c_str();
-    ImGui::Begin("components", nullptr,ImGuiWindowFlags_NoMove);
+    ImGui::Begin("Components", nullptr);
 
     ImGui::SetWindowSize(ImVec2((float)300, (float)500));
 
@@ -161,11 +181,11 @@ void UiManager::components(Object* object) {
 void UiManager::sceneWindow() {
     ImGui::Begin("Scene Window");
 
-    ImVec2 pos = ImGui::GetCursorScreenPos();
+    onSceneUi = ImGui::IsWindowHovered();
 
     ImGui::GetWindowDrawList()->AddImage(
-            (void*)2, ImVec2(ImGui::GetCursorScreenPos()),
-            ImVec2(ImGui::GetCursorScreenPos().x + 800/2, ImGui::GetCursorScreenPos().y + 800/2), ImVec2(0, 1), ImVec2(1, 0)
+            (void*)textureId, ImVec2(ImGui::GetCursorScreenPos()),
+            ImVec2(ImGui::GetCursorScreenPos().x + textureWidth, ImGui::GetCursorScreenPos().y + textureHeight), ImVec2(0, 1), ImVec2(1, 0)
             );
 
     ImGui::End();

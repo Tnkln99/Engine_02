@@ -14,14 +14,10 @@ private:
     float deltaTime = 0.0f;	// Time between current frame and last frame
     float lastFrame = 0.0f; // Time of last frame
 
-    UiManager ui;
-
     Window window;
     bool engineRunning = true;
 
     Scene scene;
-
-    EngineRendererGL renderer;
 public:
     Engine();
 

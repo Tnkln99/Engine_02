@@ -1,7 +1,6 @@
 #include "Window.h"
 
 void Window::load() {
-
     // Initialize GLFW
     glfwInit();
 
@@ -41,6 +40,32 @@ void Window::load() {
     glEnable(GL_DEPTH_TEST);
 
     framebuffer.load();
+}
+
+void Window::loadUi() {
+    ui.load(window, framebuffer);
+}
+
+
+void Window::render(Scene &scene) {
+    framebuffer.bind();
+
+    setBackgroundColor(0.07f, 0.13f, 0.17f, 1.0f);
+    clearBuffer();
+
+    renderer.forwardRender(scene);
+
+    framebuffer.prepareToTextureRender(windowWidth, windowHeight);
+
+    ui.render(scene);
+
+    swapBuffer();
+    getEvents();
+}
+
+
+void Window::update() {
+    ui.update();
 }
 
 
@@ -100,27 +125,20 @@ void Window::clearBuffer() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::drawToFrameBuffer() {
-    //glActiveTexture(GL_TEXTURE0);
-    framebuffer.renderToTexture();
-}
-
 void Window::getEvents() {
     // Take care of all GLFW events
     glfwPollEvents();
 }
 
 void Window::clean() {
+    ui.terminate();
+    renderer.cleanRenderer();
     glfwDestroyWindow(window);
     // Terminate GLFW before ending the program
     glfwTerminate();
 }
 
-void Window::bindToFrameBuffer() {
-    framebuffer.bind();
-}
-
-int Window::getRenderTexture() {
-    return framebuffer.getTexture();
+bool Window::canGetSceneInput() const {
+    return ui.getOnSceneUi();
 }
 

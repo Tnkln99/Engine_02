@@ -3,7 +3,9 @@
 
 
 #include <iostream>
+#include "../UI/UiManager.h"
 #include "Framebuffer.h"
+#include "EngineRendererGL.h"
 
 
 class Window{
@@ -13,8 +15,13 @@ private:
     GLFWwindow* window;
 
     Framebuffer framebuffer;
+    UiManager ui;
+    EngineRendererGL renderer;
 public:
     void load();
+    void loadUi();
+    void render(Scene & scene);
+    void update();
 
     void getInputs();
     bool shouldClose();
@@ -22,6 +29,7 @@ public:
     [[nodiscard]] float getHeight() const;
     [[nodiscard]] float getWidth() const;
     [[nodiscard]] GLFWwindow* getPointer() const;
+    [[nodiscard]] bool canGetSceneInput() const;
 
     void setHeight(int height);
     void setWidth(int width);
@@ -29,10 +37,6 @@ public:
 
     void swapBuffer();
     void clearBuffer();
-    void drawToFrameBuffer();
-    void bindToFrameBuffer();
-
-    int getRenderTexture();
 
     void getEvents();
 
