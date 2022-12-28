@@ -12,9 +12,7 @@ void loadComponents(){
 Scene::Scene() { }
 
 Scene::~Scene(){
-    for(auto & mesh : meshes){
-        delete mesh;
-    }
+
 }
 
 EngineCamera *Scene::getCamera() {
@@ -29,9 +27,15 @@ const std::vector<LightC *> &Scene::getLights() {
     return lights;
 }
 
-const std::vector<Mesh*> &Scene::getMeshes() {
+const std::vector<Mesh*> & Scene::getMeshes() {
     return meshes;
 }
+
+
+std::vector<Mesh*> & Scene::getMeshesWTBL() {
+    return meshesWaitingToBeLoad;
+}
+
 
 void Scene::load(GLFWwindow * window){
     Assets::loadMaterial("../scr/Assets/shaders/default.vert", "../scr/Assets/shaders/default.frag", "", "", "", "Default");
@@ -69,10 +73,6 @@ void Scene::addLight(LightC *light) {
     lights.emplace_back(light);
 }
 
-std::vector<Mesh*> &Scene::getMeshesWTBL() {
-    return meshesWaitingToBeLoad;
-}
-
 // fins and return if wanted mesh already exists in the scene if it doesn't will return nullptr
 Mesh * Scene::findTypeOfMesh(char typeOfMesh) {
     for(auto & mesh : meshes){
@@ -82,4 +82,3 @@ Mesh * Scene::findTypeOfMesh(char typeOfMesh) {
     }
     return nullptr;
 }
-

@@ -169,6 +169,9 @@ void UiManager::components(Object* object) {
     for(auto & component : object->getComponents()){
         const char * name = component->getName().c_str();
         if(ImGui::TreeNode(name)){
+            if(strcmp(name,"mesh")==0){
+                meshCOptions(dynamic_cast<MeshC*>(component));
+            }
             ImGui::TreePop();
         }
 
@@ -189,5 +192,33 @@ void UiManager::sceneWindow() {
             );
 
     ImGui::End();
+}
+
+void UiManager::meshCOptions(MeshC * meshC) {
+    static const char* current_mesh = "tore";
+    const char * meshes[] = {
+            "tore",
+            "cube",
+            "sphere",
+            "icosahedron"
+    };
+    if (ImGui::BeginCombo("##combo", current_mesh))
+    {
+        for (auto & mesh : meshes){
+            bool is_selected = (current_mesh == mesh); // You can store your selection however you want, outside or inside your objects
+            if (ImGui::Selectable(mesh, is_selected))
+                current_mesh = mesh;
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+        }
+        ImGui::EndCombo();
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("Set"))
+    {
+        std::cout<< current_mesh[0] << std::endl;
+        meshC->reloadMesh(meshC->getOwner(),current_mesh[0]);
+    }
 }
 

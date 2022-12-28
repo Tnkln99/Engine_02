@@ -8,8 +8,8 @@
 
 class Framebuffer {
 private:
-    int textureWidth = 1673;
-    int textureHeight = 871;
+    int textureWidth = 1652;
+    int textureHeight = 1042;
 
     Shader screenShader;
 

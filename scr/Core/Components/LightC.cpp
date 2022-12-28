@@ -20,7 +20,7 @@ void LightC::load(Object *owner) {
         editModeMesh = owner->getScene()->findTypeOfMesh('t');
     }
     else {
-        editModeMesh = new Mesh;
+        editModeMesh = new Mesh('t');
     }
     owner->getScene()->addMesh(editModeMesh);
     owner->getScene()->addLight(this);

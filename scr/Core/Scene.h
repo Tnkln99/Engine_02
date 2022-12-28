@@ -20,6 +20,7 @@ private:
 
     std::vector<std::unique_ptr<Object>> objects;
     std::vector<LightC*> lights;
+    // todo: convert meshes to shared pointer to be able to delete them when nobody uses them
     std::vector<Mesh*> meshes;
     // after loading these meshes renderer will clear this vector
     std::vector<Mesh*>  meshesWaitingToBeLoad;

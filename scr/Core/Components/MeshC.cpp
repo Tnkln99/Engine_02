@@ -16,7 +16,17 @@ void MeshC::load(Object *owner) {
         mesh = owner->getScene()->findTypeOfMesh('t');
     }
     else {
-        mesh = new Mesh;
+        mesh = new Mesh('t');
+    }
+    owner->getScene()->addMesh(mesh);
+}
+
+void MeshC::reloadMesh(Object *owner, char c) {
+    if(owner->getScene()->findTypeOfMesh(c) != nullptr){
+        mesh = owner->getScene()->findTypeOfMesh(c);
+    }
+    else {
+        mesh = new Mesh(c);
     }
     owner->getScene()->addMesh(mesh);
 }
@@ -27,4 +37,8 @@ Component * MeshC::clone() {
 
 Mesh * MeshC::getMesh() {
     return mesh;
+}
+
+void MeshC::setMesh() {
+
 }

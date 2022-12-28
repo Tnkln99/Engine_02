@@ -39,6 +39,8 @@ public:
 
     void sceneWindow();
 
+    void meshCOptions(MeshC * meshC);
+
     void terminate();
 };
 

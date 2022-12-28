@@ -1,9 +1,9 @@
 #include "Mesh.h"
 
 
-Mesh::Mesh(){
-    typeOfMesh = 't';
-    loadPreMade('t');
+Mesh::Mesh(char c){
+    typeOfMesh = c;
+    loadPreMade(c);
 }
 
 Mesh::~Mesh() {

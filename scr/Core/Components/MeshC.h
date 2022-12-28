@@ -15,8 +15,10 @@ public:
     ~MeshC() override;
 
     Mesh * getMesh();
+    void setMesh();
 
     void load(Object * owner) override;
+    void reloadMesh(Object * owner, char c);
     Component * clone() override;
 };
 

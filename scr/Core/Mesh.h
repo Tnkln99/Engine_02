@@ -20,7 +20,7 @@ private:
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 public:
-    explicit Mesh();
+    explicit Mesh(char c);
     ~Mesh();
 
     unsigned int & getId();
