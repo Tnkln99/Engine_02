@@ -2,7 +2,7 @@
 
 in VS_OUT
 {
-    vec4 normal;
+    vec3 normal;
     vec3 fragPos;
 } fs_in;
 

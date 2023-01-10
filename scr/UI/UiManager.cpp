@@ -49,7 +49,7 @@ void UiManager::render(Scene & scene) {
     if( selectedObject != nullptr )
         components(selectedObject);
 
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 
 
     // Render dear imgui into screen
