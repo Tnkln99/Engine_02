@@ -6,7 +6,7 @@
 
 // Instantiate static variables
 std::map<std::string, Material> Assets::materials;
-std::map<std::string, Shader> Assets::shaders;
+std::map<std::string, ShaderGL> Assets::shaders;
 //std::map<std::string, Texture2D> Assets::textures;
 //std::map<std::string, TextureKtx> Assets::ktxTextures;
 //std::map<std::string, ComputeShader> Assets::computeShaders;
@@ -21,7 +21,7 @@ Material & Assets::getMaterial(const std::string &name) {
     return materials[name];
 }
 
-Shader &Assets::getShader(const std::string &name) {
+ShaderGL &Assets::getShader(const std::string &name) {
     return shaders[name];
 }
 
@@ -40,10 +40,10 @@ void Assets::clear() {
         glDeleteTextures(1, &iter.second.id);*/
 }
 
-Shader Assets::loadShaderFromFile(const std::string &name,
-                                  const std::string &vShaderFile, const std::string &fShaderFile,
-                                  const std::string &tcShaderFile, const std::string &teShaderFile,
-                                  const std::string &gShaderFile) {
+ShaderGL Assets::loadShaderFromFile(const std::string &name,
+                                    const std::string &vShaderFile, const std::string &fShaderFile,
+                                    const std::string &tcShaderFile, const std::string &teShaderFile,
+                                    const std::string &gShaderFile) {
     // 1. Retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
     std::string fragmentCode;
@@ -107,7 +107,7 @@ Shader Assets::loadShaderFromFile(const std::string &name,
     const GLchar *teShaderCode = teCode.c_str();
     const GLchar *gShaderCode = geometryCode.c_str();
     // 2. Now create shader object from source code
-    Shader shader;
+    ShaderGL shader;
     shader.compile(vShaderCode, fShaderCode,
                    tcShaderFile != "" ? tcShaderCode : nullptr,
                    teShaderFile != "" ? teShaderCode : nullptr,

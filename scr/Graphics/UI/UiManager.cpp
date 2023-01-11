@@ -2,7 +2,7 @@
 #include "../../Core/Components/ComponentFactory.h"
 
 
-void UiManager::load(GLFWwindow *window, Framebuffer & frameBuffer) {
+void UiManager::load(GLFWwindow *window, FrameBufferGL & frameBuffer) {
     textureId = frameBuffer.getTexture();
     textureHeight = frameBuffer.getTextureHeight();
     textureWidth = frameBuffer.getTextureWidth();

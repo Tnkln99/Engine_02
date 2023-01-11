@@ -6,7 +6,8 @@
 
 class EngineRenderer {
 protected:
-    std::vector<unsigned int*> loadedMeshIds;
+    // stores VAO's to delete them later
+    std::vector<unsigned int> loadedMeshIds;
 public:
     virtual ~EngineRenderer() = default;
 

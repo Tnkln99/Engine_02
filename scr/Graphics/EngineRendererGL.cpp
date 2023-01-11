@@ -6,6 +6,7 @@ void EngineRendererGL::loadMesh(Mesh *mesh){
     GLuint EBO, VBO;
     // Generate the VAO and VBO with only 1 object each
     glGenVertexArrays(1, &mesh->getId());
+    loadedMeshIds.emplace_back(mesh->getId());
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
@@ -88,7 +89,7 @@ void EngineRendererGL::drawMesh(Mesh *mesh) {
 
 void EngineRendererGL::cleanRenderer() {
     for(auto & vao : loadedMeshIds){
-        glDeleteVertexArrays(1, vao);
+        glDeleteVertexArrays(1, &vao);
     }
 }
 

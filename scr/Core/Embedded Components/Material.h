@@ -2,7 +2,7 @@
 #define MATERIAL_H
 
 #include <glm/glm.hpp>
-#include "../../Graphics/Shader.h"
+#include "../../Graphics/ShaderGL.h"
 
 class Material { 
 private:

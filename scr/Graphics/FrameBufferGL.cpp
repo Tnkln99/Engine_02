@@ -1,7 +1,6 @@
-#include "Framebuffer.h"
-#include "../Utils/Assets.h"
+#include "FrameBufferGL.h"
 
-void Framebuffer::load() {
+void FrameBufferGL::load() {
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     // create a color attachment texture
@@ -18,11 +17,11 @@ void Framebuffer::load() {
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
     // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+        std::cout << "ERROR::FRAMEBUFFER:: FrameBufferGL is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Framebuffer::renderTexture(int windowsWidth, int windowsHeight){
+void FrameBufferGL::renderTexture(int windowsWidth, int windowsHeight){
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glViewport(0,0,windowsWidth,windowsHeight);
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
@@ -31,20 +30,20 @@ void Framebuffer::renderTexture(int windowsWidth, int windowsHeight){
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Framebuffer::bind() {
+void FrameBufferGL::bind() {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
     glViewport(0,0,textureWidth,textureHeight);
     glEnable(GL_DEPTH_TEST);
 }
 
-int Framebuffer::getTexture() const {
+int FrameBufferGL::getTexture() const {
     return texture;
 }
 
-int Framebuffer::getTextureWidth() const {
+int FrameBufferGL::getTextureWidth() const {
     return textureWidth;
 }
 
-int Framebuffer::getTextureHeight() const {
+int FrameBufferGL::getTextureHeight() const {
     return textureHeight;
 }

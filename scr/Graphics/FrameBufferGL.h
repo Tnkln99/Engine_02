@@ -1,12 +1,12 @@
-#ifndef ENGINE_02_FRAMEBUFFER_H
-#define ENGINE_02_FRAMEBUFFER_H
+#ifndef ENGINE_02_FRAMEBUFFERGL_H
+#define ENGINE_02_FRAMEBUFFERGL_H
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "Shader.h"
+#include "ShaderGL.h"
 
 
-class Framebuffer {
+class FrameBufferGL {
 private:
     int textureWidth = 1652;
     int textureHeight = 1042;
@@ -31,4 +31,4 @@ public:
 };
 
 
-#endif //ENGINE_02_FRAMEBUFFER_H
+#endif //ENGINE_02_FRAMEBUFFERGL_H

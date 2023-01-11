@@ -16,17 +16,17 @@
 // General purpose shader object. Compiles from file, generates
 // compile/link-time error messages and hosts several utility 
 // functions for easy management.
-class Shader
+class ShaderGL
 {
 public:
 	// Program id
 	GLuint id;
 
 	// Constructor
-	Shader() { }
+	ShaderGL() { }
 
 	// Sets the current shader as active
-	Shader& use();
+	ShaderGL& use();
 
 	// Compiles the shader from given source code
 	void compile(

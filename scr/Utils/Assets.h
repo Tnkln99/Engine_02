@@ -18,7 +18,7 @@ class Assets {
 public:
     // Resource storage
     static std::map<std::string, Material> materials;
-    static std::map<std::string, Shader> shaders;
+    static std::map<std::string, ShaderGL> shaders;
     //static std::map<std::string, Texture2D> textures;
     //static std::map<std::string, TextureKtx> ktxTextures;
     //static std::map<std::string, ComputeShader> computeShaders;
@@ -31,7 +31,7 @@ public:
 
     // Retrieves a stored material
     static Material &getMaterial(const std::string &name);
-    static Shader &getShader(const std::string &name);
+    static ShaderGL &getShader(const std::string &name);
 
     // Loads (and generates) a texture from file
     //static Texture2D loadTexture(const std::string &file, const std::string &name);
@@ -61,11 +61,11 @@ private:
     static void loadShader();
 
     // Loads and generates a shader from file
-    static Shader loadShaderFromFile(const std::string &name,
-                                     const std::string &vShaderFile = "",
-                                     const std::string &fShaderFile = "",
-                                     const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
-                                     const std::string &gShaderFile = "");
+    static ShaderGL loadShaderFromFile(const std::string &name,
+                                       const std::string &vShaderFile = "",
+                                       const std::string &fShaderFile = "",
+                                       const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
+                                       const std::string &gShaderFile = "");
 
     // Loads a single texture from file
     //static Texture2D loadTextureFromFile(const std::string &file);

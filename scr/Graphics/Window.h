@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "UI/UiManager.h"
-#include "Framebuffer.h"
+#include "FrameBufferGL.h"
 #include "EngineRendererGL.h"
 
 
@@ -14,7 +14,7 @@ private:
     int windowHeight;
     GLFWwindow* window;
 
-    Framebuffer framebuffer;
+    FrameBufferGL framebuffer;
     UiManager ui;
     EngineRendererGL renderer;
 public:

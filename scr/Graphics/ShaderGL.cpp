@@ -1,17 +1,17 @@
-#include "Shader.h"
+#include "ShaderGL.h"
 #include "../Utils/Log.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <sstream>
 #include <string>
 
-Shader &Shader::use()
+ShaderGL &ShaderGL::use()
 {
     glUseProgram(id);
     return *this;
 }
 
-void Shader::compile(const GLchar *vertexSource, const GLchar *fragmentSource,
-        const GLchar *tessControlSource, const GLchar *tessEvalSource, const GLchar *geometrySource)
+void ShaderGL::compile(const GLchar *vertexSource, const GLchar *fragmentSource,
+                       const GLchar *tessControlSource, const GLchar *tessEvalSource, const GLchar *geometrySource)
 {
     compileVertexShader(vertexSource);
     bool tessExists = compileTessControlShader(tessControlSource);
@@ -22,7 +22,7 @@ void Shader::compile(const GLchar *vertexSource, const GLchar *fragmentSource,
     printAllParams(id);
 }
 
-void Shader::compileVertexShader(const GLchar *vertex_source)
+void ShaderGL::compileVertexShader(const GLchar *vertex_source)
 {
     vs = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vs, 1, &vertex_source, NULL);
@@ -30,7 +30,7 @@ void Shader::compileVertexShader(const GLchar *vertex_source)
     checkShaderErrors(vs, "vertex");
 }
 
-void Shader::compileFragmentShader(const GLchar *fragment_source)
+void ShaderGL::compileFragmentShader(const GLchar *fragment_source)
 {
     fs = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fs, 1, &fragment_source, NULL);
@@ -38,7 +38,7 @@ void Shader::compileFragmentShader(const GLchar *fragment_source)
     checkShaderErrors(fs, "fragment");
 }
 
-bool Shader::compileTessControlShader(const GLchar *tessControlSource) {
+bool ShaderGL::compileTessControlShader(const GLchar *tessControlSource) {
     if(tessControlSource == nullptr) {
         return false;
     }
@@ -50,7 +50,7 @@ bool Shader::compileTessControlShader(const GLchar *tessControlSource) {
     return true;
 }
 
-bool Shader::compileTessEvalShader(const GLchar *tessEvalSource) {
+bool ShaderGL::compileTessEvalShader(const GLchar *tessEvalSource) {
     if(tessEvalSource == nullptr) {
         return false;
     }
@@ -62,7 +62,7 @@ bool Shader::compileTessEvalShader(const GLchar *tessEvalSource) {
     return true;
 }
 
-bool Shader::compileGeometryShader(const GLchar *geometry_source)
+bool ShaderGL::compileGeometryShader(const GLchar *geometry_source)
 {
     if (geometry_source == nullptr)
     {
@@ -77,7 +77,7 @@ bool Shader::compileGeometryShader(const GLchar *geometry_source)
     return true;
 }
 
-void Shader::createShaderProgram(bool tessShadersExist, bool geometryShaderExists)
+void ShaderGL::createShaderProgram(bool tessShadersExist, bool geometryShaderExists)
 {
     // Create program
     id = glCreateProgram();
@@ -121,57 +121,57 @@ void Shader::createShaderProgram(bool tessShadersExist, bool geometryShaderExist
     glDeleteShader(fs);
 }
 
-void Shader::setFloat(const GLchar *name, GLfloat value)
+void ShaderGL::setFloat(const GLchar *name, GLfloat value)
 {
     glUniform1f(glGetUniformLocation(id, name), value);
 }
-void Shader::setInteger(const GLchar *name, GLint value)
+void ShaderGL::setInteger(const GLchar *name, GLint value)
 {
     glUniform1i(glGetUniformLocation(id, name), value);
 }
-void Shader::setVector2f(const GLchar *name, GLfloat x, GLfloat y)
+void ShaderGL::setVector2f(const GLchar *name, GLfloat x, GLfloat y)
 {
     glUniform2f(glGetUniformLocation(id, name), x, y);
 }
-void Shader::setVector2f(const GLchar *name, const Vector2 &value)
+void ShaderGL::setVector2f(const GLchar *name, const Vector2 &value)
 {
     glUniform2f(glGetUniformLocation(id, name), value.x, value.y);
 }
-void Shader::setVector3f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z)
+void ShaderGL::setVector3f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z)
 {
     glUniform3f(glGetUniformLocation(id, name), x, y, z);
 }
-void Shader::setVector3f(const GLchar *name, const glm::vec3& value)
+void ShaderGL::setVector3f(const GLchar *name, const glm::vec3& value)
 {
     glUniform3f(glGetUniformLocation(id, name), value.x, value.y, value.z);
 }
-void Shader::setVector4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+void ShaderGL::setVector4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
 {
     glUniform4f(glGetUniformLocation(id, name), x, y, z, w);
 }
-void Shader::setVector4f(const GLchar *name, const Vector4 &value)
+void ShaderGL::setVector4f(const GLchar *name, const Vector4 &value)
 {
     glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
 }
-void Shader::setMatrix4(const GLchar *name, const glm::mat4& matrix)
+void ShaderGL::setMatrix4(const GLchar *name, const glm::mat4& matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
-void Shader::setMatrix4Row(const GLchar *name, const Matrix4Row &matrix)
+void ShaderGL::setMatrix4Row(const GLchar *name, const Matrix4Row &matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.getAsFloatPtr());
 }
-void Shader::printShaderInfoLog(GLuint shaderIndex)
+void ShaderGL::printShaderInfoLog(GLuint shaderIndex)
 {
     int maxLength = 2048;
     int actualLength = 0;
     char log[2048];
     glGetShaderInfoLog(shaderIndex, maxLength, &actualLength, log);
-    LOG(Info) << "Shader info log for GL index" << shaderIndex;
+    LOG(Info) << "ShaderGL info log for GL index" << shaderIndex;
     LOG(Info) << log;
 }
 
-void Shader::printProgramInfoLog(GLuint programId)
+void ShaderGL::printProgramInfoLog(GLuint programId)
 {
     int maxLength = 2048;
     int actualLength = 0;
@@ -181,7 +181,7 @@ void Shader::printProgramInfoLog(GLuint programId)
     LOG(Info) << log;
 }
 
-void Shader::checkShaderErrors(GLuint shader, std::string shaderType)
+void ShaderGL::checkShaderErrors(GLuint shader, std::string shaderType)
 {
     int params = -1;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &params);
@@ -192,7 +192,7 @@ void Shader::checkShaderErrors(GLuint shader, std::string shaderType)
     }
 }
 
-const char *Shader::GLTypeToString(GLenum type)
+const char *ShaderGL::GLTypeToString(GLenum type)
 {
     switch (type)
     {
@@ -227,10 +227,10 @@ const char *Shader::GLTypeToString(GLenum type)
     }
 }
 
-void Shader::printAllParams(GLuint programId)
+void ShaderGL::printAllParams(GLuint programId)
 {
     LOG(Info) << "-----------------------------";
-    LOG(Info) << "Shader programme " << programId << " info:";
+    LOG(Info) << "ShaderGL programme " << programId << " info:";
     int params = -1;
     glGetProgramiv(programId, GL_LINK_STATUS, &params);
     LOG(Info) << "GL_LINK_STATUS = " << params;
@@ -298,7 +298,7 @@ void Shader::printAllParams(GLuint programId)
     printProgramInfoLog(programId);
 }
 
-bool Shader::isValid(GLuint programId)
+bool ShaderGL::isValid(GLuint programId)
 {
     glValidateProgram(programId);
     int params = -1;
