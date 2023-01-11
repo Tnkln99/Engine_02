@@ -36,3 +36,4 @@ void ComponentFactory::clear() {
         delete pair.second;
     }
 }
+

@@ -1,6 +1,6 @@
 #ifndef ENGINE_02_CAMERA_H
 #define ENGINE_02_CAMERA_H
-#include "Transformable.h"
+#include "Embedded Components/Transformable.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>

@@ -2,7 +2,7 @@
 #define ENGINE_02_RENDERCOMPONENT_H
 
 #include "Component.h"
-#include "../Material.h"
+#include "../Embedded Components/Material.h"
 
 class Object;
 class MeshC;

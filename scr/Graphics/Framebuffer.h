@@ -11,8 +11,6 @@ private:
     int textureWidth = 1652;
     int textureHeight = 1042;
 
-    Shader screenShader;
-
     unsigned int quadVAO;
 
     unsigned int fbo;
@@ -29,7 +27,7 @@ public:
     void bind();
 
     // unbinds from frame buffer and draws everything to texture
-    void prepareToTextureRender(int windowsWidth, int windowsHeight);
+    void renderTexture(int windowsWidth, int windowsHeight);
 };
 
 

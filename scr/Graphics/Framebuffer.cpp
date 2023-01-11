@@ -1,5 +1,5 @@
 #include "Framebuffer.h"
-#include "../Assets/Assets.h"
+#include "../Utils/Assets.h"
 
 void Framebuffer::load() {
     glGenFramebuffers(1, &fbo);
@@ -22,7 +22,7 @@ void Framebuffer::load() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Framebuffer::prepareToTextureRender(int windowsWidth, int windowsHeight){
+void Framebuffer::renderTexture(int windowsWidth, int windowsHeight){
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glViewport(0,0,windowsWidth,windowsHeight);
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.

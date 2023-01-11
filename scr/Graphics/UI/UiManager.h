@@ -1,11 +1,11 @@
 #ifndef ENGINE_02_UIMANAGER_H
 #define ENGINE_02_UIMANAGER_H
 
-#include "../Core/Scene.h"
-#include "../Graphics/Framebuffer.h"
-#include <imgui_impl_opengl3.h>
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
+#include "../../Core/Scene.h"
+#include "../Framebuffer.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "imgui.h"
+#include "backends/imgui_impl_glfw.h"
 
 class UiManager {
 private:

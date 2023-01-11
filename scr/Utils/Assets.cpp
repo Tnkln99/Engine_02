@@ -1,19 +1,19 @@
 #include "Assets.h"
-#include "../Log.h"
+#include "Log.h"
 
 #include <iostream>
 #include <memory>
 
 // Instantiate static variables
 std::map<std::string, Material> Assets::materials;
+std::map<std::string, Shader> Assets::shaders;
 //std::map<std::string, Texture2D> Assets::textures;
 //std::map<std::string, TextureKtx> Assets::ktxTextures;
 //std::map<std::string, ComputeShader> Assets::computeShaders;
 
-Material Assets::loadMaterial(const std::string &vShaderFile, const std::string &fShaderFile,
-                                   const std::string &tcShaderFile, const std::string &teShaderFile,
-                                   const std::string &gShaderFile, const std::string &name) {
-    materials[name].setShader(loadShaderFromFile(vShaderFile, fShaderFile, tcShaderFile, teShaderFile, gShaderFile));
+Material Assets::loadMaterial(const std::string &name) {
+    shaders["Default"] = loadShaderFromFile("Default" ,"../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
+    materials[name].setShaderId("Default");
     return materials[name];
 }
 
@@ -21,10 +21,14 @@ Material & Assets::getMaterial(const std::string &name) {
     return materials[name];
 }
 
+Shader &Assets::getShader(const std::string &name) {
+    return shaders[name];
+}
+
 void Assets::clear() {
     // (Properly) delete all shaders
-    for (auto iter : materials)
-        glDeleteProgram(iter.second.getShader().id);
+    for (auto iter : shaders)
+        glDeleteProgram(iter.second.id);
 
 
     /*for (auto iter : computeShaders)
@@ -36,7 +40,8 @@ void Assets::clear() {
         glDeleteTextures(1, &iter.second.id);*/
 }
 
-Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
+Shader Assets::loadShaderFromFile(const std::string &name,
+                                  const std::string &vShaderFile, const std::string &fShaderFile,
                                   const std::string &tcShaderFile, const std::string &teShaderFile,
                                   const std::string &gShaderFile) {
     // 1. Retrieve the vertex/fragment source code from filePath
@@ -110,6 +115,8 @@ Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::str
     std::cout<<"shaders sucessfully loaded "<<std::endl;
     return shader;
 }
+
+
 
 /*
 

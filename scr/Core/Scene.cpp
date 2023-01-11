@@ -12,7 +12,16 @@ void loadComponents(){
 Scene::Scene() { }
 
 Scene::~Scene(){
+    for(auto & mesh : meshes){
+        delete mesh;
+    }
+}
 
+void Scene::load(GLFWwindow * window){
+    Assets::loadMaterial(); // todo: this should be else where
+    loadComponents();
+
+    camera = std::make_unique<EngineCamera>(window,0,0,10);
 }
 
 EngineCamera *Scene::getCamera() {
@@ -34,14 +43,6 @@ const std::vector<Mesh*> & Scene::getMeshes() {
 
 std::vector<Mesh*> & Scene::getMeshesWTBL() {
     return meshesWaitingToBeLoad;
-}
-
-
-void Scene::load(GLFWwindow * window){
-    Assets::loadMaterial("../scr/Assets/shaders/default.vert", "../scr/Assets/shaders/default.frag", "", "", "", "Default");
-    loadComponents();
-
-    camera = std::make_unique<EngineCamera>(window,0,0,10);
 }
 
 void Scene::update(float dt) {

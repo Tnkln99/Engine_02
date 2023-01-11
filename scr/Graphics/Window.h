@@ -3,7 +3,7 @@
 
 
 #include <iostream>
-#include "../UI/UiManager.h"
+#include "UI/UiManager.h"
 #include "Framebuffer.h"
 #include "EngineRendererGL.h"
 

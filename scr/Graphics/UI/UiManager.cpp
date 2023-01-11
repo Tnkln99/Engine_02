@@ -1,5 +1,5 @@
 #include "UiManager.h"
-#include "../Core/Components/ComponentFactory.h"
+#include "../../Core/Components/ComponentFactory.h"
 
 
 void UiManager::load(GLFWwindow *window, Framebuffer & frameBuffer) {
@@ -78,8 +78,6 @@ void UiManager::objectHierarchy(Scene &scene) {
     if(ImGui::Button("Add Object")){
         scene.addObject();
     }
-
-
 
     ImGui::Separator();
 

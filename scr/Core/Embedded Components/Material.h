@@ -2,7 +2,7 @@
 #define MATERIAL_H
 
 #include <glm/glm.hpp>
-#include "../Graphics/Shader.h"
+#include "../../Graphics/Shader.h"
 
 class Material { 
 private:
@@ -12,7 +12,7 @@ private:
     glm::vec3 diffuse{1.0f, 0.5f, 0.31f};
     glm::vec3 specular{0.5f, 0.5f, 0.5f};
 
-    Shader shader;
+    std::string shaderId;
 public:
     Material();
 
@@ -20,7 +20,10 @@ public:
     [[nodiscard]] const glm::vec3 & getAmbient() const;
     [[nodiscard]] const glm::vec3 & getDiffuse() const;
     [[nodiscard]] const glm::vec3 & getSpecular() const;
-    Shader & getShader();
+
+    [[nodiscard]] const std::string & getShaderId() const;
+
+    void setShaderId(const std::string & shaderId);
 
     void setShininess(float shininess);
     
@@ -32,8 +35,6 @@ public:
     
     void setSpecular(float x, float y, float z);
     void setSpecular(glm::vec3 specular);
-
-    void setShader(Shader shader);
 };
 
 #endif

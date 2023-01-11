@@ -6,7 +6,7 @@
 
 #include "glad/glad.h"
 
-#include "../Core/Material.h"
+#include "../Core/Embedded Components/Material.h"
 
 
 // A static singleton Assets class that hosts several
@@ -18,6 +18,7 @@ class Assets {
 public:
     // Resource storage
     static std::map<std::string, Material> materials;
+    static std::map<std::string, Shader> shaders;
     //static std::map<std::string, Texture2D> textures;
     //static std::map<std::string, TextureKtx> ktxTextures;
     //static std::map<std::string, ComputeShader> computeShaders;
@@ -26,12 +27,11 @@ public:
     // Loads (and generates) a shader program from file loading vertex, fragment (and tessellation control, evaluation,
     // geometry) shader's source code. If tcShaderFile, teShaderFile, gShaderFile are not nullptr, it also loads
     // tessellation and geometry shaders
-    static Material loadMaterial(const std::string &vShaderFile, const std::string &fShaderFile,
-                             const std::string &tcShaderFile, const std::string &teShaderFile,
-                             const std::string &gShaderFile, const std::string &name);
+    static Material loadMaterial(const std::string &name = "Default");
 
-    // Retrieves a stored shader
+    // Retrieves a stored material
     static Material &getMaterial(const std::string &name);
+    static Shader &getShader(const std::string &name);
 
     // Loads (and generates) a texture from file
     //static Texture2D loadTexture(const std::string &file, const std::string &name);
@@ -53,9 +53,17 @@ public:
 
     // Properly de-allocates all loaded resources
     static void clear();
+private:
+    // Private constructor, that is we do not want any actual resource manager objects.
+    // Its members and functions should be publicly available (static).
+    Assets() {}
+
+    static void loadShader();
 
     // Loads and generates a shader from file
-    static Shader loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
+    static Shader loadShaderFromFile(const std::string &name,
+                                     const std::string &vShaderFile = "",
+                                     const std::string &fShaderFile = "",
                                      const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
                                      const std::string &gShaderFile = "");
 
@@ -63,12 +71,6 @@ public:
     //static Texture2D loadTextureFromFile(const std::string &file);
 
     //static ComputeShader loadComputeShaderFromFile(const std::string &cShaderFile);
-
-
-private:
-    // Private constructor, that is we do not want any actual resource manager objects.
-    // Its members and functions should be publicly available (static).
-    Assets() {}
 };
 
 #endif

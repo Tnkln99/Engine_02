@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include "GLFW/glfw3.h"
 
 
 Engine::Engine() {
@@ -22,7 +21,7 @@ void Engine::run() {
 
 void Engine::terminate() {
     window.clean();
-    ComponentFactory::clear();
+    //ComponentFactory::clear();
 }
 
 void Engine::update() {

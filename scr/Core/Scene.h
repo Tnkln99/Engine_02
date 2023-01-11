@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../Assets/Assets.h"
+#include "../Utils/Assets.h"
 #include "Object.h"
 #include "Components/MeshC.h"
 #include "Components/LightC.h"
@@ -28,6 +28,8 @@ public:
     Scene();
     ~Scene();
 
+    void load(GLFWwindow * window);
+
     void addObject(Object * object){
         std::unique_ptr<Object> newObject(object);
         objects.push_back(std::move(newObject));
@@ -36,21 +38,21 @@ public:
     EngineCamera* getCamera();
     const std::vector<std::unique_ptr<Object>> & getObjects();
     const std::vector<LightC*> & getLights();
+    // will add the mesh if that mesh does not already exist in the scene
     const std::vector<Mesh*> & getMeshes();
     // WTBL = waiting to be load
     std::vector<Mesh*> & getMeshesWTBL();
 
-    void load(GLFWwindow * window);
-
     void update(float dt);
 
     void addInput(GLFWwindow * window, float deltaTime);
+    // this if for the UI, it will simply create a new Object and this object will add itSelf to the scene
     void addObject();
     // will add the mesh to the mesh and meshWTBL vectors
     void addMesh(Mesh * mesh);
     void addLight(LightC * light);
 
-    Mesh * findTypeOfMesh(char typeOfMesh);
+    Mesh * findTypeOfMesh(char typeOfMesh); //todo: move this to a helper class, with additional mesh vector parameter
 };
 
 

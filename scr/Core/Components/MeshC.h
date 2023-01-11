@@ -2,7 +2,7 @@
 #ifndef CUBEMESH_H
 #define CUBEMESH_H
 #include "Component.h"
-#include "../Mesh.h"
+#include "../Embedded Components/Mesh.h"
 #include <memory>
 
 class Object;

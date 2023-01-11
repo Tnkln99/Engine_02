@@ -19,8 +19,12 @@ const glm::vec3 & Material::getSpecular() const{
     return specular;
 }
 
-Shader & Material::getShader() {
-    return shader;
+const std::string &Material::getShaderId() const {
+    return shaderId;
+}
+
+void Material::setShaderId(const std::string &shaderId) {
+    this->shaderId = shaderId;
 }
 
 void Material::setShininess(float shineness){
@@ -59,8 +63,4 @@ void Material::setSpecular(float x, float y, float z) {
 
 void Material::setSpecular(glm::vec3 specular) {
     this->specular = specular;
-}
-
-void Material::setShader(Shader shader){
-    this->shader = shader;
 }
