@@ -75,7 +75,7 @@ void EngineRendererGL::forwardRender(Scene & scene) {
                 }
                 scene.getMeshesWTBL().clear();
             }
-            drawMesh(component->getMeshC()->getMesh());
+            drawMesh(component->getMeshC()->getMesh().get());
         }
     }
 

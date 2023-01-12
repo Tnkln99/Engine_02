@@ -32,10 +32,6 @@ const std::vector<LightC *> &Scene::getLights() {
     return lights;
 }
 
-const std::vector<std::shared_ptr<Mesh>> & Scene::getMeshes() {
-    return meshes;
-}
-
 
 std::vector<Mesh*> & Scene::getMeshesWTBL() {
     return meshesWaitingToBeLoad;
@@ -59,32 +55,20 @@ void Scene::addObject() {
 }
 
 void Scene::addMesh(std::shared_ptr<Mesh> mesh) {
-    auto it = std::find(meshes.begin(),meshes.end(), mesh);
-    if(it == meshes.end()){
-        meshes.emplace_back(mesh);
-        meshesWaitingToBeLoad.emplace_back(mesh.get());
-    }
-
-    // deleting now unused meshes
-    for (auto itM = meshes.begin(); itM != meshes.end(); ++itM)
-    {
-        if((*itM).use_count() == 1){
-            meshes.erase(itM);
-        }
-    }
-
-    std::cout<<"-----------------------------------------------"<<std::endl;
+    meshesWaitingToBeLoad.emplace_back(mesh.get());
 }
 
 void Scene::addLight(LightC *light) {
     lights.emplace_back(light);
 }
 
-// fins and return if wanted mesh already exists in the scene if it doesn't will return nullptr
-std::shared_ptr<Mesh> Scene::findTypeOfMesh(char typeOfMesh) {
-    for(auto & mesh : meshes){
-        if(mesh->getTypeOfMesh() == typeOfMesh){
-            return mesh;
+std::shared_ptr<Mesh> Scene::findMesh(char typeOfMesh) {
+    for(auto & object : objects){
+        for(auto & renderC : object->getRenderComponents()){
+            if (renderC->getMeshC()->getMesh() == nullptr){return nullptr;}
+            if(renderC->getMeshC()->getMesh()->getTypeOfMesh() == typeOfMesh){
+                return renderC->getMeshC()->getMesh();
+            }
         }
     }
     return nullptr;

@@ -10,8 +10,6 @@ class ShaderGL;
 // todo: complete this class..
 class LightC : public Component{
 private:
-    Mesh* editModeMesh;
-
     float intensity;
     glm::vec3 color;
 
@@ -36,8 +34,6 @@ public:
     const glm::vec3 & getAmbientColor();
     const glm::vec3 & getDiffuseColor();
     const glm::vec3 & getSpecular();
-
-    Mesh * getEditModeMesh();
 
     Component * clone() override;
 };

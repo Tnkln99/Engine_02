@@ -7,7 +7,6 @@ LightC::LightC() : Component("light") {
     intensity = 30.0f;
     diffuseColor = color * glm::vec3(0.5f);
     ambientColor = color * glm::vec3(0.2f);
-    editModeMesh = nullptr;
 }
 
 LightC::~LightC() {
@@ -16,8 +15,8 @@ LightC::~LightC() {
 
 void LightC::load(Object *owner) {
     Component::load(owner);
-    /*if(owner->getScene()->findTypeOfMesh('t') != nullptr){
-        editModeMesh = owner->getScene()->findTypeOfMesh('t');
+    /*if(owner->getScene()->findMesh('t') != nullptr){
+        editModeMesh = owner->getScene()->findMesh('t');
     }
     else {
         editModeMesh = new Mesh('t');
@@ -58,10 +57,6 @@ const glm::vec3 &LightC::getDiffuseColor() {
 
 const glm::vec3 &LightC::getSpecular() {
     return specular;
-}
-
-Mesh *LightC::getEditModeMesh() {
-    return editModeMesh;
 }
 
 Component *LightC::clone() {
