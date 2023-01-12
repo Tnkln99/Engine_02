@@ -1,7 +1,6 @@
 #ifndef ENGINE_02_MESH_H
 #define ENGINE_02_MESH_H
 
-#include "glad/glad.h"
 #include <glm/glm.hpp>
 #include <iostream>
 #include <vector>

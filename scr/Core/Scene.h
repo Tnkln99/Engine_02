@@ -21,7 +21,7 @@ private:
     std::vector<std::unique_ptr<Object>> objects;
     std::vector<LightC*> lights;
     // todo: convert meshes to shared pointer to be able to delete them when nobody uses them
-    std::vector<Mesh*> meshes;
+    std::vector<std::shared_ptr<Mesh>> meshes;
     // after loading these meshes renderer will clear this vector
     std::vector<Mesh*>  meshesWaitingToBeLoad;
 public:
@@ -39,7 +39,7 @@ public:
     const std::vector<std::unique_ptr<Object>> & getObjects();
     const std::vector<LightC*> & getLights();
     // will add the mesh if that mesh does not already exist in the scene
-    const std::vector<Mesh*> & getMeshes();
+    const std::vector<std::shared_ptr<Mesh>> & getMeshes();
     // WTBL = waiting to be load
     std::vector<Mesh*> & getMeshesWTBL();
 

@@ -236,9 +236,9 @@ std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& 
     }
 
     for(int i = 0; i < indices.size() - 3; i+=3){
-        GLint ia = indices[i];
-        GLint ib = indices[i+1];
-        GLint ic = indices[i+2];
+        unsigned int ia = indices[i];
+        unsigned int ib = indices[i+1];
+        unsigned int ic = indices[i+2];
 
         glm::vec3 aPos = positions[ia];
 

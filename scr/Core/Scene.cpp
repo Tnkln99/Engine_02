@@ -11,11 +11,7 @@ void loadComponents(){
 
 Scene::Scene() { }
 
-Scene::~Scene(){
-    for(auto & mesh : meshes){
-        delete mesh;
-    }
-}
+Scene::~Scene() { }
 
 void Scene::load(GLFWwindow * window){
     Assets::loadMaterial(); // todo: this should be else where
@@ -36,7 +32,7 @@ const std::vector<LightC *> &Scene::getLights() {
     return lights;
 }
 
-const std::vector<Mesh*> & Scene::getMeshes() {
+const std::vector<std::shared_ptr<Mesh>> & Scene::getMeshes() {
     return meshes;
 }
 
@@ -63,11 +59,21 @@ void Scene::addObject() {
 }
 
 void Scene::addMesh(Mesh * mesh) {
-    auto it = std::find(meshes.begin(), meshes.end(), mesh);
+    auto it = meshes.begin();
+    for(; it!=meshes.end();it++){
+        if(mesh == (*it).get()){
+            break;
+        }
+    }
     if (it == meshes.end()){
         meshes.emplace_back(mesh);
         meshesWaitingToBeLoad.emplace_back(mesh);
     }
+    for(auto & mesh : meshes){
+        std::cout<< mesh->getTypeOfMesh() << " : " << mesh.use_count()<<std::endl;
+    }
+
+    std::cout<<"-----------------------------------------------"<<std::endl;
 }
 
 void Scene::addLight(LightC *light) {
@@ -78,7 +84,7 @@ void Scene::addLight(LightC *light) {
 Mesh * Scene::findTypeOfMesh(char typeOfMesh) {
     for(auto & mesh : meshes){
         if(mesh->getTypeOfMesh() == typeOfMesh){
-            return mesh;
+            return mesh.get();
         }
     }
     return nullptr;

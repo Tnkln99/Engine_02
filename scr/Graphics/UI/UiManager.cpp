@@ -215,7 +215,6 @@ void UiManager::meshCOptions(MeshC * meshC) {
     ImGui::SameLine();
     if (ImGui::Button("Set"))
     {
-        std::cout<< current_mesh[0] << std::endl;
         meshC->reloadMesh(meshC->getOwner(),current_mesh[0]);
     }
 }
