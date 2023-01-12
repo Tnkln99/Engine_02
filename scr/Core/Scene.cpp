@@ -58,19 +58,19 @@ void Scene::addObject() {
     new Object(this,0,0,0,name);
 }
 
-void Scene::addMesh(Mesh * mesh) {
-    auto it = meshes.begin();
-    for(; it!=meshes.end();it++){
-        if(mesh == (*it).get()){
-            break;
-        }
-    }
-    if (it == meshes.end()){
+void Scene::addMesh(std::shared_ptr<Mesh> mesh) {
+    auto it = std::find(meshes.begin(),meshes.end(), mesh);
+    if(it == meshes.end()){
         meshes.emplace_back(mesh);
-        meshesWaitingToBeLoad.emplace_back(mesh);
+        meshesWaitingToBeLoad.emplace_back(mesh.get());
     }
-    for(auto & mesh : meshes){
-        std::cout<< mesh->getTypeOfMesh() << " : " << mesh.use_count()<<std::endl;
+
+    // deleting now unused meshes
+    for (auto itM = meshes.begin(); itM != meshes.end(); ++itM)
+    {
+        if((*itM).use_count() == 1){
+            meshes.erase(itM);
+        }
     }
 
     std::cout<<"-----------------------------------------------"<<std::endl;
@@ -81,10 +81,10 @@ void Scene::addLight(LightC *light) {
 }
 
 // fins and return if wanted mesh already exists in the scene if it doesn't will return nullptr
-Mesh * Scene::findTypeOfMesh(char typeOfMesh) {
+std::shared_ptr<Mesh> Scene::findTypeOfMesh(char typeOfMesh) {
     for(auto & mesh : meshes){
         if(mesh->getTypeOfMesh() == typeOfMesh){
-            return mesh.get();
+            return mesh;
         }
     }
     return nullptr;

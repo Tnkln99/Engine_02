@@ -9,7 +9,7 @@ class Object;
 
 class MeshC : public Component{
 private:
-    Mesh* mesh;
+    std::shared_ptr<Mesh> mesh;
 public:
     explicit MeshC();
     ~MeshC() override;

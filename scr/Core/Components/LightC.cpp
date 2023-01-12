@@ -16,13 +16,13 @@ LightC::~LightC() {
 
 void LightC::load(Object *owner) {
     Component::load(owner);
-    if(owner->getScene()->findTypeOfMesh('t') != nullptr){
+    /*if(owner->getScene()->findTypeOfMesh('t') != nullptr){
         editModeMesh = owner->getScene()->findTypeOfMesh('t');
     }
     else {
         editModeMesh = new Mesh('t');
     }
-    owner->getScene()->addMesh(editModeMesh);
+    owner->getScene()->addMesh(editModeMesh);*/
     owner->getScene()->addLight(this);
 }
 

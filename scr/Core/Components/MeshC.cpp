@@ -16,7 +16,7 @@ void MeshC::load(Object *owner) {
         mesh = owner->getScene()->findTypeOfMesh('t');
     }
     else {
-        mesh = new Mesh('t');
+        mesh = std::make_shared<Mesh>('t');
     }
     owner->getScene()->addMesh(mesh);
 }
@@ -26,7 +26,7 @@ void MeshC::reloadMesh(Object *owner, char c) {
         mesh = owner->getScene()->findTypeOfMesh(c);
     }
     else {
-        mesh = new Mesh(c);
+        mesh = std::make_shared<Mesh>(c);
     }
     owner->getScene()->addMesh(mesh);
 }
@@ -36,7 +36,7 @@ Component * MeshC::clone() {
 }
 
 Mesh * MeshC::getMesh() {
-    return mesh;
+    return mesh.get();
 }
 
 void MeshC::setMesh() {

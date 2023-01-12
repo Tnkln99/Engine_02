@@ -7,7 +7,7 @@ Mesh::Mesh(char c){
 }
 
 Mesh::~Mesh() {
-    std::cout<<"Mesh is deleting"<<std::endl;
+    std::cout<<"Mesh "<< typeOfMesh <<" is deleting"<<std::endl;
 }
 
 unsigned int & Mesh::getId() {

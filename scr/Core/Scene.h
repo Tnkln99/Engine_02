@@ -49,10 +49,10 @@ public:
     // this if for the UI, it will simply create a new Object and this object will add itSelf to the scene
     void addObject();
     // will add the mesh to the mesh and meshWTBL vectors
-    void addMesh(Mesh * mesh);
+    void addMesh(std::shared_ptr<Mesh> mesh);
     void addLight(LightC * light);
 
-    Mesh * findTypeOfMesh(char typeOfMesh); //todo: move this to a helper class, with additional mesh vector parameter
+    std::shared_ptr<Mesh> findTypeOfMesh(char typeOfMesh); //todo: move this to a helper class, with additional mesh vector parameter
 };
 
 
