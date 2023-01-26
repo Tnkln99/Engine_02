@@ -7,6 +7,7 @@
 #include "Object.h"
 #include "Components/MeshC.h"
 #include "Components/LightC.h"
+#include "Components/MeshRendererC.h"
 #include <vector>
 #include <algorithm>
 

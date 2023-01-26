@@ -8,10 +8,8 @@
 
 class FrameBufferGL {
 private:
-    int textureWidth = 1652;
-    int textureHeight = 1042;
-
-    unsigned int quadVAO;
+    int textureWidth;
+    int textureHeight;
 
     unsigned int fbo;
     unsigned int texture;
@@ -19,7 +17,7 @@ private:
 public:
     void load();
 
-    [[nodiscard]]int getTexture() const;
+    [[nodiscard]]unsigned int getTexture() const;
     [[nodiscard]]int getTextureWidth() const;
     [[nodiscard]]int getTextureHeight() const;
 

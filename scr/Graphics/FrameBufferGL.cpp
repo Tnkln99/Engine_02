@@ -1,6 +1,9 @@
 #include "FrameBufferGL.h"
 
 void FrameBufferGL::load() {
+    textureWidth = 1619;
+    textureHeight = 838;
+
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     // create a color attachment texture
@@ -24,10 +27,10 @@ void FrameBufferGL::load() {
 void FrameBufferGL::renderTexture(int windowsWidth, int windowsHeight){
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glViewport(0,0,windowsWidth,windowsHeight);
-    glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
     // clear all relevant buffers
     glClearColor(0, 0, 0, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
     glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 }
 
 void FrameBufferGL::bind() {
@@ -36,7 +39,7 @@ void FrameBufferGL::bind() {
     glEnable(GL_DEPTH_TEST);
 }
 
-int FrameBufferGL::getTexture() const {
+unsigned int FrameBufferGL::getTexture() const {
     return texture;
 }
 

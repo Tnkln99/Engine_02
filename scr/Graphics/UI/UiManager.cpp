@@ -44,13 +44,11 @@ void UiManager::render(Scene & scene) {
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
     mainMenuBar();
     objectHierarchy(scene);
+    assets();
     sceneWindow();
 
     if( selectedObject != nullptr )
         components(selectedObject);
-
-    //ImGui::ShowDemoWindow();
-
 
     // Render dear imgui into screen
     ImGui::Render();
@@ -170,6 +168,9 @@ void UiManager::components(Object* object) {
             if(strcmp(name,"mesh")==0){
                 meshCOptions(dynamic_cast<MeshC*>(component));
             }
+            if(strcmp(name,"mesh renderer")==0){
+                meshRendererCOptions(dynamic_cast<MeshRendererC*>(component));
+            }
             ImGui::TreePop();
         }
 
@@ -188,6 +189,12 @@ void UiManager::sceneWindow() {
             (void*)textureId, ImVec2(ImGui::GetCursorScreenPos()),
             ImVec2(ImGui::GetCursorScreenPos().x + textureWidth, ImGui::GetCursorScreenPos().y + textureHeight), ImVec2(0, 1), ImVec2(1, 0)
             );
+
+    ImGui::End();
+}
+
+void UiManager::assets() {
+    ImGui::Begin("Assets", nullptr);
 
     ImGui::End();
 }
@@ -217,5 +224,9 @@ void UiManager::meshCOptions(MeshC * meshC) {
     {
         meshC->reloadMesh(meshC->getOwner(),current_mesh[0]);
     }
+}
+
+void UiManager::meshRendererCOptions(MeshRendererC *meshC) {
+    ImGui::Text("Ola");
 }
 

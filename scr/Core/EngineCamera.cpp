@@ -10,8 +10,8 @@ EngineCamera::EngineCamera(GLFWwindow * window, float x, float y, float z) {
 
     int windowWidth;
     int windowHeight;
-    glfwGetWindowSize(window, &windowWidth, &windowHeight);
-
+    glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
+    // todo: this should be with texture width and texture height
     projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
     glfwSetWindowUserPointer( window, this );

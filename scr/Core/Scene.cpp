@@ -1,6 +1,5 @@
 #include "Scene.h"
 #include "EngineCamera.h"
-#include "Components/MeshRendererC.h"
 #include "Components/ComponentFactory.h"
 
 void loadComponents(){
@@ -11,7 +10,9 @@ void loadComponents(){
 
 Scene::Scene() { }
 
-Scene::~Scene() { }
+Scene::~Scene() {
+
+}
 
 void Scene::load(GLFWwindow * window){
     Assets::loadMaterial(); // todo: this should be else where
