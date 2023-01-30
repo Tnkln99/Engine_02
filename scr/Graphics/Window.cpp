@@ -39,24 +39,34 @@ void Window::load() {
 
     glEnable(GL_DEPTH_TEST);
 
-    framebuffer.load();
+    renderer.load();
+    screenFbo.load();
+    shadowMapFbo.load();
 }
 
 void Window::loadUi() {
-    ui.load(window, framebuffer);
+    ui.load(window, screenFbo);
 }
 
 
 void Window::render(Scene &scene) {
-    framebuffer.bind();
+    shadowMapFbo.bind();
+
+    renderer.forwardRenderToShadowMap(scene);
+    shadowMapFbo.unbind(windowWidth, windowHeight);
+
+    shadowMapFbo.unbind(windowWidth, windowHeight);
+
+    screenFbo.bind();
 
     setBackgroundColor(0.07f, 0.13f, 0.17f, 1.0f);
     clearBuffer();
 
     renderer.forwardRender(scene);
 
-    framebuffer.renderTexture(windowWidth, windowHeight);
+    screenFbo.unbind(windowWidth, windowHeight);
 
+    // imgui will render our texture automatic
     ui.render(scene);
 
     swapBuffer();
@@ -98,6 +108,11 @@ float Window::getHeight() const{
 
 float Window::getWidth() const{
     return (float)windowWidth;
+}
+
+glm::vec2 Window::getSceneWindowSize() const {
+    glm::vec2 sceneSize{screenFbo.getTextureWidth(), screenFbo.getTextureHeight()};
+    return sceneSize;
 }
 
 void Window::setHeight(int height) {

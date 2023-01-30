@@ -1,7 +1,10 @@
 #include "EngineRendererGL.h"
 #include "../Core/EngineCamera.h"
-#include "../Core/Components/RenderComponent.h"
 
+
+void EngineRendererGL::load() {
+    shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
+}
 void EngineRendererGL::loadMesh(Mesh *mesh){
     GLuint EBO, VBO;
     // Generate the VAO and VBO with only 1 object each
@@ -34,6 +37,22 @@ void EngineRendererGL::loadMesh(Mesh *mesh){
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
+}
+
+
+void EngineRendererGL::forwardRenderToShadowMap(Scene &scene) {
+    for (auto &object: scene.getObjects()) {
+        for (auto &component: object->getRenderComponents()) {
+            shadowMapShader.use();
+            shadowMapShader.setMatrix4("model", component->getOwner()->getTransform().getMoveMatrix());
+            int lightNo = 0;
+            for (auto &light: scene.getLights()) {
+                shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+            }
+            lightNo++;
+        }
+
+    }
 }
 
 void EngineRendererGL::forwardRender(Scene & scene) {
@@ -92,5 +111,6 @@ void EngineRendererGL::cleanRenderer() {
         glDeleteVertexArrays(1, &vao);
     }
 }
+
 
 

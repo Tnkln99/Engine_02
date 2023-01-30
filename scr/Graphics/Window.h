@@ -14,7 +14,9 @@ private:
     int windowHeight;
     GLFWwindow* window;
 
-    FrameBufferGL framebuffer;
+    FrameBufferGL screenFbo;
+    FrameBufferGL shadowMapFbo;
+
     UiManager ui;
     EngineRendererGL renderer;
 public:
@@ -30,6 +32,7 @@ public:
     [[nodiscard]] float getWidth() const;
     [[nodiscard]] GLFWwindow* getPointer() const;
     [[nodiscard]] bool canGetSceneInput() const;
+    [[nodiscard]] glm::vec2 getSceneWindowSize() const;
 
     void setHeight(int height);
     void setWidth(int width);

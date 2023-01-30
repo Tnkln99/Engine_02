@@ -4,7 +4,7 @@
 Engine::Engine() {
     window.load();
 
-    scene.load(window.getPointer());
+    scene.load(window.getPointer(), window.getSceneWindowSize().x, window.getSceneWindowSize().y);
 
     window.loadUi();
 }

@@ -18,6 +18,13 @@ private:
     const glm::vec3 specular = {1,1,1};
 
     bool showSource = false;
+
+    float nearPlane = 1.0f;
+    float farPlane = 7.5f;
+
+    glm::mat4 lightProj = glm::mat4(1);
+    glm::mat4 lightView = glm::mat4(1);
+    glm::mat4 lightSpaceMatrix = glm::mat4(1);
 public:
     explicit LightC();
     ~LightC() override;
@@ -34,9 +41,11 @@ public:
     const glm::vec3 & getAmbientColor();
     const glm::vec3 & getDiffuseColor();
     const glm::vec3 & getSpecular();
+    const glm::mat4 & getSpaceMatrix();
 
     Component * clone() override;
 };
 
 
 #endif //ENGINE_02_LIGHTC_H
+

@@ -27,7 +27,7 @@ public:
     // Loads (and generates) a shader program from file loading vertex, fragment (and tessellation control, evaluation,
     // geometry) shader's source code. If tcShaderFile, teShaderFile, gShaderFile are not nullptr, it also loads
     // tessellation and geometry shaders
-    static Material loadMaterial(const std::string &name = "Default");
+    static Material loadBasicMaterial();
 
     // Retrieves a stored material
     static Material &getMaterial(const std::string &name);
@@ -51,6 +51,12 @@ public:
     // Retrieves a stored shader
     //static ComputeShader &getComputeShader(const std::string &name);
 
+    static ShaderGL loadShaderFromFile(const std::string &vShaderFile = "",
+                                       const std::string &fShaderFile = "",
+                                       const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
+                                       const std::string &gShaderFile = "");
+
+
     // Properly de-allocates all loaded resources
     static void clear();
 private:
@@ -59,14 +65,6 @@ private:
     Assets() {}
 
     static void loadShader();
-
-    // Loads and generates a shader from file
-    static ShaderGL loadShaderFromFile(const std::string &name,
-                                       const std::string &vShaderFile = "",
-                                       const std::string &fShaderFile = "",
-                                       const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
-                                       const std::string &gShaderFile = "");
-
     // Loads a single texture from file
     //static Texture2D loadTextureFromFile(const std::string &file);
 

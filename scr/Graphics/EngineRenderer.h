@@ -11,9 +11,13 @@ protected:
 public:
     virtual ~EngineRenderer() = default;
 
+    virtual void load() = 0;
+
     virtual void loadMesh(Mesh * mesh) = 0;
 
     virtual void forwardRender(Scene & scene) = 0;
+    virtual void forwardRenderToShadowMap(Scene & scene) = 0;
+
     virtual void drawMesh(Mesh * mesh) = 0;
 
     virtual void cleanRenderer() = 0;

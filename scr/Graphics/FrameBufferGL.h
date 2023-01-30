@@ -21,11 +21,11 @@ public:
     [[nodiscard]]int getTextureWidth() const;
     [[nodiscard]]int getTextureHeight() const;
 
-    // binds to framebuffer and enables depth
+    // binds to screenFbo and enables depth
     void bind();
 
     // unbinds from frame buffer and draws everything to texture
-    void renderTexture(int windowsWidth, int windowsHeight);
+    void unbind(int windowsWidth, int windowsHeight);
 };
 
 

@@ -14,11 +14,11 @@ Scene::~Scene() {
 
 }
 
-void Scene::load(GLFWwindow * window){
-    Assets::loadMaterial(); // todo: this should be else where
+void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
+    Assets::loadBasicMaterial(); // todo: this should be else where
     loadComponents();
 
-    camera = std::make_unique<EngineCamera>(window,0,0,10);
+    camera = std::make_unique<EngineCamera>(window, sceneWidth, sceneHeight, 0,0,10);
 }
 
 EngineCamera *Scene::getCamera() {

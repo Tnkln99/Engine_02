@@ -4,15 +4,12 @@
 
 
 
-EngineCamera::EngineCamera(GLFWwindow * window, float x, float y, float z) { 
+EngineCamera::EngineCamera(GLFWwindow * window, float sceneWidth, float sceneHeight, float x, float y, float z) {
     transform.setPosition(glm::vec3(x,y,z));
     view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
 
-    int windowWidth;
-    int windowHeight;
-    glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
     // todo: this should be with texture width and texture height
-    projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
+    projMatrix = glm::perspective(glm::radians(45.0f), (float)sceneWidth / (float)sceneHeight, 0.1f, 100.0f);
 
     glfwSetWindowUserPointer( window, this );
 

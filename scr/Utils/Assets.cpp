@@ -11,10 +11,10 @@ std::map<std::string, ShaderGL> Assets::shaders;
 //std::map<std::string, TextureKtx> Assets::ktxTextures;
 //std::map<std::string, ComputeShader> Assets::computeShaders;
 
-Material Assets::loadMaterial(const std::string &name) {
-    shaders["Default"] = loadShaderFromFile("Default" ,"../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
-    materials[name].setShaderId("Default");
-    return materials[name];
+Material Assets::loadBasicMaterial() {
+    shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
+    materials["Default"].setShaderId("Default");
+    return materials["Default"];
 }
 
 Material & Assets::getMaterial(const std::string &name) {
@@ -40,8 +40,7 @@ void Assets::clear() {
         glDeleteTextures(1, &iter.second.id);*/
 }
 
-ShaderGL Assets::loadShaderFromFile(const std::string &name,
-                                    const std::string &vShaderFile, const std::string &fShaderFile,
+ShaderGL Assets::loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
                                     const std::string &tcShaderFile, const std::string &teShaderFile,
                                     const std::string &gShaderFile) {
     // 1. Retrieve the vertex/fragment source code from filePath

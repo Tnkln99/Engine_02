@@ -1,3 +1,4 @@
+#include <glm/ext/matrix_clip_space.hpp>
 #include "LightC.h"
 #include "ext/matrix_transform.inl"
 #include "../Scene.h"
@@ -7,6 +8,12 @@ LightC::LightC() : Component("light") {
     intensity = 30.0f;
     diffuseColor = color * glm::vec3(0.5f);
     ambientColor = color * glm::vec3(0.2f);
+
+    lightProj = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
+    lightView = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
+                            glm::vec3( 0.0f, 0.0f,  0.0f),
+                            glm::vec3( 0.0f, 1.0f,  0.0f));
+    lightSpaceMatrix = lightProj * lightView;
 }
 
 LightC::~LightC() {
@@ -59,9 +66,15 @@ const glm::vec3 &LightC::getSpecular() {
     return specular;
 }
 
+
+const glm::mat4 &LightC::getSpaceMatrix() {
+    return lightSpaceMatrix;
+}
+
 Component *LightC::clone() {
     return new LightC(*this);
 }
+
 
 
 

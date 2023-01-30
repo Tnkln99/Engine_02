@@ -27,7 +27,7 @@ public:
     Scene();
     ~Scene();
 
-    void load(GLFWwindow * window);
+    void load(GLFWwindow * window, float sceneWidth, float sceneHeight);
 
     void addObject(Object * object){
         std::unique_ptr<Object> newObject(object);
