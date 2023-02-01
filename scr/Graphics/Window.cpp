@@ -31,17 +31,10 @@ void Window::load() {
 
     //Load GLAD so it configures OpenGL
     gladLoadGL();
-    // Specify the viewport of OpenGL in the Window
-    glViewport(0, 0, windowWidth, windowHeight);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glEnable(GL_CULL_FACE);
-
-    glEnable(GL_DEPTH_TEST);
 
     renderer.load();
-    screenFbo.load();
-    shadowMapFbo.load();
+    screenFbo.load(1619,838);
 }
 
 void Window::loadUi() {
@@ -50,20 +43,10 @@ void Window::loadUi() {
 
 
 void Window::render(Scene &scene) {
-    shadowMapFbo.bind();
-
-    renderer.forwardRenderToShadowMap(scene);
-    shadowMapFbo.unbind(windowWidth, windowHeight);
-
-    shadowMapFbo.unbind(windowWidth, windowHeight);
-
+    // rendering the scene to the normal screenFbo
+    // todo bind should take parameters to change background color
     screenFbo.bind();
-
-    setBackgroundColor(0.07f, 0.13f, 0.17f, 1.0f);
-    clearBuffer();
-
     renderer.forwardRender(scene);
-
     screenFbo.unbind(windowWidth, windowHeight);
 
     // imgui will render our texture automatic
@@ -78,23 +61,23 @@ void Window::update() {
     ui.update();
 }
 
-
-void Window::getInputs() {
+// todo: Make an Input class
+void Window::getInputs(){
     int stateT = glfwGetKey(window, GLFW_KEY_T);
     int stateY = glfwGetKey(window, GLFW_KEY_Y);
     int stateU = glfwGetKey(window, GLFW_KEY_U);
 
     if (stateT == GLFW_PRESS)
     {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+        renderer.setRenderMode(3);
     }
     else if (stateY == GLFW_PRESS)
     {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        renderer.setRenderMode(2);
     }
     else if (stateU == GLFW_PRESS)
     {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        renderer.setRenderMode(1);
     }
 }
 
@@ -127,17 +110,8 @@ GLFWwindow *Window::getPointer() const {
     return window;
 }
 
-void Window::setBackgroundColor(float r, float b, float g, float t) {
-    // Specify the color of the background
-    glClearColor(r, b, g, t);
-}
-
 void Window::swapBuffer() {
     glfwSwapBuffers(window);
-}
-
-void Window::clearBuffer() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::getEvents() {
@@ -156,4 +130,3 @@ void Window::clean() {
 bool Window::canGetSceneInput() const {
     return ui.getOnSceneUi();
 }
-

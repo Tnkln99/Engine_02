@@ -3,9 +3,8 @@
 
 Engine::Engine() {
     window.load();
-
+    Assets::loadBasicMaterial(); // todo: this should be else where
     scene.load(window.getPointer(), window.getSceneWindowSize().x, window.getSceneWindowSize().y);
-
     window.loadUi();
 }
 

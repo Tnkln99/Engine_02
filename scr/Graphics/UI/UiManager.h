@@ -2,7 +2,7 @@
 #define ENGINE_02_UIMANAGER_H
 
 #include "../../Core/Scene.h"
-#include "../FrameBufferGL.h"
+#include "../BackEnd/FBO.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
@@ -24,7 +24,7 @@ private:
 public:
     UiManager() = default;
 
-    void load(GLFWwindow * window, FrameBufferGL & frameBuffer);
+    void load(GLFWwindow * window, FBO & frameBuffer);
 
     ImGuiIO * getIo();
     [[nodiscard]] bool getOnSceneUi() const;

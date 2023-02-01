@@ -4,23 +4,23 @@
 
 #include <iostream>
 #include "UI/UiManager.h"
-#include "FrameBufferGL.h"
-#include "EngineRendererGL.h"
+#include "BackEnd/ScreenFbo.h"
+#include "BackEnd/Renderer.h"
 
 
 class Window{
 private:
-    int windowWidth;
-    int windowHeight;
-    GLFWwindow* window;
+    int windowWidth{};
+    int windowHeight{};
+    GLFWwindow* window{};
 
-    FrameBufferGL screenFbo;
-    FrameBufferGL shadowMapFbo;
+    ScreenFbo screenFbo{};
 
     UiManager ui;
-    EngineRendererGL renderer;
+    Renderer renderer;
 public:
     void load();
+
     void loadUi();
     void render(Scene & scene);
     void update();
@@ -36,10 +36,8 @@ public:
 
     void setHeight(int height);
     void setWidth(int width);
-    void setBackgroundColor(float r, float b, float g,float t);
 
     void swapBuffer();
-    void clearBuffer();
 
     void getEvents();
 

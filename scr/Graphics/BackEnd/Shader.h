@@ -16,17 +16,17 @@
 // General purpose shader object. Compiles from file, generates
 // compile/link-time error messages and hosts several utility 
 // functions for easy management.
-class ShaderGL
+class Shader
 {
 public:
 	// Program id
 	GLuint id;
 
 	// Constructor
-	ShaderGL() { }
+	Shader() { }
 
 	// Sets the current shader as active
-	ShaderGL& use();
+	Shader& use();
 
 	// Compiles the shader from given source code
 	void compile(
@@ -50,8 +50,6 @@ public:
 	void setMatrix4Row(const GLchar *name, const Matrix4Row &matrix);
 
 private:
-	// Checks if compilation or linking failed and if so, print the error logs
-	void checkCompileErrors(GLuint object, std::string type);
 
 	GLuint vs;
     GLuint fs;

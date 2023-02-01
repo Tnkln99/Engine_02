@@ -5,7 +5,7 @@
 #include "Component.h"
 
 class Mesh;
-class ShaderGL;
+class Shader;
 
 // todo: complete this class..
 class LightC : public Component{

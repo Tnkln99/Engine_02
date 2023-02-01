@@ -1,14 +1,16 @@
-#include "FrameBufferGL.h"
+#include "ScreenFbo.h"
 
-void FrameBufferGL::load() {
-    textureWidth = 1619;
-    textureHeight = 838;
+
+void ScreenFbo::load(int width, int height) {
+    this->textureWidth = width;
+    this->textureHeight = height;
 
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     // create a color attachment texture
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, textureWidth, textureHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -20,11 +22,21 @@ void FrameBufferGL::load() {
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
     // now that we actually created the screenFbo and added all attachments we want to check if it is actually complete now
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        std::cout << "ERROR::FRAMEBUFFER:: FrameBufferGL is not complete!" << std::endl;
+        std::cout << "ERROR::FRAMEBUFFER:: FBO is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 }
 
-void FrameBufferGL::unbind(int windowsWidth, int windowsHeight){
+
+void ScreenFbo::bind() {
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+    glViewport(0,0,textureWidth,textureHeight);
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void ScreenFbo::unbind(int windowsWidth, int windowsHeight) {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glViewport(0,0,windowsWidth,windowsHeight);
     // clear all relevant buffers
@@ -33,20 +45,16 @@ void FrameBufferGL::unbind(int windowsWidth, int windowsHeight){
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 }
 
-void FrameBufferGL::bind() {
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
-    glViewport(0,0,textureWidth,textureHeight);
-    glEnable(GL_DEPTH_TEST);
-}
 
-unsigned int FrameBufferGL::getTexture() const {
-    return texture;
-}
-
-int FrameBufferGL::getTextureWidth() const {
+int ScreenFbo::getTextureWidth() const {
     return textureWidth;
 }
 
-int FrameBufferGL::getTextureHeight() const {
+int ScreenFbo::getTextureHeight() const {
     return textureHeight;
 }
+
+unsigned int ScreenFbo::getTexture() const {
+    return texture;
+}
+

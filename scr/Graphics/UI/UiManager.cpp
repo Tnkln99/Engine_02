@@ -2,7 +2,7 @@
 #include "../../Core/Components/ComponentFactory.h"
 
 
-void UiManager::load(GLFWwindow *window, FrameBufferGL & frameBuffer) {
+void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
     textureId = frameBuffer.getTexture();
     textureHeight = frameBuffer.getTextureHeight();
     textureWidth = frameBuffer.getTextureWidth();
@@ -11,7 +11,7 @@ void UiManager::load(GLFWwindow *window, FrameBufferGL & frameBuffer) {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO & io = ImGui::GetIO();
+    ImGuiIO &io = ImGui::GetIO();
 
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigWindowsMoveFromTitleBarOnly = true;

@@ -10,12 +10,9 @@ void loadComponents(){
 
 Scene::Scene() { }
 
-Scene::~Scene() {
-
-}
+Scene::~Scene() { }
 
 void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
-    Assets::loadBasicMaterial(); // todo: this should be else where
     loadComponents();
 
     camera = std::make_unique<EngineCamera>(window, sceneWidth, sceneHeight, 0,0,10);
