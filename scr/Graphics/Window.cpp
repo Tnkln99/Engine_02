@@ -27,7 +27,7 @@ void Window::load() {
     }
 
     // Introduce the window into the current context
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window);// ola
 
     //Load GLAD so it configures OpenGL
     gladLoadGL();
