@@ -32,8 +32,6 @@ void Window::load() {
     //Load GLAD so it configures OpenGL
     gladLoadGL();
 
-
-    renderer.load();
     screenFbo.load(1619,838);
 }
 
@@ -52,10 +50,11 @@ void Window::render(Scene &scene) {
     // imgui will render our texture automatic
     ui.render(scene);
 
+    //screenFbo.renderToQuad(300,300);
+
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
-
 
 void Window::update() {
     ui.update();
@@ -109,8 +108,6 @@ void Window::setWidth(int width) {
 GLFWwindow *Window::getPointer() const {
     return window;
 }
-
-
 
 void Window::clean() {
     ui.terminate();

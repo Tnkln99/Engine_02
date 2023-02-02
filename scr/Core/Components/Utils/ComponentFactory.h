@@ -1,7 +1,7 @@
 #ifndef ENGINE_02_COMPONENTFACTORY_H
 #define ENGINE_02_COMPONENTFACTORY_H
 
-#include "Component.h"
+#include "../Component.h"
 #include <map>
 
 class ComponentFactory {
