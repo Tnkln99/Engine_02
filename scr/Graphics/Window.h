@@ -37,10 +37,6 @@ public:
     void setHeight(int height);
     void setWidth(int width);
 
-    void swapBuffer();
-
-    void getEvents();
-
     void clean();
 };
 
