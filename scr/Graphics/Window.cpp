@@ -27,8 +27,7 @@ void Window::load() {
     }
 
     // Introduce the window into the current context
-    glfwMakeContextCurrent(window);
-    // ola
+    glfwMakeContextCurrent(window);// ola
 
     //Load GLAD so it configures OpenGL
     gladLoadGL();
@@ -53,8 +52,8 @@ void Window::render(Scene &scene) {
     // imgui will render our texture automatic
     ui.render(scene);
 
-    swapBuffer();
-    getEvents();
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 }
 
 
@@ -111,14 +110,7 @@ GLFWwindow *Window::getPointer() const {
     return window;
 }
 
-void Window::swapBuffer() {
-    glfwSwapBuffers(window);
-}
 
-void Window::getEvents() {
-    // Take care of all GLFW events
-    glfwPollEvents();
-}
 
 void Window::clean() {
     ui.terminate();
