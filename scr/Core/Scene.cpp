@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "EngineCamera.h"
-#include "Components/ComponentFactory.h"
+#include "Components/Utils/ComponentFactory.h"
 
 void loadComponents(){
     ComponentFactory::Register("Mesh", new MeshC);

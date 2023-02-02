@@ -1,11 +1,6 @@
 #include "Renderer.h"
 #include "../../Core/EngineCamera.h"
 
-
-void Renderer::load() {
-    shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
-}
-
 void Renderer::loadMesh(Mesh *mesh){
     GLuint EBO, VBO;
     // Generate the VAO and VBO with only 1 object each

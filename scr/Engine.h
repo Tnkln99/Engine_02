@@ -3,7 +3,7 @@
 
 #include "Graphics/Window.h"
 #include "Core/Scene.h"
-#include "Core/Components/ComponentFactory.h"
+#include "Core/Components/Utils/ComponentFactory.h"
 
 class Engine{
 private:

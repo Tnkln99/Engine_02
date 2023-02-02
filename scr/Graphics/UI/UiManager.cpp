@@ -1,5 +1,5 @@
 #include "UiManager.h"
-#include "../../Core/Components/ComponentFactory.h"
+#include "../../Core/Components/Utils/ComponentFactory.h"
 
 
 void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
@@ -155,6 +155,7 @@ void UiManager::components(Object* object) {
     if(ImGui::Button("+")){
         if(strcmp(current_item,"ADD COMPONENT")!=0){
             Component * newComponent = ComponentFactory::Create(current_item);
+            // After getting the component we should load it with the object
             newComponent->load(object);
         }
     }

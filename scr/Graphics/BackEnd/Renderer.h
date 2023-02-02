@@ -13,13 +13,10 @@ private:
         POINT,
         LINE
     };
-    Shader shadowMapShader;
     // stores VAO's to delete them later
     std::vector<unsigned int> loadedMeshIds;
     RenderMode renderMode = RenderMode::FILL;
 public:
-    void load();
-
     void loadMesh(Mesh * mesh);
 
     void forwardRender(Scene & scene);

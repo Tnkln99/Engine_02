@@ -1,7 +1,11 @@
 #include "ScreenFbo.h"
+#include "../../Utils/Assets.h"
 
 
 void ScreenFbo::load(int width, int height) {
+    FBO::load(width, height);
+    debugShader = Assets::loadShaderFromFile("../assets/shaders/debug/screenDebug.vert", "../assets/shaders/debug/screenDebug.frag", "", "", "");
+
     this->textureWidth = width;
     this->textureHeight = height;
 
@@ -25,6 +29,8 @@ void ScreenFbo::load(int width, int height) {
         std::cout << "ERROR::FRAMEBUFFER:: FBO is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+    debugShader.use();
+    debugShader.setInteger("screenTexture", 0);
 }
 
 
@@ -38,7 +44,6 @@ void ScreenFbo::bind() {
 
 void ScreenFbo::unbind(int windowsWidth, int windowsHeight) {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    glViewport(0,0,windowsWidth,windowsHeight);
     // clear all relevant buffers
     glClearColor(0, 0, 0, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
     glClear(GL_COLOR_BUFFER_BIT);
@@ -57,4 +62,5 @@ int ScreenFbo::getTextureHeight() const {
 unsigned int ScreenFbo::getTexture() const {
     return texture;
 }
+
 

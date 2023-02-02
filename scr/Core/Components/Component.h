@@ -11,8 +11,8 @@ class Component{
 private:
     std::string name;
 
-    int updateOrder;
-    Object * owner;
+    int updateOrder{};
+    Object * owner{};
 public:
     explicit Component(const std::string & name, int updateOrder = 100);
     Component() = default;

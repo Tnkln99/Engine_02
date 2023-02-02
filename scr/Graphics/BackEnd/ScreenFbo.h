@@ -3,7 +3,9 @@
 
 #include "FBO.h"
 
-class ScreenFbo : public FBO {
+class ScreenFbo : public FBO{
+protected:
+
 public:
     void unbind(int width, int height) override;
 
@@ -16,7 +18,6 @@ public:
     [[nodiscard]] unsigned int getTexture() const override;
 
     void bind() override;
-
 };
 
 
