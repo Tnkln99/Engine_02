@@ -30,7 +30,6 @@ const std::vector<LightC *> &Scene::getLights() {
     return lights;
 }
 
-
 std::vector<Mesh*> & Scene::getMeshesWTBL() {
     return meshesWaitingToBeLoad;
 }

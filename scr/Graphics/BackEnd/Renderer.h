@@ -16,10 +16,15 @@ private:
     // stores VAO's to delete them later
     std::vector<unsigned int> loadedMeshIds;
     RenderMode renderMode = RenderMode::FILL;
+
+    Shader shadowMapShader;
 public:
+    void loadShaders();
+
     void loadMesh(Mesh * mesh);
 
-    void forwardRender(Scene & scene);
+    void renderToShadowMap(Scene & scene);
+    void renderScene(Scene & scene);
 
     void drawMesh(Mesh * mesh);
 

@@ -43,21 +43,32 @@ public:
     };
 
     virtual void load(int width, int height){
+        this->textureWidth = width;
+        this->textureHeight = height;
+
         loadQuad();
     };
 
-    [[nodiscard]] virtual int getTextureWidth() const = 0;
-    [[nodiscard]] virtual int getTextureHeight() const = 0;
-    [[nodiscard]] virtual unsigned int getTexture() const = 0;
+    [[nodiscard]] virtual int getTextureWidth() const {
+        return textureWidth;
+    };
 
-    virtual void bind() = 0;
+    [[nodiscard]] virtual int getTextureHeight() const {
+        return textureHeight;
+    };
+
+    [[nodiscard]] virtual unsigned int getTexture() const {
+        return texture;
+    };
+
+    virtual void bind(float r, float g, float b) = 0;
 
     virtual void unbind(int windowsWidth, int windowsHeight) = 0;
 
     // for debug purposes it will render the fbo to the screen
-    void renderToQuad(int width, int height){
+    // should be overriden to attach to the debug shader and pass the uniforms
+    virtual void renderToQuad(int width, int height){
         glViewport(0,0,width,height);
-        debugShader.use();
         glBindVertexArray(quadVAO);
         glBindTexture(GL_TEXTURE_2D, texture);	// use the color attachment texture as the texture of the quad plane
         glDrawArrays(GL_TRIANGLES, 0, 6);

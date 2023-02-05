@@ -6,9 +6,6 @@ void ScreenFbo::load(int width, int height) {
     FBO::load(width, height);
     debugShader = Assets::loadShaderFromFile("../assets/shaders/debug/screenDebug.vert", "../assets/shaders/debug/screenDebug.frag", "", "", "");
 
-    this->textureWidth = width;
-    this->textureHeight = height;
-
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     // create a color attachment texture
@@ -34,7 +31,7 @@ void ScreenFbo::load(int width, int height) {
 }
 
 
-void ScreenFbo::bind() {
+void ScreenFbo::bind(float r, float g, float b) {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
     glViewport(0,0,textureWidth,textureHeight);
     glEnable(GL_DEPTH_TEST);
@@ -50,17 +47,9 @@ void ScreenFbo::unbind(int windowsWidth, int windowsHeight) {
     glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 }
 
-
-int ScreenFbo::getTextureWidth() const {
-    return textureWidth;
-}
-
-int ScreenFbo::getTextureHeight() const {
-    return textureHeight;
-}
-
-unsigned int ScreenFbo::getTexture() const {
-    return texture;
+void ScreenFbo::renderToQuad(int width, int height) {
+    debugShader.use();
+    FBO::renderToQuad(width, height);
 }
 
 

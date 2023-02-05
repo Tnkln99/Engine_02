@@ -1,6 +1,11 @@
 #include "Renderer.h"
 #include "../../Core/EngineCamera.h"
 
+
+void Renderer::loadShaders() {
+    shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
+}
+
 void Renderer::loadMesh(Mesh *mesh){
     GLuint EBO, VBO;
     // Generate the VAO and VBO with only 1 object each
@@ -34,7 +39,32 @@ void Renderer::loadMesh(Mesh *mesh){
     glBindVertexArray(0);
 }
 
-void Renderer::forwardRender(Scene & scene) {
+
+void Renderer::renderToShadowMap(Scene &scene) {
+    shadowMapShader.use();
+    for (auto &object: scene.getObjects()) {
+        for (auto &component: object->getRenderComponents()) {
+            shadowMapShader.setMatrix4("model", component->getOwner()->getTransform().getMoveMatrix());
+
+            int lightNo = 0;
+            for (auto &light: scene.getLights()) {
+                shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                lightNo++;
+            }
+
+            if(scene.getMeshesWTBL().size() != 0){
+                for(auto & mesh : scene.getMeshesWTBL()){
+                    loadMesh(mesh);
+                }
+                scene.getMeshesWTBL().clear();
+            }
+            drawMesh(component->getMeshC()->getMesh().get());
+        }
+    }
+
+}
+
+void Renderer::renderScene(Scene & scene) {
     if (renderMode == RenderMode::POINT)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
@@ -43,10 +73,10 @@ void Renderer::forwardRender(Scene & scene) {
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
-    else if (renderMode == RenderMode::FILL)
-    {
+    else {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
+
     for(auto & object : scene.getObjects()){
         for(auto & component : object->getRenderComponents()){
             Shader shaderOnUse = Assets::getShader(component->getMaterial().getShaderId());
@@ -121,6 +151,7 @@ void Renderer::cleanRenderer() {
         glDeleteVertexArrays(1, &vao);
     }
 }
+
 
 
 
