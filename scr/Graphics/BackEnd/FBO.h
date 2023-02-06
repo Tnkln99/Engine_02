@@ -49,7 +49,7 @@ public:
         loadQuad();
     };
 
-    [[nodiscard]] virtual int getTextureWidth() const {
+    [[nodiscard]]virtual int getTextureWidth() const {
         return textureWidth;
     };
 
