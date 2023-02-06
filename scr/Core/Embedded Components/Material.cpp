@@ -23,8 +23,18 @@ const std::string &Material::getShaderId() const {
     return shaderId;
 }
 
+
+const std::string &Material::getTextureId() const {
+    return textureId;
+}
+
 void Material::setShaderId(const std::string &shaderId) {
     this->shaderId = shaderId;
+}
+
+
+void Material::setTextureId(const std::string &textureId) {
+    this->textureId = textureId;
 }
 
 void Material::setShininess(float shineness){
@@ -64,3 +74,5 @@ void Material::setSpecular(float x, float y, float z) {
 void Material::setSpecular(glm::vec3 specular) {
     this->specular = specular;
 }
+
+

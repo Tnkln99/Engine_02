@@ -8,12 +8,6 @@ LightC::LightC() : Component("light") {
     intensity = 30.0f;
     diffuseColor = color * glm::vec3(0.5f);
     ambientColor = color * glm::vec3(0.2f);
-
-    lightProj = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
-    lightView = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f),
-                            glm::vec3( 0.0f, 0.0f,  0.0f),
-                            glm::vec3( 0.0f, 1.0f,  0.0f));
-    lightSpaceMatrix = lightProj * lightView;
 }
 
 LightC::~LightC() {
@@ -22,19 +16,17 @@ LightC::~LightC() {
 
 void LightC::load(Object *owner) {
     Component::load(owner);
-    /*if(owner->getScene()->findMesh('t') != nullptr){
-        editModeMesh = owner->getScene()->findMesh('t');
-    }
-    else {
-        editModeMesh = new Mesh('t');
-    }
-    owner->getScene()->addMesh(editModeMesh);*/
     owner->getScene()->addLight(this);
+
+    Transformable transform = getOwner()->getTransform();
+
+    lightProj = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
+    lightView = glm::lookAt(transform.getPosition(),
+                            transform.getPosition() + transform.getDirection(),
+                            glm::vec3( 0.0f, 1.0f,  0.0f));
+    lightSpaceMatrix = lightProj * lightView;
 }
 
-void LightC::show(bool condition) {
-    showSource = condition;
-}
 
 void LightC::setColor(float r, float g, float b){
     color.r = r;
@@ -44,10 +36,6 @@ void LightC::setColor(float r, float g, float b){
 
 void LightC::setIntensity(float intensity){
     this->intensity = intensity;
-}
-
-bool LightC::doesShow() const {
-    return showSource;
 }
 
 float LightC::getIntensity() const{
@@ -66,14 +54,25 @@ const glm::vec3 &LightC::getSpecular() {
     return specular;
 }
 
-
 const glm::mat4 &LightC::getSpaceMatrix() {
     return lightSpaceMatrix;
+}
+
+
+void LightC::updatePositionMessageReceived() {
+    Component::updatePositionMessageReceived();
+    Transformable transform = getOwner()->getTransform();
+
+    lightView = glm::lookAt(transform.getPosition(),
+                            transform.getPosition() + transform.getDirection(),
+                            glm::vec3( 0.0f, 1.0f,  0.0f));
+    lightSpaceMatrix = lightProj * lightView;
 }
 
 Component *LightC::clone() {
     return new LightC(*this);
 }
+
 
 
 

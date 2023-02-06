@@ -17,10 +17,8 @@ private:
     glm::vec3 diffuseColor;
     const glm::vec3 specular = {1,1,1};
 
-    bool showSource = false;
-
     float nearPlane = 1.0f;
-    float farPlane = 7.5f;
+    float farPlane = 20.0f;
 
     glm::mat4 lightProj = glm::mat4(1);
     glm::mat4 lightView = glm::mat4(1);
@@ -31,17 +29,17 @@ public:
 
     void load(Object *owner) override;
 
-    void show(bool condition);
     void setColor(float r, float g, float b);
     void setIntensity(float intensity);
 
 
-    [[nodiscard]] bool doesShow() const;
     [[nodiscard]] float getIntensity() const;
     const glm::vec3 & getAmbientColor();
     const glm::vec3 & getDiffuseColor();
     const glm::vec3 & getSpecular();
     const glm::mat4 & getSpaceMatrix();
+
+    void updatePositionMessageReceived() override;
 
     Component * clone() override;
 };

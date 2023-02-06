@@ -50,7 +50,6 @@ public:
 	void setMatrix4Row(const GLchar *name, const Matrix4Row &matrix);
 
 private:
-
 	GLuint vs;
     GLuint fs;
     GLuint tcs;

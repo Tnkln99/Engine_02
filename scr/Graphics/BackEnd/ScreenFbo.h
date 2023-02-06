@@ -11,13 +11,9 @@ public:
 
     void load(int width, int height) override;
 
-    [[nodiscard]] int getTextureWidth() const override;
+    void bind(float r, float g, float b) override;
 
-    [[nodiscard]] int getTextureHeight() const override;
-
-    [[nodiscard]] unsigned int getTexture() const override;
-
-    void bind() override;
+    void renderToQuad(int width, int height) override;
 };
 
 

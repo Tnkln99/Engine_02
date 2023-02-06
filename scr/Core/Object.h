@@ -54,8 +54,8 @@ public:
   Scene * getScene();
   Transformable & getTransform();
 
-  virtual void update(float dt);
-  void updateComponents(float dt);
+  virtual void updatePositionMessageSent();
+  virtual void updatePerFrame(float dt);
 };
 
 #endif

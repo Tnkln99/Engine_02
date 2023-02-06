@@ -4,7 +4,7 @@ in VS_OUT
 {
     vec3 normal;
     vec3 fragPos;
-    vec4 fragPosLightPos;
+    vec4 fragPosLightSpace;
 } fs_in;
 
 struct Material {
@@ -21,12 +21,11 @@ struct Light {
     vec3 specular;
 };
 
+uniform vec3 viewPos;
 uniform Material material;
 
 #define max_light_count 5
 uniform Light light[max_light_count];
-
-uniform vec3 viewPos;
 
 uniform sampler2D shadowMap;
 
@@ -66,9 +65,10 @@ void main()
         vec3 reflectDir = reflect(lightDir, norm);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
         vec3 specular = light[i].specular * (spec * material.specular);
-        float shadow = ShadowCalculation(fs_in.fragPosLightPos);
-        //result += (ambient + (1.0 - shadow) * (diffuse + specular));
-        result += ambient + diffuse + specular;
+
+        float shadow = ShadowCalculation(fs_in.fragPosLightSpace);
+        result += ambient + (1.0 - shadow) * (diffuse + specular);
+        //result = vec3(shadow);
     }
 
     color = vec4(result, 1.0);

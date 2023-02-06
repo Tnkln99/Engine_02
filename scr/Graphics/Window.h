@@ -5,6 +5,7 @@
 #include <iostream>
 #include "UI/UiManager.h"
 #include "BackEnd/ScreenFbo.h"
+#include "BackEnd/ShadowMapFbo.h"
 #include "BackEnd/Renderer.h"
 
 
@@ -14,7 +15,8 @@ private:
     int windowHeight{};
     GLFWwindow* window{};
 
-    ScreenFbo screenFbo{};
+    ScreenFbo screenFbo;
+    ShadowMapFbo shadowMapFbo;
 
     UiManager ui;
     Renderer renderer;

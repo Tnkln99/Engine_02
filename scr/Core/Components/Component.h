@@ -26,6 +26,7 @@ public:
 
     //update function for all components
     virtual void update(float dt);
+    virtual void updatePositionMessageReceived();
 
     virtual Component* clone() = 0;
 };

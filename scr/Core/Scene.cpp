@@ -30,7 +30,6 @@ const std::vector<LightC *> &Scene::getLights() {
     return lights;
 }
 
-
 std::vector<Mesh*> & Scene::getMeshesWTBL() {
     return meshesWaitingToBeLoad;
 }
@@ -38,7 +37,7 @@ std::vector<Mesh*> & Scene::getMeshesWTBL() {
 void Scene::update(float dt) {
     camera->update();
     for (auto & object : objects){
-        object->updateComponents(dt);
+        object->updatePerFrame(dt);
     }
 }
 

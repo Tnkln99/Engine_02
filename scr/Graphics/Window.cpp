@@ -33,6 +33,8 @@ void Window::load() {
     gladLoadGL();
 
     screenFbo.load(1619,838);
+    shadowMapFbo.load(1619,838);
+    renderer.load();
 }
 
 void Window::loadUi() {
@@ -41,16 +43,21 @@ void Window::loadUi() {
 
 
 void Window::render(Scene &scene) {
-    // rendering the scene to the normal screenFbo
-    // todo bind should take parameters to change background color
-    screenFbo.bind();
-    renderer.forwardRender(scene);
+    // rendering scene to shadowMapFbo
+    shadowMapFbo.bind(0.07f, 0.13f, 0.17f);
+    renderer.renderToShadowMap(scene);
+    shadowMapFbo.unbind(windowWidth, windowHeight);
+
+    // rendering the scene to the screenFbo
+    screenFbo.bind(0.07f, 0.13f, 0.17f);
+    renderer.renderScene(scene, shadowMapFbo.getTexture());
     screenFbo.unbind(windowWidth, windowHeight);
 
     // imgui will render our texture automatic
     ui.render(scene);
 
     //screenFbo.renderToQuad(300,300);
+    shadowMapFbo.renderToQuad(300,300);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
