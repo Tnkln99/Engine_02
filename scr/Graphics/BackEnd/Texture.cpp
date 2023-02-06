@@ -1,10 +1,10 @@
 #include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <stb_image.h>
 
 #include "Texture.h"
-#include "Log.h"
+#include "../../Utils/Log.h"
 
 Texture2D::Texture2D()
 	: width(0), height(0), internalFormat(GL_RGB), imageFormat(GL_RGB),

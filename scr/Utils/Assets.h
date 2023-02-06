@@ -7,6 +7,8 @@
 #include "glad/glad.h"
 
 #include "../Core/Embedded Components/Material.h"
+#include "../Graphics/BackEnd/Shader.h"
+#include "../Graphics/BackEnd/Texture.h"
 
 
 // A static singleton Assets class that hosts several
@@ -18,8 +20,9 @@ class Assets {
 public:
     // Resource storage
     static std::map<std::string, Material> materials;
+
     static std::map<std::string, Shader> shaders;
-    //static std::map<std::string, Texture2D> textures;
+    static std::map<std::string, Texture2D> textures;
     //static std::map<std::string, TextureKtx> ktxTextures;
     //static std::map<std::string, ComputeShader> computeShaders;
 
@@ -31,13 +34,9 @@ public:
 
     // Retrieves a stored material
     static Material &getMaterial(const std::string &name);
+
     static Shader &getShader(const std::string &name);
-
-    // Loads (and generates) a texture from file
-    //static Texture2D loadTexture(const std::string &file, const std::string &name);
-
-    // Retrieves a stored texture
-    //static Texture2D &getTexture(const std::string &name);
+    static Texture2D &getTexture(const std::string &name);
 
     // Loads (and generates) a texture from file
     //static TextureKtx loadTextureKtx(const std::string &file, const std::string &name);
@@ -56,19 +55,14 @@ public:
                                        const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
                                        const std::string &gShaderFile = "");
 
+    static Texture2D loadTextureFromFile(const std::string &file);
+    //static ComputeShader loadComputeShaderFromFile(const std::string &cShaderFile);
+
 
     // Properly de-allocates all loaded resources
     static void clear();
 private:
-    // Private constructor, that is we do not want any actual resource manager objects.
-    // Its members and functions should be publicly available (static).
-    Assets() {}
-
-    static void loadShader();
-    // Loads a single texture from file
-    //static Texture2D loadTextureFromFile(const std::string &file);
-
-    //static ComputeShader loadComputeShaderFromFile(const std::string &cShaderFile);
+    Assets() {};
 };
 
 #endif

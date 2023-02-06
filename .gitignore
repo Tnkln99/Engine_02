@@ -1,7 +1,5 @@
 CMakeFiles
 Testing
 .idea
-lib
 cmake-build-debug
-.vs
-out
+

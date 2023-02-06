@@ -8,13 +8,15 @@
 std::map<std::string, Material> Assets::materials;
 
 std::map<std::string, Shader> Assets::shaders;
-//std::map<std::string, Texture2D> Assets::textures;
+std::map<std::string, Texture2D> Assets::textures;
 //std::map<std::string, TextureKtx> Assets::ktxTextures;
 //std::map<std::string, ComputeShader> Assets::computeShaders;
 
 Material Assets::loadBasicMaterial() {
     shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
+    textures["Default"] = loadTextureFromFile("../assets/textures/container.jpg");
     materials["Default"].setShaderId("Default");
+    materials["Default"].setTextureId("Default");
     return materials["Default"];
 }
 
@@ -26,19 +28,8 @@ Shader &Assets::getShader(const std::string &name) {
     return shaders[name];
 }
 
-void Assets::clear() {
-    // (Properly) delete all shaders
-    for (auto iter : shaders)
-        glDeleteProgram(iter.second.id);
-
-
-    /*for (auto iter : computeShaders)
-        glDeleteProgram(iter.second.id);
-    // (Properly) delete all textures
-    for (auto iter : textures)
-        glDeleteTextures(1, &iter.second.id);
-    for (auto iter : ktxTextures)
-        glDeleteTextures(1, &iter.second.id);*/
+Texture2D& Assets::getTexture(const std::string &name) {
+    return textures[name];
 }
 
 Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
@@ -112,23 +103,36 @@ Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::str
                    tcShaderFile != "" ? tcShaderCode : nullptr,
                    teShaderFile != "" ? teShaderCode : nullptr,
                    gShaderFile != "" ? gShaderCode : nullptr);
-    std::cout<<"shaders sucessfully loaded "<<std::endl;
+    std::cout << "shaders sucessfully loaded " << std::endl;
     return shader;
 }
 
+Texture2D Assets::loadTextureFromFile(const std::string &file) {
+    // Create Texture object
+    Texture2D texture;
+    texture.load(file);
 
+    // Now generate texture
+    texture.generate();
+    // And finally return texture
+    return texture;
+}
+
+
+void Assets::clear() {
+    // (Properly) delete all shaders
+    for (auto iter : shaders)
+        glDeleteProgram(iter.second.id);
+    for (auto iter : textures)
+        glDeleteTextures(1, &iter.second.id);
+
+    /*for (auto iter : computeShaders)
+        glDeleteProgram(iter.second.id);
+    for (auto iter : ktxTextures)
+        glDeleteTextures(1, &iter.second.id);*/
+}
 
 /*
-
-Texture2D Assets::loadTexture(const std::string &file, const std::string &name) {
-    textures[name] = loadTextureFromFile(file.c_str());
-    return textures[name];
-}
-
-Texture2D& Assets::getTexture(const std::string &name) {
-    return textures[name];
-}
-
 ComputeShader Assets::loadComputeShader(const std::string &cShaderFile, const std::string &name) {
     computeShaders[name] = loadComputeShaderFromFile(cShaderFile);
     return computeShaders[name];
@@ -183,15 +187,6 @@ ComputeShader Assets::loadComputeShaderFromFile(const std::string &cShaderFile) 
     return shader;
 }
 
-Texture2D Assets::loadTextureFromFile(const std::string &file) {
-    // Create Texture object
-    Texture2D texture;
-    texture.loadCube(file);
 
-    // Now generate texture
-    texture.generate();
-    // And finally return texture
-    return texture;
-}
 
  */

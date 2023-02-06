@@ -1,26 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#ifdef __linux__
-#include <SDL2/SDL.h>
-#elif _WIN32
-#include <SDL.h>
-#endif
-
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-
+#include <glad/glad.h>
 #include <memory>
-
-// Used by SDL_Surface unique pointer
-struct SdlSurfaceDestroyer
-{
-	void operator()(SDL_Surface *surface) const
-	{
-		SDL_FreeSurface(surface);
-	}
-};
 
 // Texture2D is able to store and configure a texture in OpenGL.
 // It also hosts utility functions for easy management.

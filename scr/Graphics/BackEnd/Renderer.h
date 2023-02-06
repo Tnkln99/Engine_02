@@ -1,7 +1,6 @@
 #ifndef ENGINE_02_RENDERER_H
 #define ENGINE_02_RENDERER_H
 
-#include <vector>
 #include <algorithm>
 #include <vector>
 #include "../../Core/Scene.h"

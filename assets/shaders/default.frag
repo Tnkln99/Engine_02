@@ -67,8 +67,8 @@ void main()
         vec3 specular = light[i].specular * (spec * material.specular);
 
         float shadow = ShadowCalculation(fs_in.fragPosLightPos);
-        //result += ambient + (1.0 - shadow) * (diffuse + specular);
-        result = vec3(shadow);
+        result += ambient + (1.0 - shadow) * (diffuse + specular);
+        //result = vec3(shadow);
     }
 
     color = vec4(result, 1.0);
