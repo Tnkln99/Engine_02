@@ -8,15 +8,13 @@
 std::map<std::string, Material> Assets::materials;
 
 std::map<std::string, Shader> Assets::shaders;
-std::map<std::string, Texture2D> Assets::textures;
+//std::map<std::string, Texture2D> Assets::textures;
 //std::map<std::string, TextureKtx> Assets::ktxTextures;
 //std::map<std::string, ComputeShader> Assets::computeShaders;
 
 Material Assets::loadBasicMaterial() {
     shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
-    textures["Default"] = loadTextureFromFile("../assets/textures/container.jpg");
     materials["Default"].setShaderId("Default");
-    materials["Default"].setTextureId("Default");
     return materials["Default"];
 }
 
@@ -28,10 +26,21 @@ Shader &Assets::getShader(const std::string &name) {
     return shaders[name];
 }
 
-Texture2D& Assets::getTexture(const std::string &name) {
+/*Texture2D& Assets::getTexture(const std::string &name) {
     return textures[name];
 }
 
+ Texture2D Assets::loadTextureFromFile(const std::string &file) {
+    // Create Texture object
+    Texture2D texture;
+    texture.load(file);
+
+    // Now generate texture
+    texture.generate();
+    // And finally return texture
+    return texture;
+}
+*/
 Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
                                     const std::string &tcShaderFile, const std::string &teShaderFile,
                                     const std::string &gShaderFile) {
@@ -107,86 +116,15 @@ Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::str
     return shader;
 }
 
-Texture2D Assets::loadTextureFromFile(const std::string &file) {
-    // Create Texture object
-    Texture2D texture;
-    texture.load(file);
-
-    // Now generate texture
-    texture.generate();
-    // And finally return texture
-    return texture;
-}
-
 
 void Assets::clear() {
     // (Properly) delete all shaders
     for (auto iter : shaders)
         glDeleteProgram(iter.second.id);
-    for (auto iter : textures)
+    /*for (auto iter : textures)
         glDeleteTextures(1, &iter.second.id);
-
-    /*for (auto iter : computeShaders)
+    for (auto iter : computeShaders)
         glDeleteProgram(iter.second.id);
     for (auto iter : ktxTextures)
         glDeleteTextures(1, &iter.second.id);*/
 }
-
-/*
-ComputeShader Assets::loadComputeShader(const std::string &cShaderFile, const std::string &name) {
-    computeShaders[name] = loadComputeShaderFromFile(cShaderFile);
-    return computeShaders[name];
-}
-
-ComputeShader& Assets::getComputeShader(const std::string &name) {
-    return computeShaders[name];
-}
-
-TextureKtx Assets::loadTextureKtx(const std::string &file, const std::string &name) {
-    auto texture = TextureKtx();
-    texture.loadCube(file.c_str(), texture.id);
-    ktxTextures[name] = texture;
-    return ktxTextures[name];
-}
-
-TextureKtx& Assets::getTextureKtx(const std::string &name) {
-    return ktxTextures[name];
-}
-
-
-
-ComputeShader Assets::loadComputeShaderFromFile(const std::string &cShaderFile) {
-    FILE * fp;
-    size_t filesize;
-    char * source;
-    try {
-        fp = fopen(cShaderFile.c_str(), "rb");
-
-        fseek(fp, 0, SEEK_END);
-        filesize = ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-
-        source = new char [filesize + 1];
-
-        fread(source, 1, filesize, fp);
-        source[filesize] = 0;
-        fclose(fp);
-    }
-    catch (std::exception e) {
-        std::ostringstream loadError;
-
-        loadError << "ERROR::SHADER: Failed to read compute shader files " << cShaderFile << "\n"
-                  << "\n -- --------------------------------------------------- -- "
-                  << std::endl;
-        LOG(Error) << loadError.str();
-    }
-
-    ComputeShader shader;
-    shader.compile(source);
-    delete [] source;
-    return shader;
-}
-
-
-
- */

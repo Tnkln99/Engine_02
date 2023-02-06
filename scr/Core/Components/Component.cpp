@@ -7,9 +7,7 @@ Component::Component(const std::string & name, int updateOrder){
     this->updateOrder = updateOrder;
 }
 
-Component::~Component() {
-    std::cout<<"deleting comp "<<name<<std::endl;
-}
+Component::~Component() = default;
 
 void Component::load(Object *owner) {
     this->owner = owner;
