@@ -4,7 +4,7 @@ in VS_OUT
 {
     vec3 normal;
     vec3 fragPos;
-    vec4 fragPosLightPos;
+    vec4 fragPosLightSpace;
 } fs_in;
 
 struct Material {
@@ -66,7 +66,7 @@ void main()
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
         vec3 specular = light[i].specular * (spec * material.specular);
 
-        float shadow = ShadowCalculation(fs_in.fragPosLightPos);
+        float shadow = ShadowCalculation(fs_in.fragPosLightSpace);
         result += ambient + (1.0 - shadow) * (diffuse + specular);
         //result = vec3(shadow);
     }

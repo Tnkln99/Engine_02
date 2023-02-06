@@ -97,14 +97,12 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
 
             int lightNo = 0;
             for(auto & light : scene.getLights()) {
-                //component->getMaterial().getShader().setInteger("light_count",
-                //                                                 scene.getLights().size());
-
                 std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
                 std::string stringLightAmbient = "light[" + std::to_string(lightNo) + "].ambient";
                 std::string stringLightNoDiffuse = "light[" + std::to_string(lightNo) + "].diffuse";
                 std::string stringLightNoSpecular = "light[" + std::to_string(lightNo) + "].specular";
 
+                shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
                 shaderOnUse.setVector3f(stringLightNoPos.c_str(),
                                                                  light->getOwner()->getTransform().getPosition());
                 shaderOnUse.setVector3f(stringLightAmbient.c_str(), light->getAmbientColor());
