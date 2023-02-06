@@ -127,6 +127,7 @@ void UiManager::components(Object* object) {
 
     if(posXAfter != posXBefore || posYAfter != posYBefore || posZAfter != posZBefore){
         object->getTransform().setPosition(posXAfter,posYAfter,posZAfter);
+        object->updatePositionMessageSent();
     }
 
     ImGui::Spacing();

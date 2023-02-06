@@ -2,7 +2,7 @@
 #include "../../Core/EngineCamera.h"
 
 
-void Renderer::loadShaders() {
+void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
 }
 
@@ -64,7 +64,7 @@ void Renderer::renderToShadowMap(Scene &scene) {
 
 }
 
-void Renderer::renderScene(Scene & scene) {
+void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
     if (renderMode == RenderMode::POINT)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
@@ -81,7 +81,9 @@ void Renderer::renderScene(Scene & scene) {
         for(auto & component : object->getRenderComponents()){
             Shader shaderOnUse = Assets::getShader(component->getMaterial().getShaderId());
             shaderOnUse.use();
-            shaderOnUse.setInteger("shadowMap",1);
+            shaderOnUse.setInteger("shadowMap",0);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, depthMap);
             shaderOnUse.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
             shaderOnUse.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
             shaderOnUse.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());

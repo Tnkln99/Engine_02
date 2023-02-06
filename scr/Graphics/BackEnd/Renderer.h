@@ -18,13 +18,14 @@ private:
     RenderMode renderMode = RenderMode::FILL;
 
     Shader shadowMapShader;
+    unsigned int shadowMapTexture;
 public:
-    void loadShaders();
+    void load();
 
     void loadMesh(Mesh * mesh);
 
     void renderToShadowMap(Scene & scene);
-    void renderScene(Scene & scene);
+    void renderScene(Scene & scene, unsigned int depthMap);
 
     void drawMesh(Mesh * mesh);
 

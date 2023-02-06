@@ -49,15 +49,16 @@ Scene * Object::getScene() {
     return owner;
 }
 
-void Object::updateComponents(float dt){
-    //std::vector<Component*>::iterator it;
+void Object::updatePerFrame(float dt){
     for (auto & component : components){
         component->update(dt);
     }
 }
 
-void Object::update(float dt) {
-
+void Object::updatePositionMessageSent() {
+    for (auto & component : components){
+        component->updatePositionMessageReceived();
+    }
 }
 
 

@@ -17,7 +17,7 @@ void Window::load() {
     windowWidth = mode->width;
     windowHeight = mode->height;
 
-    window = glfwCreateWindow(windowWidth, windowHeight, "Engine_02", NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, "Engine_02", glfwGetPrimaryMonitor(), NULL);
 
     // Error check if the window fails to create
     if (window == NULL)
@@ -32,9 +32,9 @@ void Window::load() {
     //Load GLAD so it configures OpenGL
     gladLoadGL();
 
-    renderer.loadShaders();
     screenFbo.load(1619,838);
     shadowMapFbo.load(1619,838);
+    renderer.load();
 }
 
 void Window::loadUi() {
@@ -50,7 +50,7 @@ void Window::render(Scene &scene) {
 
     // rendering the scene to the screenFbo
     screenFbo.bind(0.07f, 0.13f, 0.17f);
-    renderer.renderScene(scene);
+    renderer.renderScene(scene, shadowMapFbo.getTexture());
     screenFbo.unbind(windowWidth, windowHeight);
 
     // imgui will render our texture automatic
