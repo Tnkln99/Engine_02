@@ -6,7 +6,7 @@
 
 class Material { 
 private:
-    float shininess {32.0f};
+    float shininess {20.0f};
 
     glm::vec3 ambient{1.0f, 0.5f, 0.31f};
     glm::vec3 diffuse{1.0f, 0.5f, 0.31f};

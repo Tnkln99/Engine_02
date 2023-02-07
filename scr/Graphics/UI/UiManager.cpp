@@ -205,8 +205,6 @@ void UiManager::meshCOptions(MeshC * meshC) {
     static const char* current_mesh = "tore";
     const char * meshes[] = {
             "tore",
-            "cube",
-            "sphere",
             "icosahedron"
     };
     if (ImGui::BeginCombo("##combo", current_mesh))

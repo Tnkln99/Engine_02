@@ -30,12 +30,6 @@ void Mesh::loadPreMade(char c) {
     if(c == 'c'){
         generateCube();
     }
-    else if(c == 's'){
-        generateSphere(20,20);
-    }
-    else if (c == 't'){
-        generateTore(20,20);
-    }
     else if(c == 'i'){
         generateIcosahedron();
     }
@@ -43,40 +37,6 @@ void Mesh::loadPreMade(char c) {
         std::cout<<"error loading the mesh.. "<<std::endl;
         exit(1);
     }
-}
-
-void Mesh::generateSphere(int nX, int nY) {
-    float deltaTeta = 2*M_PI / (float)nX;
-    float deltaPhi = M_PI / (float)nY;
-
-    std::vector<glm::vec3> positions;
-
-    for(int i=0; i < nX; i++){
-        for(int j=0; j < nY; j++) {
-            float teta = deltaTeta * i;
-            float phi = deltaPhi * j - M_PI / 2;
-
-            glm::vec3 positionDot {std::cos(teta) * std::cos(phi), std::sin(teta) * std::cos(phi), std::sin(phi)};
-
-            positions.push_back(positionDot);
-        }
-    }
-
-    for(int i=0; i < nX ; i++){
-        for(int j=0; j < nY-1; j++){
-            if(i == nX -1){
-                connectDots(i*nY+j, i*nY+j+1, j);
-                connectDots(j+1, j, i*nY+j+1);
-            }else{
-                connectDots(i*nY+j, i*nY+j+1, (i+1)*nY+j);
-                connectDots((i+1)*nY+j+1, (i+1)*nY+j, i*nY+j+1);
-            }
-        }
-    }
-
-    std::vector<glm::vec3> normals = computeVertexNormals(positions);
-
-    fillVertices(positions, normals);
 }
 
 void Mesh::generateCube() {
@@ -120,61 +80,6 @@ void Mesh::generateCube() {
 
     fillVertices(positions, normals);
 }
-
-
-void Mesh::generateTore(int nX, int nY) {
-    float R = 1.5;
-    float r = 0.5;
-    float angleChqEtp = 2*M_PI / (float)nX;
-
-    std::vector<glm::vec3> positions;
-
-    for(int i=0; i < nX; i++){ //u
-        for(int j=0; j < nY; j++){ // v
-            float Q = angleChqEtp * i;
-            float P = angleChqEtp * j;
-
-            glm::vec3 positionDot {(R + r*std::cos(Q))*std::cos(P), (R + r*std::cos(Q))*std::sin(P), r*std::sin(Q) };
-            positions.push_back(positionDot);
-        }
-    }
-
-    for(int i = 0; i < nX; i++){
-        for(int j = 0; j < nY; j++){
-            if (j == nY-1 && i == nY-1){
-                connectDots(i*nY+j, i*nY, j);
-                connectDots(i*nY, j+1, i);
-
-                //std::cout<<"if T1 C1 :"<< i*nY << "T1 C2: "<< 48 << "T1 C3: "<< i <<" i: "<<i<<" j: "<<j<<std::endl;
-            }
-            else if (j == nY-1){
-                connectDots(i*nY+j, i*nY, (i+1)*nY+j);
-                connectDots((i+1)*nY, (i+1)*nY+j, i*nY);
-
-                //std::cout<<"else if1 T1 C1 :"<< i*nY+j << "T1 C2: "<< i*nY+1 << "T1 C3: "<<(i+1)*nY+j<<" i: "<<i<<" j: "<<j<<std::endl;
-            }
-            else if(i == nY-1){
-                connectDots(i*nY+j, i*nY+j+1, j);
-                connectDots(j+1, j, i*nY+j+1);
-
-
-                //std::cout<<"else if T1 C1 :"<< i*nY+j << "T1 C2: "<< i*nY+j+1 << "T1 C3: "<< j<<" i: "<<i<<" j: "<<j<<std::endl;
-                //std::cout<<"if T2 C1 :"<< j + 1<< "T2 C2: "<< j << "T2 C3: "<<i*nY+j+1<<"i: "<<i<<"j: "<<j<<std::endl;
-            }else{
-                connectDots(i*nY+j, i*nY+j+1, (i+1)*nY+j);
-                connectDots((i+1)*nY+j+1, (i+1)*nY+j, i*nY+j+1);
-
-                //std::cout<<"T1 C1 :"<< i*nY+j << "T1 C2: "<< i*nY+j+1 << "T1 C3: "<<(i+1)*nY+j<<" i: "<<i<<" j: "<<j<<std::endl;
-                //std::cout<<"T2 C1 :"<< (i+1)*nY+j+1 << "T2 C2: "<< (i+1)*nY+j << "T2 C3: "<<i*nY+j+1<<"i: "<<i<<"j: "<<j<<std::endl;
-            }
-        }
-    }
-
-    std::vector<glm::vec3> normals = computeVertexNormals(positions);
-
-    fillVertices(positions, normals);
-}
-
 
 void Mesh::generateIcosahedron() {
     std::vector<glm::vec3> positions;

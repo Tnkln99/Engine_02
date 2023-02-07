@@ -28,7 +28,7 @@ void Window::load() {
     }
 
     // Introduce the window into the current context
-    glfwMakeContextCurrent(window);// ola
+    glfwMakeContextCurrent(window);
 
     //Load GLAD so it configures OpenGL
     gladLoadGL();
@@ -60,7 +60,7 @@ void Window::render(Scene &scene) {
     ui.render(scene);
 
     //screenFbo.renderToQuad(300,300);
-    shadowMapFbo.renderToQuad(300,300);
+    //shadowMapFbo.renderToQuad(300,300);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

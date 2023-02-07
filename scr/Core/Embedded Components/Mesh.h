@@ -32,8 +32,6 @@ public:
     std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
     void fillVertices(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& normals);
 
-    void generateSphere(int nX, int nY);
-    void generateTore(int nX, int nY);
     void generateCube();
     void generateIcosahedron();
 
