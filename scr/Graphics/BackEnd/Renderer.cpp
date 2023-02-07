@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "../../Core/EngineCamera.h"
+#include "Assets.h"
 
 
 void Renderer::load() {

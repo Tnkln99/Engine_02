@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "BackEnd/Assets.h"
 
 void Window::load() {
     // Initialize GLFW
@@ -35,6 +36,8 @@ void Window::load() {
     screenFbo.load(1619,838);
     shadowMapFbo.load(1619,838);
     renderer.load();
+
+    Assets::loadBasicMaterial();
 }
 
 void Window::loadUi() {

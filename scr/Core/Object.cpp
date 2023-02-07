@@ -1,5 +1,4 @@
 #include "Object.h"
-#include "Components/RenderComponent.h"
 #include "Scene.h"
 
 
@@ -24,11 +23,11 @@ void Object::addComponent(Component * sub){
     components.emplace_back(sub);
 }
 
-void Object::addRenderComponents(RenderComponent *sub) {
+void Object::addRenderComponents(MeshRendererC *sub) {
     renderComponents.emplace_back(sub);
 }
 
-std::vector<RenderComponent*> & Object::getRenderComponents() {
+std::vector<MeshRendererC*> & Object::getRenderComponents() {
     return renderComponents;
 }
 

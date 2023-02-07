@@ -1,5 +1,5 @@
 #include "ShadowMapFbo.h"
-#include "../../Utils/Assets.h"
+#include "Assets.h"
 
 void ShadowMapFbo::load(int width, int height) {
     FBO::load(width, height);
