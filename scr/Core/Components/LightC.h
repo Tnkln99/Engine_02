@@ -11,7 +11,7 @@ class Shader;
 class LightC : public Component{
 private:
     float intensity;
-    glm::vec3 color;
+    glm::vec3 color = {1,1,1};
 
     glm::vec3 ambientColor;
     glm::vec3 diffuseColor;
@@ -34,6 +34,7 @@ public:
 
 
     [[nodiscard]] float getIntensity() const;
+    const glm::vec3 & getColor();
     const glm::vec3 & getAmbientColor();
     const glm::vec3 & getDiffuseColor();
     const glm::vec3 & getSpecular();

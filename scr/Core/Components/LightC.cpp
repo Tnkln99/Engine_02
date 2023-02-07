@@ -42,6 +42,11 @@ float LightC::getIntensity() const{
     return intensity;
 }
 
+
+const glm::vec3 &LightC::getColor() {
+    return color;
+}
+
 const glm::vec3 &LightC::getAmbientColor() {
     return ambientColor;
 }
@@ -72,6 +77,7 @@ void LightC::updatePositionMessageReceived() {
 Component *LightC::clone() {
     return new LightC(*this);
 }
+
 
 
 

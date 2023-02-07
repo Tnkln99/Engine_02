@@ -13,7 +13,7 @@ private:
     glm::vec3 specular{0.5f, 0.5f, 0.5f};
 
     std::string shaderId;
-    std::string textureId;
+    std::string textureId = " ";
 public:
     Material();
 
