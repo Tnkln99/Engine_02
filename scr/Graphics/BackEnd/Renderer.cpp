@@ -93,22 +93,18 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
 
             shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
             shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
-            shaderOnUse.setVector3f("material.specular", component->getMaterial().getDiffuse());
+            shaderOnUse.setVector3f("material.specular", component->getMaterial().getSpecular());
             shaderOnUse.setFloat("material.shininess", component->getMaterial().getShininess());
 
             int lightNo = 0;
             for(auto & light : scene.getLights()) {
                 std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
-                std::string stringLightAmbient = "light[" + std::to_string(lightNo) + "].ambient";
-                std::string stringLightNoDiffuse = "light[" + std::to_string(lightNo) + "].diffuse";
-                std::string stringLightNoSpecular = "light[" + std::to_string(lightNo) + "].specular";
+                std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
 
                 shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
                 shaderOnUse.setVector3f(stringLightNoPos.c_str(),
                                                                  light->getOwner()->getTransform().getPosition());
-                shaderOnUse.setVector3f(stringLightAmbient.c_str(), light->getAmbientColor());
-                shaderOnUse.setVector3f(stringLightNoDiffuse.c_str(), light->getDiffuseColor());
-                shaderOnUse.setVector3f(stringLightNoSpecular.c_str(), light->getSpecular());
+                shaderOnUse.setVector3f(stringLightColor.c_str(), light->getColor());
                 lightNo++;
             }
 
