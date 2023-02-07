@@ -1,5 +1,5 @@
 #include "ScreenFbo.h"
-#include "../../Utils/Assets.h"
+#include "Assets.h"
 
 
 void ScreenFbo::load(int width, int height) {

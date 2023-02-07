@@ -1,9 +1,9 @@
 #include "MeshRendererC.h"
 #include "../Object.h"
 #include "MeshC.h"
-#include "../../Utils/Assets.h"
+#include "../../Graphics/BackEnd/Assets.h"
 
-MeshRendererC::MeshRendererC() : RenderComponent("mesh renderer")
+MeshRendererC::MeshRendererC() : Component("mesh renderer")
 {
     material = Assets::getMaterial("Default");
     mesh = nullptr;

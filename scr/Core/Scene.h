@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "../Utils/Assets.h"
 #include "Object.h"
 #include "Components/MeshC.h"
 #include "Components/LightC.h"

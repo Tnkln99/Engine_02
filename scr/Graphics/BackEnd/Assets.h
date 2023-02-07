@@ -6,8 +6,8 @@
 
 #include "glad/glad.h"
 
-#include "../Core/Embedded Components/Material.h"
-#include "../Graphics/BackEnd/Shader.h"
+#include "../../Core/Embedded Components/Material.h"
+#include "Shader.h"
 
 
 class Assets {

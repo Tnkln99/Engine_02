@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include "../../Core/Scene.h"
+#include "Shader.h"
 
 class Renderer{
 private:
