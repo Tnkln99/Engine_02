@@ -11,6 +11,8 @@ class MeshRendererC : public Component{
 private:
     Material material;
     MeshC* mesh;
+
+    int renderOrder = 0;
 public:
     explicit MeshRendererC();
     ~MeshRendererC() override;
@@ -23,6 +25,7 @@ public:
 
     Material & getMaterial();
     MeshC * getMeshC();
+    [[nodiscard]] int genRenderOrder() const;
 
     void load(Object * owner) override;
     Component * clone() override;

@@ -39,9 +39,15 @@ MeshC *MeshRendererC::getMeshC() {
     return mesh;
 }
 
+
+int MeshRendererC::genRenderOrder() const {
+    return renderOrder;
+}
+
 Component *MeshRendererC::clone() {
     return new MeshRendererC(*this);
 }
+
 
 
 
