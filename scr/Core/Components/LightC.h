@@ -10,13 +10,9 @@ class Shader;
 // todo: complete this class..
 class LightC : public Component{
 private:
-    float intensity;
-    glm::vec3 color;
+    float intensity{30.0f};
 
-    glm::vec3 ambientColor;
-    glm::vec3 diffuseColor;
-    const glm::vec3 specular = {1,1,1};
-
+    glm::vec3 color = {1,1,1};
     float nearPlane = 1.0f;
     float farPlane = 20.0f;
 
@@ -34,9 +30,7 @@ public:
 
 
     [[nodiscard]] float getIntensity() const;
-    const glm::vec3 & getAmbientColor();
-    const glm::vec3 & getDiffuseColor();
-    const glm::vec3 & getSpecular();
+    const glm::vec3 & getColor();
     const glm::mat4 & getSpaceMatrix();
 
     void updatePositionMessageReceived() override;

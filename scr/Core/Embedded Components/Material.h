@@ -6,14 +6,15 @@
 
 class Material { 
 private:
-    float shininess {32.0f};
+    // todo: increasing this decrease shine of the object (toFix)
+    float shininess {40.0f};
 
     glm::vec3 ambient{1.0f, 0.5f, 0.31f};
     glm::vec3 diffuse{1.0f, 0.5f, 0.31f};
     glm::vec3 specular{0.5f, 0.5f, 0.5f};
 
     std::string shaderId;
-    std::string textureId;
+    std::string textureId = " ";
 public:
     Material();
 

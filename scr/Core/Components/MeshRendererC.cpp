@@ -40,7 +40,7 @@ MeshC *MeshRendererC::getMeshC() {
 }
 
 
-int MeshRendererC::genRenderOrder() const {
+int MeshRendererC::getRenderOrder() const {
     return renderOrder;
 }
 

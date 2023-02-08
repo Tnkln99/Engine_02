@@ -4,15 +4,10 @@
 #include "../Scene.h"
 
 LightC::LightC() : Component("light") {
-    setColor(1,1,1);
-    intensity = 30.0f;
-    diffuseColor = color * glm::vec3(0.5f);
-    ambientColor = color * glm::vec3(0.2f);
-}
-
-LightC::~LightC() {
 
 }
+
+LightC::~LightC() = default;
 
 void LightC::load(Object *owner) {
     Component::load(owner);
@@ -22,7 +17,7 @@ void LightC::load(Object *owner) {
 
     lightProj = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
     lightView = glm::lookAt(transform.getPosition(),
-                            transform.getPosition() + transform.getDirection(),
+                            glm::vec3(0,0,0),
                             glm::vec3( 0.0f, 1.0f,  0.0f));
     lightSpaceMatrix = lightProj * lightView;
 }
@@ -42,16 +37,9 @@ float LightC::getIntensity() const{
     return intensity;
 }
 
-const glm::vec3 &LightC::getAmbientColor() {
-    return ambientColor;
-}
 
-const glm::vec3 &LightC::getDiffuseColor() {
-    return diffuseColor;
-}
-
-const glm::vec3 &LightC::getSpecular() {
-    return specular;
+const glm::vec3 &LightC::getColor() {
+    return color;
 }
 
 const glm::mat4 &LightC::getSpaceMatrix() {
@@ -64,7 +52,7 @@ void LightC::updatePositionMessageReceived() {
     Transformable transform = getOwner()->getTransform();
 
     lightView = glm::lookAt(transform.getPosition(),
-                            transform.getPosition() + transform.getDirection(),
+                            glm::vec3(0,0,0),
                             glm::vec3( 0.0f, 1.0f,  0.0f));
     lightSpaceMatrix = lightProj * lightView;
 }
@@ -72,6 +60,7 @@ void LightC::updatePositionMessageReceived() {
 Component *LightC::clone() {
     return new LightC(*this);
 }
+
 
 
 

@@ -18,6 +18,7 @@ private:
     RenderMode renderMode = RenderMode::FILL;
 
     Shader shadowMapShader;
+    Shader debugNormals;
     unsigned int shadowMapTexture;
 public:
     void load();

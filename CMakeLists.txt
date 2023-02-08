@@ -16,9 +16,9 @@ if(GIT_FOUND)
 
     message(STATUS "Retrieving git submodules...")
 
-    set(SUBMODULES lib/stb;lib/glad;lib/glfw;lib/glm;lib/imgui;)
-    set(REPOSITORIES https://github.com/nothings/stb.git;https://github.com/Dav1dde/glad.git;https://github.com/glfw/glfw.git;https://github.com/g-truc/glm.git;https://github.com/ocornut/imgui.git;)
-    set(RELEASES master;master;3.2.1;0.9.9.8;docking;)
+    set(SUBMODULES lib/stb;lib/glad;lib/glfw;lib/glm;lib/imgui;lib/tinyobjloader)
+    set(REPOSITORIES https://github.com/nothings/stb.git;https://github.com/Dav1dde/glad.git;https://github.com/glfw/glfw.git;https://github.com/g-truc/glm.git;https://github.com/ocornut/imgui.git;https://github.com/tinyobjloader/tinyobjloader.git)
+    set(RELEASES master;master;3.2.1;0.9.9.8;docking;release)
 
     foreach(UPD_SUB IN LISTS SUBMODULES)
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive --remote -- ${UPD_SUB} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} RESULT_VARIABLE GIT_SUBMOD_RESULT)
@@ -87,6 +87,8 @@ add_subdirectory(lib/glfw)
 include_directories(lib/glfw/include)
 include_directories(lib/glm/glm)
 include_directories(lib/stb)
+include_directories(lib/tinyobjloader)
+
 if(NOT (LIB_GLEW OR LIB_GLAD))
     message(FATAL_ERROR "Imgui requires GLEW or GLAD.")
 endif()

@@ -25,7 +25,7 @@ public:
 
     Material & getMaterial();
     MeshC * getMeshC();
-    [[nodiscard]] int genRenderOrder() const;
+    [[nodiscard]] int getRenderOrder() const;
 
     void load(Object * owner) override;
     Component * clone() override;

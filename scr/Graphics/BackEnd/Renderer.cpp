@@ -5,6 +5,7 @@
 
 void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
+    debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
 }
 
 void Renderer::loadMesh(Mesh *mesh){
@@ -93,22 +94,18 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
 
             shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
             shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
-            shaderOnUse.setVector3f("material.specular", component->getMaterial().getDiffuse());
+            shaderOnUse.setVector3f("material.specular", component->getMaterial().getSpecular());
             shaderOnUse.setFloat("material.shininess", component->getMaterial().getShininess());
 
             int lightNo = 0;
             for(auto & light : scene.getLights()) {
                 std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
-                std::string stringLightAmbient = "light[" + std::to_string(lightNo) + "].ambient";
-                std::string stringLightNoDiffuse = "light[" + std::to_string(lightNo) + "].diffuse";
-                std::string stringLightNoSpecular = "light[" + std::to_string(lightNo) + "].specular";
+                std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
 
                 shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
                 shaderOnUse.setVector3f(stringLightNoPos.c_str(),
                                                                  light->getOwner()->getTransform().getPosition());
-                shaderOnUse.setVector3f(stringLightAmbient.c_str(), light->getAmbientColor());
-                shaderOnUse.setVector3f(stringLightNoDiffuse.c_str(), light->getDiffuseColor());
-                shaderOnUse.setVector3f(stringLightNoSpecular.c_str(), light->getSpecular());
+                shaderOnUse.setVector3f(stringLightColor.c_str(), light->getColor());
                 lightNo++;
             }
 
@@ -118,6 +115,13 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 }
                 scene.getMeshesWTBL().clear();
             }
+            drawMesh(component->getMeshC()->getMesh().get());
+
+            // ---------------------------------------------------- DEBUG ----------------------------------------------------------
+            debugNormals.use();
+            debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+            debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+            debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
             drawMesh(component->getMeshC()->getMesh().get());
         }
     }

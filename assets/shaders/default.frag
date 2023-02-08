@@ -16,9 +16,7 @@ struct Material {
 
 struct Light {
     vec3 position;
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+    vec3 color;
 };
 
 uniform vec3 viewPos;
@@ -54,23 +52,23 @@ void main()
     vec3 result = vec3(0);
     for(int i = 0; i < max_light_count; i ++){
         // ambient
-        vec3 ambient  = light[i].ambient * material.ambient;
+        vec3 ambient  = light[i].color * material.ambient;
 
         // diffuse
         vec3 norm = normalize(fs_in.normal.xyz);
-        vec3 lightDir = normalize(light[i].position - fs_in.fragPos);
+        vec3 lightDir = normalize(fs_in.fragPos - light[i].position);
         float diff = max(dot(norm, -lightDir), 0.0);
-        vec3 diffuse  = light[i].diffuse * (diff * material.diffuse);
+        vec3 diffuse  = light[i].color * (diff * material.diffuse);
 
         // specular
-        vec3 viewDir = normalize(fs_in.fragPos - viewPos);
+        vec3 viewDir = normalize(viewPos - fs_in.fragPos);
         vec3 reflectDir = reflect(lightDir, norm);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-        vec3 specular = light[i].specular * (spec * material.specular);
+        vec3 specular = light[i].color * (spec * material.specular);
 
         float shadow = ShadowCalculation(fs_in.fragPosLightSpace, lightDir, norm);
-        result += ambient + (1.0 - shadow) * (diffuse + specular);
-        //result = vec3(shadow);
+        //result += ambient + (1.0 - shadow) * (diffuse + specular);
+        result = fs_in.normal * 0.5 + 0.5;;
     }
 
     color = vec4(result, 1.0);

@@ -202,12 +202,10 @@ void UiManager::assets() {
 }
 
 void UiManager::meshCOptions(MeshC * meshC) {
-    static const char* current_mesh = "tore";
+    static const char* current_mesh = "cube";
     const char * meshes[] = {
-            "tore",
             "cube",
-            "sphere",
-            "icosahedron"
+            "monkey"
     };
     if (ImGui::BeginCombo("##combo", current_mesh))
     {

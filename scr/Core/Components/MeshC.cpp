@@ -12,11 +12,11 @@ MeshC::~MeshC() {
 
 void MeshC::load(Object *owner) {
     Component::load(owner);
-    if(owner->getScene()->findMesh('t') != nullptr){
-        mesh = owner->getScene()->findMesh('t');
+    if(owner->getScene()->findMesh('c') != nullptr){
+        mesh = owner->getScene()->findMesh('c');
     }
     else {
-        mesh = std::make_shared<Mesh>('t');
+        mesh = std::make_shared<Mesh>('c');
         owner->getScene()->addMesh(mesh);
     }
 }
