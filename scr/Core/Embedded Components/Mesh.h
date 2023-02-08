@@ -30,12 +30,9 @@ public:
     void loadPreMade(char c);
 
     std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
+    void loadCustomMesh(const std::string & objFile, const std::string & materialDir);
+
     void fillVertices(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& normals);
-
-    void generateCube();
-    void generateIcosahedron();
-
-    void connectDots(int a, int b, int c);
 };
 
 #endif

@@ -1,4 +1,6 @@
 #include "Mesh.h"
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
 
 
 Mesh::Mesh(char c){
@@ -6,9 +8,7 @@ Mesh::Mesh(char c){
     loadPreMade(c);
 }
 
-Mesh::~Mesh() {
-    std::cout<<"Mesh "<< typeOfMesh <<" is deleting"<<std::endl;
-}
+Mesh::~Mesh() = default;
 
 unsigned int & Mesh::getId() {
     return id;
@@ -27,11 +27,12 @@ const std::vector<Vertex> &Mesh::getVertices() {
 }
 
 void Mesh::loadPreMade(char c) {
-    if(c == 'c'){
-        generateCube();
+    if(c == 'c')
+    {
+        loadCustomMesh("../assets/models/cube.obj", "../assets/models");
     }
-    else if(c == 'i'){
-        generateIcosahedron();
+    else if(c == 'm'){
+        loadCustomMesh("../assets/models/monkey.obj", "../assets/models");
     }
     else{
         std::cout<<"error loading the mesh.. "<<std::endl;
@@ -39,99 +40,94 @@ void Mesh::loadPreMade(char c) {
     }
 }
 
-void Mesh::generateCube() {
+void Mesh::loadCustomMesh(const std::string &objFile, const std::string &materialDir) {
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+
+    std::string warn;
+    std::string err;
+
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, objFile.c_str(), materialDir.c_str());
+
+    if (!warn.empty()) {
+        std::cout << warn << std::endl;
+    }
+
+    if (!err.empty()) {
+        std::cerr << err << std::endl;
+    }
+
+    if (!ret) {
+        exit(1);
+    }
+
     std::vector<glm::vec3> positions;
-    positions.push_back(glm::vec3 {-1, -1,  1});//0
-    positions.push_back(glm::vec3 {1, -1,  1});//1
-    positions.push_back(glm::vec3 {-1,  1,  1});//2
-    positions.push_back(glm::vec3 {1,  1,  1});//3
-    positions.push_back(glm::vec3 {-1, -1, -1});//4
-    positions.push_back(glm::vec3 {1, -1, -1});//5
-    positions.push_back(glm::vec3 {-1,  1, -1});//6
-    positions.push_back(glm::vec3 {1,  1, -1});//7
+    std::vector<glm::vec3> normals;
 
-    indices = {
-            //Top
-            2, 7, 6,
-            2, 3, 7,
+    // Loop over shapes
+    for (size_t s = 0; s < shapes.size(); s++) {
+        // Loop over faces(polygon)
+        size_t index_offset = 0;
+        for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) {
+            size_t fv = size_t(shapes[s].mesh.num_face_vertices[f]);
 
-            //Bottom
-            0, 4, 5,
-            5, 1, 0,
+            // Loop over vertices in the face.
+            for (size_t v = 0; v < fv; v++) {
+                // access to vertex
+                tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
 
-            //Left
-            0, 2, 6,
-            6, 4, 0,
 
-            //Right
-            1, 7, 3,
-            5, 7, 1,
+                tinyobj::real_t vx = attrib.vertices[3*size_t(idx.vertex_index)+0];
+                tinyobj::real_t vy = attrib.vertices[3*size_t(idx.vertex_index)+1];
+                tinyobj::real_t vz = attrib.vertices[3*size_t(idx.vertex_index)+2];
 
-            //Front
-            0, 1, 3,
-            0, 3, 2,
+                // Check if `normal_index` is zero or positive. negative = no normal data
+                if (idx.normal_index >= 0) {
+                    tinyobj::real_t nx = attrib.normals[3*size_t(idx.normal_index)+0];
+                    tinyobj::real_t ny = attrib.normals[3*size_t(idx.normal_index)+1];
+                    tinyobj::real_t nz = attrib.normals[3*size_t(idx.normal_index)+2];
+                }
 
-            //Back
-            4, 6, 7,
-            7, 5, 4
-    };
+                // Check if `texcoord_index` is zero or positive. negative = no texcoord data
+                if (idx.texcoord_index >= 0) {
+                    tinyobj::real_t tx = attrib.texcoords[2*size_t(idx.texcoord_index)+0];
+                    tinyobj::real_t ty = attrib.texcoords[2*size_t(idx.texcoord_index)+1];
+                }
+                // Optional: vertex colors
+                // tinyobj::real_t red   = attrib.colors[3*size_t(idx.vertex_index)+0];
+                // tinyobj::real_t green = attrib.colors[3*size_t(idx.vertex_index)+1];
+                // tinyobj::real_t blue  = attrib.colors[3*size_t(idx.vertex_index)+2];
+            }
+            index_offset += fv;
 
-    std::vector<glm::vec3> normals = computeVertexNormals(positions);
+            // per-face material
+            shapes[s].mesh.material_ids[f];
+        }
+    }
+
+    for(int i = 0; i < shapes[0].mesh.indices.size();i ++){
+        indices.push_back(shapes[0].mesh.indices[i].vertex_index);
+    }
+
+    for(int i = 0; i < attrib.vertices.size(); i+=3){
+        float x = attrib.vertices[i];
+        float y = attrib.vertices[i+1];
+        float z = attrib.vertices[i+2];
+        positions.push_back(glm::vec3(x,y,z));
+    }
+
+    //normals = computeVertexNormals(positions);
+
+    for(int i = 0; i < attrib.vertices.size(); i+=3){
+        float x = attrib.normals[i];
+        float y = attrib.normals[i+1];
+        float z = attrib.normals[i+2];
+        normals.push_back(glm::vec3(x,y,z));
+    }
 
     fillVertices(positions, normals);
 }
-
-void Mesh::generateIcosahedron() {
-    std::vector<glm::vec3> positions;
-    positions = {
-            glm::vec3(0.000f,  0.000f,  1.000f),
-            glm::vec3(0.894f,  0.000f,  0.447f),
-            glm::vec3(0.276f,  0.851f,  0.447f),
-            glm::vec3(-0.724f,  0.526f,  0.447f),
-            glm::vec3(-0.724f, -0.526f,  0.447f),
-            glm::vec3(0.276f, -0.851f,  0.447f),
-            glm::vec3(0.724f,  0.526f, -0.447f),
-            glm::vec3(-0.276f,  0.851f, -0.447f),
-            glm::vec3(-0.894f,  0.000f, -0.447f),
-            glm::vec3(-0.276f, -0.851f, -0.447f),
-            glm::vec3(0.724f, -0.526f, -0.447f),
-            glm::vec3(0.000f,  0.000f, -1.000f) };
-
-    indices = {
-            2, 1, 0,
-            3, 2, 0,
-            4, 3, 0,
-            5, 4, 0,
-            1, 5, 0,
-            11, 6, 7,
-            11, 7, 8,
-            11, 8, 9,
-            11, 9, 10,
-            11, 10,6,
-            1, 2, 6,
-            2, 3, 7,
-            3, 4, 8,
-            4, 5, 9,
-            5, 1, 10,
-            2,  7, 6,
-            3,  8, 7,
-            4,  9, 8,
-            5, 10, 9,
-            1, 6, 10 };
-
-    std::vector<glm::vec3> normals = computeVertexNormals(positions);
-
-    fillVertices(positions, normals);
-}
-
-
-void Mesh::connectDots(int a, int b, int c) {
-    indices.push_back(a);
-    indices.push_back(b);
-    indices.push_back(c);
-}
-
-
 
 std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& positions) {
     std::vector<glm::vec3> normals;
@@ -163,7 +159,7 @@ std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& 
     }
 
     for(int i = 0; i < positions.size(); i++){
-        normals[i] = glm::normalize(normals[i]);
+        normals[i] = -glm::normalize(normals[i]);
     }
 
     return normals;
@@ -174,3 +170,6 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
 }
+
+
+

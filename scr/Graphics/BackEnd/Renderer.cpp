@@ -5,6 +5,7 @@
 
 void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
+    debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
 }
 
 void Renderer::loadMesh(Mesh *mesh){
@@ -114,6 +115,13 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 }
                 scene.getMeshesWTBL().clear();
             }
+            drawMesh(component->getMeshC()->getMesh().get());
+
+            // ---------------------------------------------------- DEBUG ----------------------------------------------------------
+            debugNormals.use();
+            debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+            debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+            debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
             drawMesh(component->getMeshC()->getMesh().get());
         }
     }

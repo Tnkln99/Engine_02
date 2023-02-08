@@ -10,7 +10,7 @@ class Shader;
 // todo: complete this class..
 class LightC : public Component{
 private:
-    float intensity{10};
+    float intensity{30.0f};
 
     glm::vec3 color = {1,1,1};
     float nearPlane = 1.0f;
