@@ -38,7 +38,3 @@ Component * MeshC::clone() {
 std::shared_ptr<Mesh> MeshC::getMesh() {
     return mesh;
 }
-
-void MeshC::setMesh() {
-
-}

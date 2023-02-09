@@ -118,14 +118,13 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
             drawMesh(component->getMeshC()->getMesh().get());
 
             // ---------------------------------------------------- DEBUG ----------------------------------------------------------
-            debugNormals.use();
-            debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-            debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-            debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
-            drawMesh(component->getMeshC()->getMesh().get());
+            //debugNormals.use();
+            //debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+            //debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+            //debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+            //drawMesh(component->getMeshC()->getMesh().get());
         }
     }
-
 }
 
 void Renderer::drawMesh(Mesh *mesh) {

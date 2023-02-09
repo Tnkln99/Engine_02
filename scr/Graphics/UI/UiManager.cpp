@@ -205,7 +205,9 @@ void UiManager::meshCOptions(MeshC * meshC) {
     static const char* current_mesh = "cube";
     const char * meshes[] = {
             "cube",
-            "monkey"
+            "monkey",
+            "sphere",
+            "glass"
     };
     if (ImGui::BeginCombo("##combo", current_mesh))
     {
@@ -224,9 +226,13 @@ void UiManager::meshCOptions(MeshC * meshC) {
     {
         meshC->reloadMesh(meshC->getOwner(),current_mesh[0]);
     }
+
+    static int isVertexNormal = 0;
+    static bool showNormals = false;
+    ImGui::Checkbox("Show normals", &showNormals);ImGui::SameLine();
 }
 
 void UiManager::meshRendererCOptions(MeshRendererC *meshC) {
-    ImGui::Text("Ola");
+    ImGui::Text("Choose material");
 }
 

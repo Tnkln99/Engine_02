@@ -16,6 +16,15 @@ void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
     loadComponents();
 
     camera = std::make_unique<EngineCamera>(window, sceneWidth, sceneHeight, 0,0,10);
+
+    // DEBUG ----------------------------------------------------------------------------- //
+    auto * cube = new Object(this,0,0,0,"Game Object");
+    auto meshRenderer = new MeshRendererC;
+    meshRenderer->load(cube);
+
+    auto * light = new Object(this,0,0,10,"Light Object");
+    auto lightC = new LightC;
+    lightC->load(light);
 }
 
 EngineCamera *Scene::getCamera() {

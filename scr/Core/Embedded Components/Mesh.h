@@ -13,12 +13,13 @@ struct Vertex{
 
 class Mesh{
 private:
-    unsigned int id;
-    char typeOfMesh;
+    unsigned int id{};
+    char typeOfMesh{};
 
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 public:
+    Mesh(const std::string & objFile, const std::string & materialDir);
     Mesh(char c);
     ~Mesh();
 
@@ -30,7 +31,7 @@ public:
     void loadPreMade(char c);
 
     std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
-    void loadCustomMesh(const std::string & objFile, const std::string & materialDir);
+    void load(const std::string & objFile, const std::string & materialDir);
 
     void fillVertices(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& normals);
 };

@@ -15,7 +15,6 @@ public:
     ~MeshC() override;
 
     std::shared_ptr<Mesh> getMesh();
-    void setMesh();
 
     void load(Object * owner) override;
     void reloadMesh(Object * owner, char c);
