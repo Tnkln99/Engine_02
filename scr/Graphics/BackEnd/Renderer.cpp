@@ -54,11 +54,11 @@ void Renderer::renderToShadowMap(Scene &scene) {
                 lightNo++;
             }
 
-            if(scene.getMeshManager().getMeshesWaitingToBeLoaded().size() != 0){
-                for(auto & mesh : scene.getMeshManager().getMeshesWaitingToBeLoaded()){
-                    loadMesh(mesh.get());
+            if(scene.getMeshesWTBL().size() != 0){
+                for(auto & mesh : scene.getMeshesWTBL()){
+                    loadMesh(mesh);
                 }
-                scene.getMeshManager().notifyLoaded();
+                scene.getMeshesWTBL().clear();
             }
             drawMesh(component->getMeshC()->getMesh().get());
         }
@@ -109,11 +109,11 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 lightNo++;
             }
 
-            if(scene.getMeshManager().getMeshesWaitingToBeLoaded().size() != 0){
-                for(auto & mesh : scene.getMeshManager().getMeshesWaitingToBeLoaded()){
-                    loadMesh(mesh.get());
+            if(scene.getMeshesWTBL().size() != 0){
+                for(auto & mesh : scene.getMeshesWTBL()){
+                    loadMesh(mesh);
                 }
-                scene.getMeshManager().notifyLoaded();
+                scene.getMeshesWTBL().clear();
             }
             drawMesh(component->getMeshC()->getMesh().get());
 

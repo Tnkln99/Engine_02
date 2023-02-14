@@ -7,10 +7,8 @@
 #include "Components/MeshC.h"
 #include "Components/LightC.h"
 #include "Components/MeshRendererC.h"
-#include "Embedded Components/MeshManager.h"
 #include <vector>
 #include <algorithm>
-#include <map>
 
 #include "GLFW/glfw3.h"
 
@@ -22,8 +20,8 @@ private:
 
     std::vector<std::unique_ptr<Object>> objects;
     std::vector<LightC*> lights;
-
-    MeshManager meshManager;
+    // after loading these meshes renderer will clear this vector
+    std::vector<Mesh*>  meshesWaitingToBeLoad;
 public:
     Scene();
     ~Scene();
@@ -38,16 +36,20 @@ public:
     EngineCamera* getCamera();
     const std::vector<std::unique_ptr<Object>> & getObjects();
     const std::vector<LightC*> & getLights();
-
-    MeshManager & getMeshManager();
+    // WTBL = waiting to be load
+    std::vector<Mesh*> & getMeshesWTBL();
 
     void update(float dt);
 
     void addInput(GLFWwindow * window, float deltaTime);
     // this if for the UI, it will simply create a new Object and this object will add itSelf to the scene
     void addObject();
-
+    // will add the mesh to the mesh and meshWTBL vectors
+    void addMesh(std::shared_ptr<Mesh> mesh);
     void addLight(LightC * light);
+
+    // will send the type of mesh needed if it already exists in the scene
+    std::shared_ptr<Mesh> findMesh(char typeOfMesh);
 };
 
 

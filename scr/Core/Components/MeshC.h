@@ -17,7 +17,7 @@ public:
     std::shared_ptr<Mesh> getMesh();
 
     void load(Object * owner) override;
-    void reloadMesh(Object * owner, const std::string & meshName);
+    void reloadMesh(Object * owner, char c);
     Component * clone() override;
 };
 
