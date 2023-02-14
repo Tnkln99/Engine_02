@@ -14,21 +14,21 @@ struct Vertex{
 class Mesh{
 private:
     unsigned int id{};
-    char typeOfMesh{};
+    std::string nameOfMesh{};
 
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 public:
     Mesh(const std::string & objFile, const std::string & materialDir);
-    Mesh(char c);
+    Mesh(const std::string & c);
     ~Mesh();
 
     unsigned int & getId();
-    [[nodiscard]] char getTypeOfMesh() const;
+    [[nodiscard]] const std::string & getNameOfMesh() const;
     const std::vector<unsigned int> & getIndices();
     const std::vector<Vertex> & getVertices();
 
-    void loadPreMade(char c);
+    void loadPreMade(const std::string & c);
 
     std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
     void load(const std::string & objFile, const std::string & materialDir);
