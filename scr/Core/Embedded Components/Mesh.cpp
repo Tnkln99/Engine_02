@@ -2,9 +2,12 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
+Mesh::Mesh(const std::string & objFile, const std::string & materialDir) {
+    load(objFile, materialDir);
+}
 
-Mesh::Mesh(char c){
-    typeOfMesh = c;
+Mesh::Mesh(const std::string & c){
+    nameOfMesh = c;
     loadPreMade(c);
 }
 
@@ -14,8 +17,8 @@ unsigned int & Mesh::getId() {
     return id;
 }
 
-char Mesh::getTypeOfMesh() const {
-    return typeOfMesh;
+const std::string & Mesh::getNameOfMesh() const {
+    return nameOfMesh;
 }
 
 const std::vector<unsigned int> &Mesh::getIndices() {
@@ -26,13 +29,20 @@ const std::vector<Vertex> &Mesh::getVertices() {
     return vertices;
 }
 
-void Mesh::loadPreMade(char c) {
-    if(c == 'c')
+void Mesh::loadPreMade(const std::string & c) {
+    if(c == "Cube")
     {
-        loadCustomMesh("../assets/models/cube.obj", "../assets/models");
+        load("../assets/models/cube.obj", "../assets/models");
     }
-    else if(c == 'm'){
-        loadCustomMesh("../assets/models/monkey.obj", "../assets/models");
+    else if(c == "Monkey")
+    {
+        load("../assets/models/monkey.obj", "../assets/models");
+    }
+    else if (c == "Sphere"){
+        load("../assets/models/sphere.obj", "../assets/models");
+    }
+    else if(c == "Glass"){
+        load("../assets/models/glass.obj", "../assets/models");
     }
     else{
         std::cout<<"error loading the mesh.. "<<std::endl;
@@ -40,7 +50,7 @@ void Mesh::loadPreMade(char c) {
     }
 }
 
-void Mesh::loadCustomMesh(const std::string &objFile, const std::string &materialDir) {
+void Mesh::load(const std::string &objFile, const std::string &materialDir) {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
@@ -117,14 +127,14 @@ void Mesh::loadCustomMesh(const std::string &objFile, const std::string &materia
         positions.push_back(glm::vec3(x,y,z));
     }
 
-    //normals = computeVertexNormals(positions);
+    normals = computeVertexNormals(positions);
 
-    for(int i = 0; i < attrib.vertices.size(); i+=3){
+    /*for(int i = 0; i < attrib.vertices.size(); i+=3){
         float x = attrib.normals[i];
         float y = attrib.normals[i+1];
         float z = attrib.normals[i+2];
         normals.push_back(glm::vec3(x,y,z));
-    }
+    }*/
 
     fillVertices(positions, normals);
 }
@@ -147,8 +157,8 @@ std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& 
 
         glm::vec3 cPos = positions[ic];
 
-        glm::vec3 e1 = aPos - bPos;
-        glm::vec3 e2 = cPos - bPos;
+        glm::vec3 e1 = bPos - aPos;
+        glm::vec3 e2 = cPos - aPos;
         glm::vec3 no = cross( e1, e2 );
 
         normals[ia] += no;
@@ -159,7 +169,7 @@ std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& 
     }
 
     for(int i = 0; i < positions.size(); i++){
-        normals[i] = -glm::normalize(normals[i]);
+        normals[i] = glm::normalize(normals[i]);
     }
 
     return normals;
@@ -170,6 +180,9 @@ void Mesh::fillVertices(const std::vector<glm::vec3> &positions, const std::vect
         vertices.push_back( Vertex{positions[i],normals[i] } );
     }
 }
+
+
+
 
 
 

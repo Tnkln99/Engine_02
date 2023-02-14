@@ -12,23 +12,11 @@ MeshC::~MeshC() {
 
 void MeshC::load(Object *owner) {
     Component::load(owner);
-    if(owner->getScene()->findMesh('c') != nullptr){
-        mesh = owner->getScene()->findMesh('c');
-    }
-    else {
-        mesh = std::make_shared<Mesh>('c');
-        owner->getScene()->addMesh(mesh);
-    }
+    mesh = owner->getScene()->getMeshManager().addMesh("Cube");
 }
 
-void MeshC::reloadMesh(Object *owner, char c) {
-    if(owner->getScene()->findMesh(c) != nullptr){
-        mesh = owner->getScene()->findMesh(c);
-    }
-    else {
-        mesh = std::make_shared<Mesh>(c);
-        owner->getScene()->addMesh(mesh);
-    }
+void MeshC::reloadMesh(Object *owner, const std::string & meshName) {
+    mesh = owner->getScene()->getMeshManager().addMesh(meshName, mesh);
 }
 
 Component * MeshC::clone() {
@@ -37,8 +25,4 @@ Component * MeshC::clone() {
 
 std::shared_ptr<Mesh> MeshC::getMesh() {
     return mesh;
-}
-
-void MeshC::setMesh() {
-
 }

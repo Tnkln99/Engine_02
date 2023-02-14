@@ -16,6 +16,15 @@ void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
     loadComponents();
 
     camera = std::make_unique<EngineCamera>(window, sceneWidth, sceneHeight, 0,0,10);
+
+    // DEBUG ----------------------------------------------------------------------------- //
+    auto * cube = new Object(this,0,0,0,"Game Object");
+    auto meshRenderer = new MeshRendererC;
+    meshRenderer->load(cube);
+
+    auto * light = new Object(this,0,0,10,"Light Object");
+    auto lightC = new LightC;
+    lightC->load(light);
 }
 
 EngineCamera *Scene::getCamera() {
@@ -28,10 +37,6 @@ const std::vector<std::unique_ptr<Object>> &Scene::getObjects() {
 
 const std::vector<LightC *> &Scene::getLights() {
     return lights;
-}
-
-std::vector<Mesh*> & Scene::getMeshesWTBL() {
-    return meshesWaitingToBeLoad;
 }
 
 void Scene::update(float dt) {
@@ -51,22 +56,10 @@ void Scene::addObject() {
     new Object(this,0,0,0,name);
 }
 
-void Scene::addMesh(std::shared_ptr<Mesh> mesh) {
-    meshesWaitingToBeLoad.emplace_back(mesh.get());
-}
-
 void Scene::addLight(LightC *light) {
     lights.emplace_back(light);
 }
 
-std::shared_ptr<Mesh> Scene::findMesh(char typeOfMesh) {
-    for(auto & object : objects){
-        for(auto & renderC : object->getRenderComponents()){
-            if (renderC->getMeshC()->getMesh() == nullptr){return nullptr;}
-            if(renderC->getMeshC()->getMesh()->getTypeOfMesh() == typeOfMesh){
-                return renderC->getMeshC()->getMesh();
-            }
-        }
-    }
-    return nullptr;
+MeshManager &Scene::getMeshManager() {
+    return meshManager;
 }

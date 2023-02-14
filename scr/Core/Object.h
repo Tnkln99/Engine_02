@@ -10,16 +10,16 @@
 #include <string>
 #include <memory>
 
-enum class Behavior{
-    Destroy, Stack, Keep
-};
-
 class Component;
 class MeshRendererC;
 class Scene;
 
 class Object {
 private:
+    enum class Behavior{
+        Destroy, Stack, Keep
+    };
+
     Transformable transform;
     Scene * owner;
 
