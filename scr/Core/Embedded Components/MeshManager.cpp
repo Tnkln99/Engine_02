@@ -2,13 +2,12 @@
 
 std::shared_ptr<Mesh> MeshManager::addMesh(const std::string & newMeshName, std::shared_ptr<Mesh> oldMesh) {
     if(oldMesh != nullptr) {
-        if (newMeshName == oldMesh->getNameOfMesh()) { return oldMesh; }
         if (oldMesh.use_count() <= 3) {
             deleteMesh(oldMesh->getNameOfMesh());
         }
     }
 
-    // checks if that mesh already in game if it is not, will create it and return the mesh that has been created
+    // checks if that mesh already in game if its not, will create it and return the mesh that has been created
     if (meshesInGame.find(newMeshName) != meshesInGame.end())
     {
         return meshesInGame[newMeshName];
