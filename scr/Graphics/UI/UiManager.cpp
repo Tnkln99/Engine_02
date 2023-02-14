@@ -202,12 +202,12 @@ void UiManager::assets() {
 }
 
 void UiManager::meshCOptions(MeshC * meshC) {
-    static const char* current_mesh = "cube";
+    static const char* current_mesh = "Cube";
     const char * meshes[] = {
-            "cube",
-            "monkey",
-            "sphere",
-            "glass"
+            "Cube",
+            "Monkey",
+            "Sphere",
+            "Glass"
     };
     if (ImGui::BeginCombo("##combo", current_mesh))
     {
@@ -224,7 +224,7 @@ void UiManager::meshCOptions(MeshC * meshC) {
     ImGui::SameLine();
     if (ImGui::Button("Set"))
     {
-        meshC->reloadMesh(meshC->getOwner(),current_mesh[0]);
+        meshC->reloadMesh(meshC->getOwner(),current_mesh);
     }
 
     static int isVertexNormal = 0;

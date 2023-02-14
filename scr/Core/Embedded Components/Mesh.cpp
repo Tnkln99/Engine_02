@@ -6,8 +6,8 @@ Mesh::Mesh(const std::string & objFile, const std::string & materialDir) {
     load(objFile, materialDir);
 }
 
-Mesh::Mesh(char c){
-    typeOfMesh = c;
+Mesh::Mesh(const std::string & c){
+    nameOfMesh = c;
     loadPreMade(c);
 }
 
@@ -17,8 +17,8 @@ unsigned int & Mesh::getId() {
     return id;
 }
 
-char Mesh::getTypeOfMesh() const {
-    return typeOfMesh;
+const std::string & Mesh::getNameOfMesh() const {
+    return nameOfMesh;
 }
 
 const std::vector<unsigned int> &Mesh::getIndices() {
@@ -29,19 +29,19 @@ const std::vector<Vertex> &Mesh::getVertices() {
     return vertices;
 }
 
-void Mesh::loadPreMade(char c) {
-    if(c == 'c')
+void Mesh::loadPreMade(const std::string & c) {
+    if(c == "Cube")
     {
-        load("../assets/models/lamp.obj", "../assets/models");
+        load("../assets/models/cube.obj", "../assets/models");
     }
-    else if(c == 'm')
+    else if(c == "Monkey")
     {
         load("../assets/models/monkey.obj", "../assets/models");
     }
-    else if (c == 's'){
+    else if (c == "Sphere"){
         load("../assets/models/sphere.obj", "../assets/models");
     }
-    else if(c == 'g'){
+    else if(c == "Glass"){
         load("../assets/models/glass.obj", "../assets/models");
     }
     else{
