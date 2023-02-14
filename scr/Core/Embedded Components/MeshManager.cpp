@@ -3,6 +3,7 @@
 std::shared_ptr<Mesh> MeshManager::addMesh(const std::string & newMeshName, std::shared_ptr<Mesh> oldMesh) {
     if(oldMesh != nullptr) {
         if (oldMesh.use_count() <= 3) {
+            if (newMeshName == oldMesh->getNameOfMesh()){return oldMesh;}
             deleteMesh(oldMesh->getNameOfMesh());
         }
     }
