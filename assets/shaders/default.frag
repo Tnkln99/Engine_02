@@ -67,10 +67,10 @@ void main()
         vec3 specular = light[i].color * (spec * material.specular);
 
         // to test phong shader:
-        result += ambient + diffuse + specular;
+        //result += ambient + diffuse + specular;
         // for shadow mapping
-        // float shadow = ShadowCalculation(fs_in.fragPosLightSpace, lightDir, norm);
-        //result += ambient + (1.0 - shadow) * (diffuse + specular);
+        float shadow = ShadowCalculation(fs_in.fragPosLightSpace, lightDir, norm);
+        result += ambient + (1.0 - shadow) * (diffuse + specular);
         //for normal mapping:
         //result = fs_in.normal * 0.5 + 0.5;
     }

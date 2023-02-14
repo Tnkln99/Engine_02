@@ -39,10 +39,6 @@ const std::vector<LightC *> &Scene::getLights() {
     return lights;
 }
 
-std::vector<Mesh*> & Scene::getMeshesWTBL() {
-    return meshesWaitingToBeLoad;
-}
-
 void Scene::update(float dt) {
     camera->update();
     for (auto & object : objects){
@@ -60,22 +56,10 @@ void Scene::addObject() {
     new Object(this,0,0,0,name);
 }
 
-void Scene::addMesh(std::shared_ptr<Mesh> mesh) {
-    meshesWaitingToBeLoad.emplace_back(mesh.get());
-}
-
 void Scene::addLight(LightC *light) {
     lights.emplace_back(light);
 }
 
-std::shared_ptr<Mesh> Scene::findMesh(char typeOfMesh) {
-    for(auto & object : objects){
-        for(auto & renderC : object->getRenderComponents()){
-            if (renderC->getMeshC()->getMesh() == nullptr){return nullptr;}
-            if(renderC->getMeshC()->getMesh()->getTypeOfMesh() == typeOfMesh){
-                return renderC->getMeshC()->getMesh();
-            }
-        }
-    }
-    return nullptr;
+MeshManager &Scene::getMeshManager() {
+    return meshManager;
 }
