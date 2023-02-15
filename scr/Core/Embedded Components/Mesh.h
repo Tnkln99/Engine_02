@@ -30,7 +30,7 @@ public:
 
     void loadPreMade(const std::string & c);
 
-    std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
+    std::vector<glm::vec3> computeNormals(const std::vector<glm::vec3>& positions);
     void load(const std::string & objFile, const std::string & materialDir);
 
     void fillVertices(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& normals);

@@ -13,7 +13,8 @@ std::map<std::string, Texture2D> Assets::textures;
 Material Assets::loadBasicMaterial() {
     shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
     materials["Default"].setShaderId("Default");
-    materials["Default"].setTextureId("");
+    textures["Default"] = loadTextureFromFile("../assets/textures/container.jpg");
+    materials["Default"].setTextureId("Default");
     return materials["Default"];
 }
 

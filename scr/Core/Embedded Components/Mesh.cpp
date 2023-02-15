@@ -104,6 +104,7 @@ void Mesh::load(const std::string &objFile, const std::string &materialDir) {
                     tinyobj::real_t tx = attrib.texcoords[2*size_t(idx.texcoord_index)+0];
                     tinyobj::real_t ty = attrib.texcoords[2*size_t(idx.texcoord_index)+1];
                 }
+
                 // Optional: vertex colors
                 // tinyobj::real_t red   = attrib.colors[3*size_t(idx.vertex_index)+0];
                 // tinyobj::real_t green = attrib.colors[3*size_t(idx.vertex_index)+1];
@@ -127,7 +128,7 @@ void Mesh::load(const std::string &objFile, const std::string &materialDir) {
         positions.push_back(glm::vec3(x,y,z));
     }
 
-    normals = computeVertexNormals(positions);
+    normals = computeNormals(positions);
 
     /*for(int i = 0; i < attrib.vertices.size(); i+=3){
         float x = attrib.normals[i];
@@ -139,12 +140,11 @@ void Mesh::load(const std::string &objFile, const std::string &materialDir) {
     fillVertices(positions, normals);
 }
 
-std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& positions) {
+std::vector<glm::vec3> Mesh::computeNormals(const std::vector<glm::vec3>& positions) {
     std::vector<glm::vec3> normals;
-
-    for(int i = 0; i < positions.size(); i ++){
-        normals.push_back(glm::vec3(0.0f));
-    }
+    std::vector<int> nbSeen;
+    normals.resize(positions.size(),glm::vec3(0));
+    nbSeen.resize(positions.size(), 0);
 
     for(int i = 0; i < indices.size() - 3; i+=3){
         unsigned int ia = indices[i];
