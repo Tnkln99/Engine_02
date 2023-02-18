@@ -6,6 +6,7 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
+#include "../../Utils/FileSearch.h"
 
 class UiManager {
 private:
@@ -21,6 +22,8 @@ private:
     int textureId;
     int textureWidth;
     int textureHeight;
+
+    std::vector<std::string> objFiles = FileSearch::findObjFiles();
 public:
     UiManager() = default;
 
@@ -39,8 +42,8 @@ public:
     void sceneWindow();
     void assets();
 
-    void meshCOptions(MeshC * meshC);
-    void meshRendererCOptions(MeshRendererC * meshC);
+    void modelCOptions(ModelC * modelC);
+    void modelRendererCOptions(ModelRendererC * modelRendererC);
 
     void terminate();
 };

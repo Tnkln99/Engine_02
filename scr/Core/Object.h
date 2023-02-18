@@ -11,7 +11,7 @@
 #include <memory>
 
 class Component;
-class MeshRendererC;
+class ModelRendererC;
 class Scene;
 
 class Object {
@@ -24,7 +24,7 @@ private:
     Scene * owner;
 
     std::vector<Component*> components;
-    std::vector<MeshRendererC*> renderComponents;
+    std::vector<ModelRendererC*> renderComponents;
     Behavior behaviorOnLoad = Behavior::Destroy;
 
     std::string name;
@@ -35,7 +35,7 @@ public:
   void setName(std::string name);
 
   void addComponent(Component * sub);
-  void addRenderComponents(MeshRendererC * sub);
+  void addRenderComponents(ModelRendererC * sub);
 
   template <typename T>
   T* findComponentByType() const{
@@ -48,7 +48,7 @@ public:
       return {nullptr};
   };
 
-  std::vector<MeshRendererC*> & getRenderComponents();
+  std::vector<ModelRendererC*> & getRenderComponents();
   std::vector<Component*> & getComponents();
   const std::string & getName();
   Scene * getScene();

@@ -5,7 +5,7 @@
 #include <string>
 
 
-#include "../../Core/Embedded Components/Material.h"
+#include "Material.h"
 #include "Shader.h"
 #include "Texture.h"
 
@@ -24,19 +24,15 @@ public:
     static Material &getMaterial(const std::string &name);
 
     static Shader &getShader(const std::string &name);
-    static Texture2D &getTexture(const std::string &name);
 
-    static void addTexture(const std::string &nameTexture, const std::string &file);
     static void addShader(const std::string &nameShader,
                           const std::string &vShaderFile = "",
                           const std::string &fShaderFile = "",
                           const std::string &tcShaderFile = "", const std::string &teShaderFile = "",
                           const std::string &gShaderFile = "");
 
-    static void setTexture(const std::string &nameMaterial, const std::string &nameTexture);
     static void setShader(const std::string &nameMaterial, const std::string &nameShader);
 
-    static Texture2D loadTextureFromFile(const std::string &file);
     static Shader loadShaderFromFile(const std::string &vShaderFile = "",
                                        const std::string &fShaderFile = "",
                                        const std::string &tcShaderFile = "", const std::string &teShaderFile = "",

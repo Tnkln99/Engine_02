@@ -2,6 +2,7 @@
 #include "../../Core/Components/Utils/ComponentFactory.h"
 
 
+
 void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
     textureId = frameBuffer.getTexture();
     textureHeight = frameBuffer.getTextureHeight();
@@ -167,11 +168,11 @@ void UiManager::components(Object* object) {
     for(auto & component : object->getComponents()){
         const char * name = component->getName().c_str();
         if(ImGui::TreeNode(name)){
-            if(strcmp(name,"mesh")==0){
-                meshCOptions(dynamic_cast<MeshC*>(component));
+            if(strcmp(name,"model")==0){
+                modelCOptions(dynamic_cast<ModelC*>(component));
             }
-            if(strcmp(name,"mesh renderer")==0){
-                meshRendererCOptions(dynamic_cast<MeshRendererC*>(component));
+            if(strcmp(name,"model renderer")==0){
+                modelRendererCOptions(dynamic_cast<ModelRendererC*>(component));
             }
             ImGui::TreePop();
         }
@@ -201,20 +202,16 @@ void UiManager::assets() {
     ImGui::End();
 }
 
-void UiManager::meshCOptions(MeshC * meshC) {
-    static const char* current_mesh = "Cube";
-    const char * meshes[] = {
-            "Cube",
-            "Monkey",
-            "Sphere",
-            "Glass"
-    };
-    if (ImGui::BeginCombo("##combo", current_mesh))
+void UiManager::modelCOptions(ModelC * modelC) {
+    static const char* current_model = objFiles[0].c_str();
+    const std::vector<std::string> models = objFiles;
+    if (ImGui::BeginCombo("##combo", current_model))
     {
-        for (auto & mesh : meshes){
-            bool is_selected = (current_mesh == mesh); // You can store your selection however you want, outside or inside your objects
-            if (ImGui::Selectable(mesh, is_selected))
-                current_mesh = mesh;
+        for (auto & model : models){
+            bool is_selected = (current_model == model.c_str()); // You can store your selection however you want, outside or inside your objects
+            std::cout<< is_selected << std::endl;
+            if (ImGui::Selectable(model.c_str(), is_selected))
+                current_model = model.c_str();
             if (is_selected)
                 ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
         }
@@ -224,15 +221,15 @@ void UiManager::meshCOptions(MeshC * meshC) {
     ImGui::SameLine();
     if (ImGui::Button("Set"))
     {
-        meshC->reloadMesh(meshC->getOwner(),current_mesh);
+        FileSearch::findObjFiles();
+        //modelC->reloadModel(modelC->getOwner(),current_model);
     }
 
-    static int isVertexNormal = 0;
     static bool showNormals = false;
     ImGui::Checkbox("Show normals", &showNormals);ImGui::SameLine();
 }
 
-void UiManager::meshRendererCOptions(MeshRendererC *meshC) {
+void UiManager::modelRendererCOptions(ModelRendererC *modelC) {
     ImGui::Text("Choose material");
 }
 

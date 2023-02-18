@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "../../Core/EngineCamera.h"
 #include "Assets.h"
+#include <stddef.h>     /* offsetof */
+#include <stdio.h>
 
 
 void Renderer::load() {
@@ -35,14 +37,25 @@ void Renderer::loadMesh(Mesh *mesh){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 
     glBindVertexArray(0);
 }
 
 
 void Renderer::renderToShadowMap(Scene &scene) {
+    if(scene.getModelManager().getModelsWaitingToBeLoaded().size() != 0){
+        for(auto & model : scene.getModelManager().getModelsWaitingToBeLoaded()){
+            for (auto & mesh : model->getMeshes()){
+                loadMesh(&mesh);
+            }
+        }
+        scene.getModelManager().notifyLoaded();
+    }
     shadowMapShader.use();
     for (auto &object: scene.getObjects()) {
         for (auto &component: object->getRenderComponents()) {
@@ -54,13 +67,8 @@ void Renderer::renderToShadowMap(Scene &scene) {
                 lightNo++;
             }
 
-            if(scene.getMeshManager().getMeshesWaitingToBeLoaded().size() != 0){
-                for(auto & mesh : scene.getMeshManager().getMeshesWaitingToBeLoaded()){
-                    loadMesh(mesh.get());
-                }
-                scene.getMeshManager().notifyLoaded();
-            }
-            drawMesh(component->getMeshC()->getMesh().get());
+            for(auto & mesh : component->getModelC()->getModel()->getMeshes())
+                drawMesh(&mesh);
         }
     }
 
@@ -79,50 +87,72 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
+
+    if(scene.getModelManager().getModelsWaitingToBeLoaded().size() != 0){
+        for(auto & model : scene.getModelManager().getModelsWaitingToBeLoaded()){
+            for (auto & mesh : model->getMeshes()){
+                loadMesh(&mesh);
+            }
+        }
+        scene.getModelManager().notifyLoaded();
+    }
+
     for(auto & object : scene.getObjects()){
         for(auto & component : object->getRenderComponents()){
-            Shader shaderOnUse = Assets::getShader(component->getMaterial().getShaderId());
-            shaderOnUse.use();
-            shaderOnUse.setInteger("shadowMap",0);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, depthMap);
-            shaderOnUse.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-            shaderOnUse.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-            shaderOnUse.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+            for(auto & mesh : component->getModelC()->getModel()->getMeshes()){
+                Shader shaderOnUse = Assets::getShader(component->getMaterial().getShaderId());
+                shaderOnUse.use();
+                shaderOnUse.setInteger("shadowMap",0);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, depthMap);
+                shaderOnUse.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                shaderOnUse.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                shaderOnUse.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+                /*shaderOnUse.setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
+                shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
+                shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
+                shaderOnUse.setVector3f("material.specular", component->getMaterial().getSpecular());
+                shaderOnUse.setFloat("material.shininess", component->getMaterial().getShininess());*/
+                /*int lightNo = 0;
+                for(auto & light : scene.getLights()) {
+                    std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
+                    std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
 
-            shaderOnUse.setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
+                    shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                    shaderOnUse.setVector3f(stringLightNoPos.c_str(),
+                                            light->getOwner()->getTransform().getPosition());
+                    shaderOnUse.setVector3f(stringLightColor.c_str(), light->getColor());
+                    lightNo++;
+                }*/
+                std::vector<Texture> textures = mesh.getTextures();
+                unsigned int diffuseNr = 1;
+                unsigned int specularNr = 1;
+                for(unsigned int i = 0; i < textures.size(); i++)
+                {
+                    glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+                    // retrieve texture number (the N in diffuse_textureN)
+                    std::string number;
+                    std::string name = textures[i].type;
+                    if(name == "texture_diffuse")
+                        number = std::to_string(diffuseNr++);
+                    else if(name == "texture_specular")
+                        number = std::to_string(specularNr++);
 
-            shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
-            shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
-            shaderOnUse.setVector3f("material.specular", component->getMaterial().getSpecular());
-            shaderOnUse.setFloat("material.shininess", component->getMaterial().getShininess());
-
-            int lightNo = 0;
-            for(auto & light : scene.getLights()) {
-                std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
-                std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
-
-                shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                shaderOnUse.setVector3f(stringLightNoPos.c_str(),
-                                                                 light->getOwner()->getTransform().getPosition());
-                shaderOnUse.setVector3f(stringLightColor.c_str(), light->getColor());
-                lightNo++;
-            }
-
-            if(scene.getMeshManager().getMeshesWaitingToBeLoaded().size() != 0){
-                for(auto & mesh : scene.getMeshManager().getMeshesWaitingToBeLoaded()){
-                    loadMesh(mesh.get());
+                    shaderOnUse.setInteger((name + number).c_str(), i);
+                    glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
-                scene.getMeshManager().notifyLoaded();
-            }
-            drawMesh(component->getMeshC()->getMesh().get());
+                glActiveTexture(GL_TEXTURE0);
 
-            // ---------------------------------------------------- DEBUG ----------------------------------------------------------
-            debugNormals.use();
-            debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-            debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-            debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
-            drawMesh(component->getMeshC()->getMesh().get());
+                drawMesh(&mesh);
+                // ---------------------------------------------------- DEBUG ----------------------------------------------------------
+                debugNormals.use();
+                debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+
+
+                drawMesh(&mesh);
+            }
         }
     }
 }

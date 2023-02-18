@@ -23,11 +23,11 @@ void Object::addComponent(Component * sub){
     components.emplace_back(sub);
 }
 
-void Object::addRenderComponents(MeshRendererC *sub) {
+void Object::addRenderComponents(ModelRendererC *sub) {
     renderComponents.emplace_back(sub);
 }
 
-std::vector<MeshRendererC*> & Object::getRenderComponents() {
+std::vector<ModelRendererC*> & Object::getRenderComponents() {
     return renderComponents;
 }
 
