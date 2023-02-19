@@ -58,17 +58,19 @@ void Renderer::renderToShadowMap(Scene &scene) {
     }
     shadowMapShader.use();
     for (auto &object: scene.getObjects()) {
-        for (auto &component: object->getRenderComponents()) {
-            shadowMapShader.setMatrix4("model", component->getOwner()->getTransform().getMoveMatrix());
+        for (auto &modelC: object->getModelComponents()) {
+            for(auto & mesh : modelC->getModel()->getMeshes()) {
+                shadowMapShader.setMatrix4("model", modelC->getOwner()->getTransform().getMoveMatrix());
 
-            int lightNo = 0;
-            for (auto &light: scene.getLights()) {
-                shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                lightNo++;
-            }
+                int lightNo = 0;
+                for (auto &light: scene.getLights()) {
+                    shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                    lightNo++;
+                }
 
-            for(auto & mesh : component->getModelC()->getModel()->getMeshes())
+
                 drawMesh(&mesh);
+            }
         }
     }
 
@@ -97,17 +99,17 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
         scene.getModelManager().notifyLoaded();
     }
 
-    for(auto & object : scene.getObjects()){
-        for(auto & component : object->getRenderComponents()){
-            for(auto & mesh : component->getModelC()->getModel()->getMeshes()){
-                Shader shaderOnUse = Assets::getShader(component->getMaterial().getShaderId());
-                shaderOnUse.use();
-                shaderOnUse.setInteger("shadowMap",0);
+    for(auto & object : scene.getObjects()) {
+        for (auto & modelC : object->getModelComponents()){
+            for (auto & mesh : modelC->getModel()->getMeshes()){
+                Shader* shaderOnUse = mesh.material.shader;
+                shaderOnUse->use();
+                shaderOnUse->setInteger("shadowMap", 0);
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, depthMap);
-                shaderOnUse.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-                shaderOnUse.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-                shaderOnUse.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+                shaderOnUse->setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                shaderOnUse->setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                shaderOnUse->setMatrix4("transform", modelC->getOwner()->getTransform().getMoveMatrix());
                 /*shaderOnUse.setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
                 shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
                 shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
@@ -127,34 +129,32 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 std::vector<Texture> textures = mesh.getTextures();
                 unsigned int diffuseNr = 1;
                 unsigned int specularNr = 1;
-                for(unsigned int i = 0; i < textures.size(); i++)
-                {
+                for (unsigned int i = 0; i < textures.size(); i++) {
                     glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
                     // retrieve texture number (the N in diffuse_textureN)
                     std::string number;
                     std::string name = textures[i].type;
-                    if(name == "texture_diffuse")
+                    if (name == "texture_diffuse")
                         number = std::to_string(diffuseNr++);
-                    else if(name == "texture_specular")
+                    else if (name == "texture_specular")
                         number = std::to_string(specularNr++);
 
-                    shaderOnUse.setInteger((name + number).c_str(), i);
+                    shaderOnUse->setInteger((name + number).c_str(), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
                 glActiveTexture(GL_TEXTURE0);
 
                 drawMesh(&mesh);
                 // ---------------------------------------------------- DEBUG ----------------------------------------------------------
-                debugNormals.use();
+                /*debugNormals.use();
                 debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
                 debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
                 debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
-
-
-                drawMesh(&mesh);
+                drawMesh(&mesh);*/
             }
         }
     }
+
 }
 
 void Renderer::drawMesh(Mesh *mesh) {

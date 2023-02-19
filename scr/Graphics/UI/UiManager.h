@@ -43,7 +43,6 @@ public:
     void assets();
 
     void modelCOptions(ModelC * modelC);
-    void modelRendererCOptions(ModelRendererC * modelRendererC);
 
     void terminate();
 };

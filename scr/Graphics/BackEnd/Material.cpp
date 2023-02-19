@@ -1,7 +1,10 @@
 #include "Material.h"
 
 
-Material::Material() = default;
+
+Material::Material(Shader * shaderToUse) {
+    shader = shaderToUse;
+}
 
 float Material::getShininess() const{
     return shininess;

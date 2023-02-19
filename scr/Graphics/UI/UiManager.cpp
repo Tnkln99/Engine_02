@@ -171,9 +171,6 @@ void UiManager::components(Object* object) {
             if(strcmp(name,"model")==0){
                 modelCOptions(dynamic_cast<ModelC*>(component));
             }
-            if(strcmp(name,"model renderer")==0){
-                modelRendererCOptions(dynamic_cast<ModelRendererC*>(component));
-            }
             ImGui::TreePop();
         }
 
@@ -227,9 +224,5 @@ void UiManager::modelCOptions(ModelC * modelC) {
 
     static bool showNormals = false;
     ImGui::Checkbox("Show normals", &showNormals);ImGui::SameLine();
-}
-
-void UiManager::modelRendererCOptions(ModelRendererC *modelC) {
-    ImGui::Text("Choose material");
 }
 

@@ -1,12 +1,11 @@
 #include "Mesh.h"
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "tiny_obj_loader.h"
+
 
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures) {
     this->vertices = vertices;
     this->indices = indices;
-    this->textures = textures;
+    material.textures = textures;
 }
 Mesh::~Mesh() = default;
 
@@ -23,7 +22,7 @@ const std::vector<Vertex> &Mesh::getVertices() {
 }
 
 const std::vector<Texture> &Mesh::getTextures() {
-    return textures;
+    return material.textures;
 }
 
 std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& positions) {

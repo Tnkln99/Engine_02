@@ -2,7 +2,7 @@
 
 std::shared_ptr<Model> ModelManager::addModel(char * modelPath, std::shared_ptr<Model> oldModel) {
     if(oldModel != nullptr) {
-        if (oldModel.use_count() <= 3) {
+        if (oldModel.use_count() <= 3) { // probably 2 with new changes
             if (modelPath == oldModel->getNameOfModel()){ return oldModel; }
             deleteModel(oldModel->getNameOfModel());
         }

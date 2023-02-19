@@ -4,6 +4,13 @@
 #include <glm/glm.hpp>
 #include <string>
 #include "Shader.h"
+#include <vector>
+
+struct Texture{
+    unsigned int id;
+    std::string type;
+    std::string path;
+};
 
 class Material { 
 private:
@@ -17,8 +24,10 @@ private:
     std::string shaderId;
     std::string textureId = " ";
 public:
-    Shader shader;
-    Material();
+    Shader * shader;
+    std::vector<Texture> textures;
+
+    Material(Shader * shaderToUse);
 
     [[nodiscard]]float getShininess() const;
     [[nodiscard]] const glm::vec3 & getAmbient() const;

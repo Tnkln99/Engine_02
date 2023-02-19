@@ -6,7 +6,6 @@
 #include "Object.h"
 #include "Components/ModelC.h"
 #include "Components/LightC.h"
-#include "Components/ModelRendererC.h"
 #include "Embedded Components/ModelManager.h"
 #include <vector>
 #include <algorithm>

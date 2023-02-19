@@ -9,14 +9,8 @@ std::map<std::string, Material> Assets::materials;
 
 std::map<std::string, Shader> Assets::shaders;
 
-Material Assets::loadBasicMaterial() {
+void Assets::loadBasicShader() {
     shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
-    materials["Default"].setShaderId("Default");
-    return materials["Default"];
-}
-
-Material & Assets::getMaterial(const std::string &name) {
-    return materials[name];
 }
 
 Shader &Assets::getShader(const std::string &name) {
@@ -28,11 +22,6 @@ void Assets::addShader(const std::string &nameShader,
                        const std::string &tcShaderFile, const std::string &teShaderFile,
                        const std::string &gShaderFile) {
     shaders[nameShader] = loadShaderFromFile(vShaderFile, fShaderFile, tcShaderFile, teShaderFile, gShaderFile);
-}
-
-
-void Assets::setShader(const std::string &nameMaterial, const std::string &nameShader) {
-    materials[nameMaterial].setShaderId(nameShader);
 }
 
 Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,

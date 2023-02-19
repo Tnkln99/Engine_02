@@ -4,7 +4,6 @@
 
 void loadComponents(){
     ComponentFactory::Register("Model", new ModelC);
-    ComponentFactory::Register("ModelRenderer", new ModelRendererC);
     ComponentFactory::Register("Light", new LightC);
 }
 
@@ -19,8 +18,8 @@ void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
 
     // DEBUG ----------------------------------------------------------------------------- //
     auto * cube = new Object(this,0,0,0,"Game Object");
-    auto meshRenderer = new ModelRendererC;
-    meshRenderer->load(cube);
+    auto model = new ModelC;
+    model->load(cube);
 
     auto * light = new Object(this,0,0,10,"Light Object");
     auto lightC = new LightC;

@@ -143,10 +143,8 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType 
         }
         if(!skip)
         {   // if texture hasn't been loaded already, load it
-            //Assets::changeTexture("Default"  , nameOfModel, str.C_Str(), directory, typeName, str.C_Str());
             Texture texture;
             texture.id = TextureFromFile(str.C_Str(), directory);
-            std::cout << directory + "/" + str.C_Str() << std::endl;
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);

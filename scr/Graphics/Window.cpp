@@ -37,7 +37,7 @@ void Window::load() {
     shadowMapFbo.load(1619,838);
     renderer.load();
 
-    Assets::loadBasicMaterial();
+    Assets::loadBasicShader();
 }
 
 void Window::loadUi() {

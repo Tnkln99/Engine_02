@@ -12,7 +12,8 @@ ModelC::~ModelC() {
 
 void ModelC::load(Object *owner) {
     Component::load(owner);
-    model = owner->getScene()->getModelManager().addModel("../assets/models/cube/cube.obj");
+    owner->addModelComponents(this);
+    model = owner->getScene()->getModelManager().addModel("../assets/models/backpack/backpack.obj");
 }
 
 void ModelC::reloadModel(Object *owner, char * modelPath) {
