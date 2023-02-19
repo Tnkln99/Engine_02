@@ -110,22 +110,23 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 shaderOnUse->setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
                 shaderOnUse->setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
                 shaderOnUse->setMatrix4("transform", modelC->getOwner()->getTransform().getMoveMatrix());
-                /*shaderOnUse.setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
-                shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
-                shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
-                shaderOnUse.setVector3f("material.specular", component->getMaterial().getSpecular());
-                shaderOnUse.setFloat("material.shininess", component->getMaterial().getShininess());*/
-                /*int lightNo = 0;
+
+                shaderOnUse->setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
+                shaderOnUse->setVector3f("material.ambient", mesh.material.getAmbient());
+                shaderOnUse->setVector3f("material.diffuse", mesh.material.getDiffuse());
+                shaderOnUse->setVector3f("material.specular", mesh.material.getSpecular());
+                shaderOnUse->setFloat("material.shininess", mesh.material.getShininess());
+                int lightNo = 0;
                 for(auto & light : scene.getLights()) {
                     std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
                     std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
 
-                    shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                    shaderOnUse.setVector3f(stringLightNoPos.c_str(),
+                    shaderOnUse->setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                    shaderOnUse->setVector3f(stringLightNoPos.c_str(),
                                             light->getOwner()->getTransform().getPosition());
-                    shaderOnUse.setVector3f(stringLightColor.c_str(), light->getColor());
+                    shaderOnUse->setVector3f(stringLightColor.c_str(), light->getColor());
                     lightNo++;
-                }*/
+                }
                 std::vector<Texture> textures = mesh.getTextures();
                 unsigned int diffuseNr = 1;
                 unsigned int specularNr = 1;
@@ -139,7 +140,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                     else if (name == "texture_specular")
                         number = std::to_string(specularNr++);
 
-                    shaderOnUse->setInteger((name + number).c_str(), i);
+                    shaderOnUse->setInteger(("material." + name + number).c_str(), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
                 glActiveTexture(GL_TEXTURE0);
