@@ -27,7 +27,7 @@ public:
     Shader * shader;
     std::vector<Texture> textures;
 
-    Material(Shader * shaderToUse);
+    explicit Material(Shader * shaderToUse);
 
     [[nodiscard]]float getShininess() const;
     [[nodiscard]] const glm::vec3 & getAmbient() const;

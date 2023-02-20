@@ -12,7 +12,7 @@ struct Material {
     vec3 ambient;
     sampler2D texture_diffuse1;
     sampler2D texture_specular1;
-    float shininess;d
+    float shininess;
 };
 
 struct Light {
@@ -53,7 +53,7 @@ void main()
     vec3 result = vec3(0);
     for(int i = 0; i < max_light_count; i ++){
         // ambient
-        vec3 ambient  = light[i].color * material.ambient;
+        vec3 ambient  = light[i].color * (vec3(texture(material.texture_diffuse1, fs_in.texCoord)) - vec3(0.7,0.7,0.7));
 
         // diffuse
         vec3 norm = normalize(fs_in.normal.xyz);
@@ -65,7 +65,7 @@ void main()
         vec3 viewDir = normalize(viewPos - fs_in.fragPos);
         vec3 reflectDir = reflect(-lightDir, norm);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-        vec3 specular = light[i].color *(spec * vec3(texture(material.texture_specular1, fs_in.texCoord)));
+        vec3 specular = light[i].color * (spec * vec3(texture(material.texture_specular1, fs_in.texCoord)));
 
         // to test phong shader:
         result += ambient + diffuse + specular;

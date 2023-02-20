@@ -7,6 +7,7 @@
 #include "BackEnd/ScreenFbo.h"
 #include "BackEnd/ShadowMapFbo.h"
 #include "BackEnd/Renderer.h"
+#include "BackEnd/SkyBoxCubeMap.h"
 
 
 class Window{

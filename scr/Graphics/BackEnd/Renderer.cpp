@@ -8,6 +8,7 @@
 void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
     debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
+    skyBox.load();
 }
 
 void Renderer::loadMesh(Mesh *mesh){
@@ -73,7 +74,6 @@ void Renderer::renderToShadowMap(Scene &scene) {
             }
         }
     }
-
 }
 
 void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
@@ -155,7 +155,8 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
             }
         }
     }
-
+    glm::mat4 view = glm::mat4(glm::mat3(scene.getCamera()->getViewMatrix()));
+    skyBox.renderToSkyBox(view, scene.getCamera()->getProjMatrix());
 }
 
 void Renderer::drawMesh(Mesh *mesh) {

@@ -5,6 +5,7 @@
 #include <vector>
 #include "../../Core/Scene.h"
 #include "Shader.h"
+#include "SkyBoxCubeMap.h"
 
 class Renderer{
 private:
@@ -20,6 +21,8 @@ private:
     Shader shadowMapShader;
     Shader debugNormals;
     unsigned int shadowMapTexture;
+
+    SkyBoxCubeMap skyBox;
 public:
     void load();
 

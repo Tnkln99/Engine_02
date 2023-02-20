@@ -1,7 +1,5 @@
 #include "Material.h"
 
-
-
 Material::Material(Shader * shaderToUse) {
     shader = shaderToUse;
 }
