@@ -34,7 +34,6 @@ void Window::load() {
     gladLoadGL();
 
     screenFbo.load(1619,838);
-    shadowMapFbo.load(1619,838);
     renderer.load();
 
     Assets::loadBasicShader();
@@ -46,10 +45,8 @@ void Window::loadUi() {
 
 
 void Window::render(Scene &scene) {
-    // rendering scene to shadowMapFbo
-    shadowMapFbo.bind(0.07f, 0.13f, 0.17f);
+    // shadow map fbo are in lights
     renderer.renderToShadowMap(scene);
-    shadowMapFbo.unbind(windowWidth, windowHeight);
 
     // rendering the scene to the screenFbo
     screenFbo.bind(0.07f, 0.13f, 0.17f);
@@ -60,7 +57,7 @@ void Window::render(Scene &scene) {
     ui.render(scene);
 
     //screenFbo.renderToQuad(300,300);
-    shadowMapFbo.renderToQuad(300,300);
+    //shadowMapFbo.renderToQuad(300,300);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

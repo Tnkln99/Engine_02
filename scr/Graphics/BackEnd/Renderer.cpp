@@ -56,21 +56,23 @@ void Renderer::renderToShadowMap(Scene &scene) {
         }
         scene.getModelManager().notifyLoaded();
     }
+
     shadowMapShader.use();
-    for (auto &object: scene.getObjects()) {
-        for (auto &modelC: object->getModelComponents()) {
-            for(auto & mesh : modelC->getModel()->getMeshes()) {
-                shadowMapShader.setMatrix4("model", modelC->getOwner()->getTransform().getMoveMatrix());
-
-                for (auto &light: scene.getLights()) {
-                    shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+    for (auto &light: scene.getLights()) {
+        light->shadowMap.bind(0.07f, 0.13f, 0.17f);
+        shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+        for (auto &object: scene.getObjects()) {
+            for (auto &modelC: object->getModelComponents()) {
+                for(auto & mesh : modelC->getModel()->getMeshes()) {
+                    shadowMapShader.setMatrix4("model", modelC->getOwner()->getTransform().getMoveMatrix());
+                    drawMesh(&mesh);
                 }
-
-
-                drawMesh(&mesh);
             }
         }
+
+        light->shadowMap.unbind(1920,1080);
     }
+
 }
 
 void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
@@ -112,17 +114,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 shaderOnUse->setVector3f("diffuse", mesh.material.getDiffuse());
                 shaderOnUse->setVector3f("specular", mesh.material.getSpecular());
                 shaderOnUse->setFloat("shininess", mesh.material.getShininess());
-                int lightNo = 0;
-                for(auto & light : scene.getLights()) {
-                    std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
-                    std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
 
-                    shaderOnUse->setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                    shaderOnUse->setVector3f(stringLightNoPos.c_str(),
-                                            light->getOwner()->getTransform().getPosition());
-                    shaderOnUse->setVector3f(stringLightColor.c_str(), light->getColor());
-                    lightNo++;
-                }
                 std::vector<Texture> textures = mesh.getTextures();
                 unsigned int diffuseNr = 1;
                 unsigned int specularNr = 1;
@@ -143,10 +135,22 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                     shaderOnUse->setInteger((name + number).c_str(), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
-                glActiveTexture(GL_TEXTURE0+2);
-                shaderOnUse->setInteger("shadowMap", 2);
-                glBindTexture(GL_TEXTURE_2D, depthMap);
+                int lightNo = 0;
+                for(auto & light : scene.getLights()) {
+                    std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
+                    std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
+                    std::string stringLightShadowMap = "light[" + std::to_string(lightNo) + "].shadowMap";
 
+                    shaderOnUse->setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                    shaderOnUse->setVector3f(stringLightNoPos.c_str(),
+                                             light->getOwner()->getTransform().getPosition());
+                    shaderOnUse->setVector3f(stringLightColor.c_str(), light->getColor());
+
+                    glActiveTexture(GL_TEXTURE0+2+lightNo);
+                    shaderOnUse->setInteger(stringLightShadowMap.c_str(), 2+lightNo);
+                    glBindTexture(GL_TEXTURE_2D, light->shadowMap.getTexture());
+                    lightNo++;
+                }
 
                 drawMesh(&mesh);
                 // ---------------------------------------------------- DEBUG ----------------------------------------------------------

@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include "Component.h"
+#include "../../Graphics/BackEnd/ShadowMapFbo.h"
 
 class Mesh;
 class Shader;
@@ -10,6 +11,9 @@ class Shader;
 // todo: complete this class..
 class LightC : public Component{
 private:
+    int shadowTextureWidth = 1619;
+    int shadowTextureHeight = 838;
+
     float intensity{30.0f};
 
     glm::vec3 color = {1,1,1};
@@ -20,6 +24,8 @@ private:
     glm::mat4 lightView = glm::mat4(1);
     glm::mat4 lightSpaceMatrix = glm::mat4(1);
 public:
+    ShadowMapFbo shadowMap;
+
     explicit LightC();
     ~LightC() override;
 

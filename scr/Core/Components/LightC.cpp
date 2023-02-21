@@ -11,6 +11,8 @@ LightC::~LightC() = default;
 
 void LightC::load(Object *owner) {
     Component::load(owner);
+    shadowMap.load(shadowTextureWidth, shadowTextureHeight);
+
     owner->getScene()->addLight(this);
 
     Transformable transform = getOwner()->getTransform();
