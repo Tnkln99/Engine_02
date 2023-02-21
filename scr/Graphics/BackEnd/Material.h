@@ -18,8 +18,8 @@ private:
     float shininess {32.0f};
 
     glm::vec3 ambient{0,0,0};
-    glm::vec3 diffuse{1,1,1};
-    glm::vec3 specular{1,0,0};
+    glm::vec3 diffuse{0.8,0.8,0.8};
+    glm::vec3 specular{1,1,1};
 
     std::string shaderId;
     std::string textureId = " ";

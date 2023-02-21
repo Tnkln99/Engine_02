@@ -14,7 +14,7 @@ private:
 
     glm::vec3 color = {1,1,1};
     float nearPlane = 1.0f;
-    float farPlane = 20.0f;
+    float farPlane = 40.0f;
 
     glm::mat4 lightProj = glm::mat4(1);
     glm::mat4 lightView = glm::mat4(1);

@@ -20,7 +20,6 @@ private:
 
     Shader shadowMapShader;
     Shader debugNormals;
-    unsigned int shadowMapTexture;
 
     SkyBoxCubeMap skyBox;
 public:

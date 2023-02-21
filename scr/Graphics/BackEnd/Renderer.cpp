@@ -62,10 +62,8 @@ void Renderer::renderToShadowMap(Scene &scene) {
             for(auto & mesh : modelC->getModel()->getMeshes()) {
                 shadowMapShader.setMatrix4("model", modelC->getOwner()->getTransform().getMoveMatrix());
 
-                int lightNo = 0;
                 for (auto &light: scene.getLights()) {
                     shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                    lightNo++;
                 }
 
 
@@ -138,7 +136,6 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                         number = std::to_string(diffuseNr++);
                     }
                     else if (name == "texture_specular") {
-                        std::cout << "texture speculer" << std::endl;
                         shaderOnUse->setInteger("specularTextureUsing",1);
                         number = std::to_string(specularNr++);
                     }

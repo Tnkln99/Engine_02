@@ -60,7 +60,7 @@ void Window::render(Scene &scene) {
     ui.render(scene);
 
     //screenFbo.renderToQuad(300,300);
-    //shadowMapFbo.renderToQuad(300,300);
+    shadowMapFbo.renderToQuad(300,300);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
