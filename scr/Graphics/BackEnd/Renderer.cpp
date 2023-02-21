@@ -1,11 +1,13 @@
 #include "Renderer.h"
 #include "../../Core/EngineCamera.h"
 #include "Assets.h"
+#include <stddef.h>     /* offsetof */
 
 
 void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
     debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
+    skyBox.load();
 }
 
 void Renderer::loadMesh(Mesh *mesh){
@@ -35,33 +37,40 @@ void Renderer::loadMesh(Mesh *mesh){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 
     glBindVertexArray(0);
 }
 
 
 void Renderer::renderToShadowMap(Scene &scene) {
-    shadowMapShader.use();
-    for (auto &object: scene.getObjects()) {
-        for (auto &component: object->getRenderComponents()) {
-            shadowMapShader.setMatrix4("model", component->getOwner()->getTransform().getMoveMatrix());
-
-            int lightNo = 0;
-            for (auto &light: scene.getLights()) {
-                shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                lightNo++;
+    if(scene.getModelManager().getModelsWaitingToBeLoaded().size() != 0){
+        for(auto & model : scene.getModelManager().getModelsWaitingToBeLoaded()){
+            for (auto & mesh : model->getMeshes()){
+                loadMesh(&mesh);
             }
-
-            if(scene.getMeshManager().getMeshesWaitingToBeLoaded().size() != 0){
-                for(auto & mesh : scene.getMeshManager().getMeshesWaitingToBeLoaded()){
-                    loadMesh(mesh.get());
-                }
-                scene.getMeshManager().notifyLoaded();
-            }
-            drawMesh(component->getMeshC()->getMesh().get());
         }
+        scene.getModelManager().notifyLoaded();
+    }
+
+    shadowMapShader.use();
+    for (auto &light: scene.getLights()) {
+        light->shadowMap.bind(0.07f, 0.13f, 0.17f);
+        shadowMapShader.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+        for (auto &object: scene.getObjects()) {
+            for (auto &modelC: object->getModelComponents()) {
+                for(auto & mesh : modelC->getModel()->getMeshes()) {
+                    shadowMapShader.setMatrix4("model", modelC->getOwner()->getTransform().getMoveMatrix());
+                    drawMesh(&mesh);
+                }
+            }
+        }
+
+        light->shadowMap.unbind(1920,1080);
     }
 
 }
@@ -79,52 +88,82 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
-    for(auto & object : scene.getObjects()){
-        for(auto & component : object->getRenderComponents()){
-            Shader shaderOnUse = Assets::getShader(component->getMaterial().getShaderId());
-            shaderOnUse.use();
-            shaderOnUse.setInteger("shadowMap",0);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, depthMap);
-            shaderOnUse.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-            shaderOnUse.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-            shaderOnUse.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
 
-            shaderOnUse.setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
-
-            shaderOnUse.setVector3f("material.ambient", component->getMaterial().getAmbient());
-            shaderOnUse.setVector3f("material.diffuse", component->getMaterial().getDiffuse());
-            shaderOnUse.setVector3f("material.specular", component->getMaterial().getSpecular());
-            shaderOnUse.setFloat("material.shininess", component->getMaterial().getShininess());
-
-            int lightNo = 0;
-            for(auto & light : scene.getLights()) {
-                std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
-                std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
-
-                shaderOnUse.setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
-                shaderOnUse.setVector3f(stringLightNoPos.c_str(),
-                                                                 light->getOwner()->getTransform().getPosition());
-                shaderOnUse.setVector3f(stringLightColor.c_str(), light->getColor());
-                lightNo++;
+    if(scene.getModelManager().getModelsWaitingToBeLoaded().size() != 0){
+        for(auto & model : scene.getModelManager().getModelsWaitingToBeLoaded()){
+            for (auto & mesh : model->getMeshes()){
+                loadMesh(&mesh);
             }
+        }
+        scene.getModelManager().notifyLoaded();
+    }
 
-            if(scene.getMeshManager().getMeshesWaitingToBeLoaded().size() != 0){
-                for(auto & mesh : scene.getMeshManager().getMeshesWaitingToBeLoaded()){
-                    loadMesh(mesh.get());
+    for(auto & object : scene.getObjects()) {
+        for (auto & modelC : object->getModelComponents()){
+            for (auto & mesh : modelC->getModel()->getMeshes()){
+                Shader* shaderOnUse = mesh.material.shader;
+                shaderOnUse->use();
+                //glActiveTexture(GL_TEXTURE0);
+                //glBindTexture(GL_TEXTURE_2D, depthMap);
+                shaderOnUse->setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                shaderOnUse->setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                shaderOnUse->setMatrix4("transform", modelC->getOwner()->getTransform().getMoveMatrix());
+
+                shaderOnUse->setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
+                shaderOnUse->setVector3f("ambient", mesh.material.getAmbient());
+                shaderOnUse->setVector3f("diffuse", mesh.material.getDiffuse());
+                shaderOnUse->setVector3f("specular", mesh.material.getSpecular());
+                shaderOnUse->setFloat("shininess", mesh.material.getShininess());
+
+                std::vector<Texture> textures = mesh.getTextures();
+                unsigned int diffuseNr = 1;
+                unsigned int specularNr = 1;
+                for (unsigned int i = 0; i < textures.size(); i++) {
+                    glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+                    // retrieve texture number (the N in diffuse_textureN)
+                    std::string number;
+                    std::string name = textures[i].type;
+                    if (name == "texture_diffuse") {
+                        shaderOnUse->setInteger("diffuseTextureUsing",1);
+                        number = std::to_string(diffuseNr++);
+                    }
+                    else if (name == "texture_specular") {
+                        shaderOnUse->setInteger("specularTextureUsing",1);
+                        number = std::to_string(specularNr++);
+                    }
+
+                    shaderOnUse->setInteger((name + number).c_str(), i);
+                    glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
-                scene.getMeshManager().notifyLoaded();
-            }
-            drawMesh(component->getMeshC()->getMesh().get());
+                int lightNo = 0;
+                for(auto & light : scene.getLights()) {
+                    std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
+                    std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
+                    std::string stringLightShadowMap = "light[" + std::to_string(lightNo) + "].shadowMap";
 
-            // ---------------------------------------------------- DEBUG ----------------------------------------------------------
-            //debugNormals.use();
-            //debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-            //debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-            //debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
-            //drawMesh(component->getMeshC()->getMesh().get());
+                    shaderOnUse->setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                    shaderOnUse->setVector3f(stringLightNoPos.c_str(),
+                                             light->getOwner()->getTransform().getPosition());
+                    shaderOnUse->setVector3f(stringLightColor.c_str(), light->getColor());
+
+                    glActiveTexture(GL_TEXTURE0+2+lightNo);
+                    shaderOnUse->setInteger(stringLightShadowMap.c_str(), 2+lightNo);
+                    glBindTexture(GL_TEXTURE_2D, light->shadowMap.getTexture());
+                    lightNo++;
+                }
+
+                drawMesh(&mesh);
+                // ---------------------------------------------------- DEBUG ----------------------------------------------------------
+                /*debugNormals.use();
+                debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+                drawMesh(&mesh);*/
+            }
         }
     }
+    glm::mat4 view = glm::mat4(glm::mat3(scene.getCamera()->getViewMatrix()));
+    skyBox.renderToSkyBox(view, scene.getCamera()->getProjMatrix());
 }
 
 void Renderer::drawMesh(Mesh *mesh) {

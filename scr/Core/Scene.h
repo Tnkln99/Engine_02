@@ -4,10 +4,9 @@
 #include <vector>
 
 #include "Object.h"
-#include "Components/MeshC.h"
+#include "Components/ModelC.h"
 #include "Components/LightC.h"
-#include "Components/MeshRendererC.h"
-#include "Embedded Components/MeshManager.h"
+#include "Embedded Components/ModelManager.h"
 #include <vector>
 #include <algorithm>
 #include <map>
@@ -23,7 +22,7 @@ private:
     std::vector<std::unique_ptr<Object>> objects;
     std::vector<LightC*> lights;
 
-    MeshManager meshManager;
+    ModelManager modelManager;
 public:
     Scene();
     ~Scene();
@@ -39,7 +38,7 @@ public:
     const std::vector<std::unique_ptr<Object>> & getObjects();
     const std::vector<LightC*> & getLights();
 
-    MeshManager & getMeshManager();
+    ModelManager & getModelManager();
 
     void update(float dt);
 

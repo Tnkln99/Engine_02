@@ -16,9 +16,9 @@ if(GIT_FOUND)
 
     message(STATUS "Retrieving git submodules...")
 
-    set(SUBMODULES lib/stb;lib/glad;lib/glfw;lib/glm;lib/imgui;lib/tinyobjloader)
-    set(REPOSITORIES https://github.com/nothings/stb.git;https://github.com/Dav1dde/glad.git;https://github.com/glfw/glfw.git;https://github.com/g-truc/glm.git;https://github.com/ocornut/imgui.git;https://github.com/tinyobjloader/tinyobjloader.git)
-    set(RELEASES master;master;3.2.1;0.9.9.8;docking;release)
+    set(SUBMODULES lib/stb;lib/glad;lib/glfw;lib/glm;lib/imgui;lib/tinyobjloader;lib/assimp)
+    set(REPOSITORIES https://github.com/nothings/stb.git;https://github.com/Dav1dde/glad.git;https://github.com/glfw/glfw.git;https://github.com/g-truc/glm.git;https://github.com/ocornut/imgui.git;https://github.com/tinyobjloader/tinyobjloader.git;https://github.com/assimp/assimp.git)
+    set(RELEASES master;master;3.2.1;0.9.9.8;docking;release;master)
 
     foreach(UPD_SUB IN LISTS SUBMODULES)
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive --remote -- ${UPD_SUB} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} RESULT_VARIABLE GIT_SUBMOD_RESULT)
@@ -123,7 +123,8 @@ find_package(OpenGL REQUIRED)
 target_link_libraries(Engine_02 ${OPENGL_LIBRARIES})
 target_link_libraries(Engine_02 glad ${CMAKE_DL_LIBS})
 add_subdirectory( lib/maths )
-target_link_libraries(Engine_02 glfw maths)
+add_subdirectory( lib/assimp )
+target_link_libraries(Engine_02 glfw maths assimp)
 
 if(UNIX)
     target_link_libraries(Engine_02 X11)

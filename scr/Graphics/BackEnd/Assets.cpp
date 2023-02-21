@@ -8,29 +8,13 @@
 std::map<std::string, Material> Assets::materials;
 
 std::map<std::string, Shader> Assets::shaders;
-std::map<std::string, Texture2D> Assets::textures;
 
-Material Assets::loadBasicMaterial() {
+void Assets::loadBasicShader() {
     shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
-    materials["Default"].setShaderId("Default");
-    materials["Default"].setTextureId("");
-    return materials["Default"];
-}
-
-Material & Assets::getMaterial(const std::string &name) {
-    return materials[name];
 }
 
 Shader &Assets::getShader(const std::string &name) {
     return shaders[name];
-}
-
-Texture2D& Assets::getTexture(const std::string &name) {
-    return textures[name];
-}
-
-void Assets::addTexture(const std::string &nameTexture, const std::string &file) {
-    textures[nameTexture] = loadTextureFromFile(file);
 }
 
 void Assets::addShader(const std::string &nameShader,
@@ -38,25 +22,6 @@ void Assets::addShader(const std::string &nameShader,
                        const std::string &tcShaderFile, const std::string &teShaderFile,
                        const std::string &gShaderFile) {
     shaders[nameShader] = loadShaderFromFile(vShaderFile, fShaderFile, tcShaderFile, teShaderFile, gShaderFile);
-}
-
-void Assets::setTexture(const std::string &nameMaterial, const std::string &nameTexture) {
-    materials[nameMaterial].setTextureId(nameTexture);
-}
-
-void Assets::setShader(const std::string &nameMaterial, const std::string &nameShader) {
-    materials[nameMaterial].setShaderId(nameShader);
-}
-
-Texture2D Assets::loadTextureFromFile(const std::string &file) {
-    // Create Texture object
-    Texture2D texture;
-    texture.load(file);
-
-    // Now generate texture
-    texture.generate();
-    // And finally return texture
-    return texture;
 }
 
 Shader Assets::loadShaderFromFile(const std::string &vShaderFile, const std::string &fShaderFile,
@@ -139,8 +104,6 @@ void Assets::clear() {
     // (Properly) delete all shaders
     for (auto iter : shaders)
         glDeleteProgram(iter.second.id);
-    for (auto iter : textures)
-        glDeleteTextures(1, &iter.second.id);
 }
 
 

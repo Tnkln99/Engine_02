@@ -11,6 +11,8 @@ LightC::~LightC() = default;
 
 void LightC::load(Object *owner) {
     Component::load(owner);
+    shadowMap.load(shadowTextureWidth, shadowTextureHeight);
+
     owner->getScene()->addLight(this);
 
     Transformable transform = getOwner()->getTransform();
@@ -49,10 +51,9 @@ const glm::mat4 &LightC::getSpaceMatrix() {
 
 void LightC::updatePositionMessageReceived() {
     Component::updatePositionMessageReceived();
-    Transformable transform = getOwner()->getTransform();
 
-    lightView = glm::lookAt(transform.getPosition(),
-                            glm::vec3(0,0,0),
+    lightView = glm::lookAt(getOwner()->getTransform().getPosition(),
+                            glm::vec3(0,0,0), // where it looks
                             glm::vec3( 0.0f, 1.0f,  0.0f));
     lightSpaceMatrix = lightProj * lightView;
 }

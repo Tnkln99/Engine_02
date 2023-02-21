@@ -3,8 +3,7 @@
 #include "Components/Utils/ComponentFactory.h"
 
 void loadComponents(){
-    ComponentFactory::Register("Mesh", new MeshC);
-    ComponentFactory::Register("MeshRenderer", new MeshRendererC);
+    ComponentFactory::Register("Model", new ModelC);
     ComponentFactory::Register("Light", new LightC);
 }
 
@@ -19,10 +18,10 @@ void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
 
     // DEBUG ----------------------------------------------------------------------------- //
     auto * cube = new Object(this,0,0,0,"Game Object");
-    auto meshRenderer = new MeshRendererC;
-    meshRenderer->load(cube);
+    auto model = new ModelC;
+    model->load(cube);
 
-    auto * light = new Object(this,0,0,10,"Light Object");
+    auto * light = new Object(this,10,10,10,"Sun");
     auto lightC = new LightC;
     lightC->load(light);
 }
@@ -60,6 +59,6 @@ void Scene::addLight(LightC *light) {
     lights.emplace_back(light);
 }
 
-MeshManager &Scene::getMeshManager() {
-    return meshManager;
+ModelManager &Scene::getModelManager() {
+    return modelManager;
 }
