@@ -13,7 +13,7 @@ ModelC::~ModelC() {
 void ModelC::load(Object *owner) {
     Component::load(owner);
     owner->addModelComponents(this);
-    model = owner->getScene()->getModelManager().addModel("../assets/models/cube/cube.obj");
+    model = owner->getScene()->getModelManager().addModel("../assets/models/backpack2/backpack.obj");
 }
 
 void ModelC::reloadModel(Object *owner, char * modelPath) {

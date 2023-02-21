@@ -75,7 +75,6 @@ void SkyBoxCubeMap::load() {
                          0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
             );
             stbi_image_free(data);
-            std::cout << "Cubemap loaded: " << faces[i] << std::endl;
         }
         else
         {

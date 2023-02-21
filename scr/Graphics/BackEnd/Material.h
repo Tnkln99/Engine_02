@@ -19,7 +19,7 @@ private:
 
     glm::vec3 ambient{0,0,0};
     glm::vec3 diffuse{1,1,1};
-    glm::vec3 specular{0,0,0};
+    glm::vec3 specular{1,0,0};
 
     std::string shaderId;
     std::string textureId = " ";

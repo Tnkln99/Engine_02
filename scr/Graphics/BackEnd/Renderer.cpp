@@ -2,7 +2,6 @@
 #include "../../Core/EngineCamera.h"
 #include "Assets.h"
 #include <stddef.h>     /* offsetof */
-#include <stdio.h>
 
 
 void Renderer::load() {
@@ -104,18 +103,17 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
             for (auto & mesh : modelC->getModel()->getMeshes()){
                 Shader* shaderOnUse = mesh.material.shader;
                 shaderOnUse->use();
-                shaderOnUse->setInteger("shadowMap", 0);
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, depthMap);
+                //glActiveTexture(GL_TEXTURE0);
+                //glBindTexture(GL_TEXTURE_2D, depthMap);
                 shaderOnUse->setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
                 shaderOnUse->setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
                 shaderOnUse->setMatrix4("transform", modelC->getOwner()->getTransform().getMoveMatrix());
 
                 shaderOnUse->setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
-                shaderOnUse->setVector3f("material.ambient", mesh.material.getAmbient());
-                shaderOnUse->setVector3f("material.diffuse", mesh.material.getDiffuse());
-                shaderOnUse->setVector3f("material.specular", mesh.material.getSpecular());
-                shaderOnUse->setFloat("material.shininess", mesh.material.getShininess());
+                shaderOnUse->setVector3f("ambient", mesh.material.getAmbient());
+                shaderOnUse->setVector3f("diffuse", mesh.material.getDiffuse());
+                shaderOnUse->setVector3f("specular", mesh.material.getSpecular());
+                shaderOnUse->setFloat("shininess", mesh.material.getShininess());
                 int lightNo = 0;
                 for(auto & light : scene.getLights()) {
                     std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
@@ -135,15 +133,23 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                     // retrieve texture number (the N in diffuse_textureN)
                     std::string number;
                     std::string name = textures[i].type;
-                    if (name == "texture_diffuse")
+                    if (name == "texture_diffuse") {
+                        shaderOnUse->setInteger("diffuseTextureUsing",1);
                         number = std::to_string(diffuseNr++);
-                    else if (name == "texture_specular")
+                    }
+                    else if (name == "texture_specular") {
+                        std::cout << "texture speculer" << std::endl;
+                        shaderOnUse->setInteger("specularTextureUsing",1);
                         number = std::to_string(specularNr++);
+                    }
 
-                    shaderOnUse->setInteger(("material." + name + number).c_str(), i);
+                    shaderOnUse->setInteger((name + number).c_str(), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
-                glActiveTexture(GL_TEXTURE0);
+                glActiveTexture(GL_TEXTURE0+2);
+                shaderOnUse->setInteger("shadowMap", 2);
+                glBindTexture(GL_TEXTURE_2D, depthMap);
+
 
                 drawMesh(&mesh);
                 // ---------------------------------------------------- DEBUG ----------------------------------------------------------
