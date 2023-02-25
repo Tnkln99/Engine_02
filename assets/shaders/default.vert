@@ -12,16 +12,16 @@ out VS_OUT
     vec4 fragPosLightSpace;
 } vs_out;
 
-uniform mat4 proj_matrix;
-uniform mat4 view_matrix;
-uniform mat4 transform;
+uniform mat4 projMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 modelMatrix;
 uniform mat4 lightSpaceMatrix;
 
 void main()
 {
-    vs_out.fragPosLightSpace = lightSpaceMatrix * transform * vec4(aPos, 1.0);
-    vs_out.normal = mat3(transpose(inverse(transform))) * aNorm;
-    vs_out.fragPos = vec3(transform * vec4(aPos, 1.0));
+    vs_out.fragPosLightSpace = lightSpaceMatrix * modelMatrix * vec4(aPos, 1.0);
+    vs_out.normal = mat3(transpose(inverse(modelMatrix))) * aNorm;
+    vs_out.fragPos = vec3(modelMatrix * vec4(aPos, 1.0));
     vs_out.texCoord = aTexCoord;
-    gl_Position = proj_matrix * view_matrix * transform * vec4(aPos,1);
+    gl_Position = projMatrix * viewMatrix * modelMatrix * vec4(aPos,1);
 }

@@ -35,7 +35,7 @@ public:
     };
 
     EngineCamera* getCamera();
-    const std::vector<std::unique_ptr<Object>> & getObjects();
+    std::vector<std::unique_ptr<Object>> & getObjects();
     const std::vector<LightC*> & getLights();
 
     ModelManager & getModelManager();

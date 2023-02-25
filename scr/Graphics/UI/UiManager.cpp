@@ -1,8 +1,6 @@
 #include "UiManager.h"
 #include "../../Core/Components/Utils/ComponentFactory.h"
 
-
-
 void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
     textureId = frameBuffer.getTexture();
     textureHeight = frameBuffer.getTextureHeight();
@@ -43,6 +41,7 @@ void UiManager::update() {
 
 void UiManager::render(Scene & scene) {
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+
     mainMenuBar();
     objectHierarchy(scene);
     assets();
@@ -71,8 +70,7 @@ void UiManager::mainMenuBar() {
 }
 
 void UiManager::objectHierarchy(Scene &scene) {
-    ImGui::Begin("Hierarchy", nullptr);
-    ImGui::SetWindowSize(ImVec2((float)300, (float)windowHeight));
+    ImGui::Begin("Hierarchy");
 
     if(ImGui::Button("Add Object")){
         scene.addObject();
@@ -87,7 +85,6 @@ void UiManager::objectHierarchy(Scene &scene) {
         {
             selectedObject = object.get();
         }
-
     }
 
     ImGui::End();
@@ -122,14 +119,40 @@ void UiManager::components(Object* object) {
     float posYAfter = object->getTransform().getPosition().y;
     float posZAfter = object->getTransform().getPosition().z;
 
-    ImGui::InputFloat("X",&posXAfter);
-    ImGui::InputFloat("Y",&posYAfter);
-    ImGui::InputFloat("Z",&posZAfter);
+    ImGui::PushItemWidth(50);
+    ImGui::InputFloat("Pos X",&posXAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Pos Y",&posYAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Pos Z",&posZAfter);
+    ImGui::PopItemWidth();
 
     if(posXAfter != posXBefore || posYAfter != posYBefore || posZAfter != posZBefore){
         object->getTransform().setPosition(posXAfter,posYAfter,posZAfter);
         object->updatePositionMessageSent();
     }
+
+
+    float scaleXBefore = object->getTransform().getScale().x;
+    float scaleYBefore = object->getTransform().getScale().y;
+    float scaleZBefore = object->getTransform().getScale().z;
+
+    float scaleXAfter = object->getTransform().getScale().x;
+    float scaleYAfter = object->getTransform().getScale().y;
+    float scaleZAfter = object->getTransform().getScale().z;
+
+    ImGui::PushItemWidth(50);
+    ImGui::InputFloat("Scale X",&scaleXAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Scale Y",&scaleYAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Scale Z",&scaleZAfter);
+    ImGui::PopItemWidth();
+
+    if(scaleXAfter != scaleXBefore || scaleYAfter != scaleYBefore || scaleZAfter != scaleZBefore){
+        object->getTransform().setScale(scaleXAfter,scaleYAfter,scaleZAfter);
+    }
+
 
     ImGui::Spacing();
     ImGui::Spacing();
@@ -206,7 +229,7 @@ void UiManager::modelCOptions(ModelC * modelC) {
     {
         for (auto & model : models){
             bool is_selected = (current_model == model.c_str()); // You can store your selection however you want, outside or inside your objects
-            std::cout<< is_selected << std::endl;
+            //std::cout<< is_selected << std::endl;
             if (ImGui::Selectable(model.c_str(), is_selected))
                 current_model = model.c_str();
             if (is_selected)

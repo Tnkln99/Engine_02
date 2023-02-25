@@ -15,7 +15,7 @@ void LightC::load(Object *owner) {
 
     owner->getScene()->addLight(this);
 
-    Transformable transform = getOwner()->getTransform();
+    Transform transform = getOwner()->getTransform();
 
     lightProj = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, farPlane);
     lightView = glm::lookAt(transform.getPosition(),
@@ -49,8 +49,8 @@ const glm::mat4 &LightC::getSpaceMatrix() {
 }
 
 
-void LightC::updatePositionMessageReceived() {
-    Component::updatePositionMessageReceived();
+void LightC::positionUpdateMessageReceived() {
+    Component::positionUpdateMessageReceived();
 
     lightView = glm::lookAt(getOwner()->getTransform().getPosition(),
                             glm::vec3(0,0,0), // where it looks

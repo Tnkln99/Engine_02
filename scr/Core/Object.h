@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "Embedded Components/Transformable.h"
+#include "Embedded Components/Transform.h"
 
 #include <ctime>
 #include "glad/glad.h"
@@ -16,16 +16,11 @@ class Scene;
 
 class Object {
 private:
-    enum class Behavior{
-        Destroy, Stack, Keep
-    };
-
-    Transformable transform;
+    Transform transform;
     Scene * owner;
 
     std::vector<Component*> components;
     std::vector<ModelC*> modelComponents;
-    Behavior behaviorOnLoad = Behavior::Destroy;
 
     std::string name;
 public:
@@ -52,7 +47,8 @@ public:
   std::vector<Component*> & getComponents();
   const std::string & getName();
   Scene * getScene();
-  Transformable & getTransform();
+  Transform & getTransform();
+
 
   virtual void updatePositionMessageSent();
   virtual void updatePerFrame(float dt);

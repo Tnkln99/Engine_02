@@ -56,9 +56,6 @@ void Window::render(Scene &scene) {
     // imgui will render our texture automatic
     ui.render(scene);
 
-    //screenFbo.renderToQuad(300,300);
-    //shadowMapFbo.renderToQuad(300,300);
-
     glfwSwapBuffers(window);
     glfwPollEvents();
 }

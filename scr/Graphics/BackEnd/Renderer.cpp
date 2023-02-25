@@ -64,7 +64,7 @@ void Renderer::renderToShadowMap(Scene &scene) {
         for (auto &object: scene.getObjects()) {
             for (auto &modelC: object->getModelComponents()) {
                 for(auto & mesh : modelC->getModel()->getMeshes()) {
-                    shadowMapShader.setMatrix4("model", modelC->getOwner()->getTransform().getMoveMatrix());
+                    shadowMapShader.setMatrix4("modelMatrix", modelC->getOwner()->getTransform().getModelMatrix());
                     drawMesh(&mesh);
                 }
             }
@@ -105,9 +105,9 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 shaderOnUse->use();
                 //glActiveTexture(GL_TEXTURE0);
                 //glBindTexture(GL_TEXTURE_2D, depthMap);
-                shaderOnUse->setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-                shaderOnUse->setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-                shaderOnUse->setMatrix4("transform", modelC->getOwner()->getTransform().getMoveMatrix());
+                shaderOnUse->setMatrix4("projMatrix", scene.getCamera()->getProjMatrix());
+                shaderOnUse->setMatrix4("viewMatrix", scene.getCamera()->getViewMatrix());
+                shaderOnUse->setMatrix4("modelMatrix", modelC->getOwner()->getTransform().getModelMatrix());
 
                 shaderOnUse->setVector3f("viewPos", scene.getCamera()->getTransform().getPosition());
                 shaderOnUse->setVector3f("ambient", mesh.material.getAmbient());
@@ -135,6 +135,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                     shaderOnUse->setInteger((name + number).c_str(), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
+                shaderOnUse->setInteger("lightCount", scene.getLights().size());
                 int lightNo = 0;
                 for(auto & light : scene.getLights()) {
                     std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
@@ -157,7 +158,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 /*debugNormals.use();
                 debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
                 debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-                debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getMoveMatrix());
+                debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getModelMatrix());
                 drawMesh(&mesh);*/
             }
         }

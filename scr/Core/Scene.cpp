@@ -21,16 +21,20 @@ void Scene::load(GLFWwindow * window, float sceneWidth, float sceneHeight){
     auto model = new ModelC;
     model->load(cube);
 
-    auto * light = new Object(this,10,10,10,"Sun");
+    auto * light = new Object(this,0,0,10,"Sun");
     auto lightC = new LightC;
     lightC->load(light);
+
+    /*auto * light2 = new Object(this,0,0,-10,"Sun2");
+    auto lightC2 = new LightC;
+    lightC2->load(light2);*/
 }
 
 EngineCamera *Scene::getCamera() {
     return camera.get();
 }
 
-const std::vector<std::unique_ptr<Object>> &Scene::getObjects() {
+std::vector<std::unique_ptr<Object>> &Scene::getObjects() {
     return objects;
 }
 

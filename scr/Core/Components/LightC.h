@@ -8,17 +8,16 @@
 class Mesh;
 class Shader;
 
-// todo: complete this class..
 class LightC : public Component{
 private:
-    int shadowTextureWidth = 1619;
-    int shadowTextureHeight = 838;
+    int shadowTextureWidth = 1920;
+    int shadowTextureHeight = 1080;
 
     float intensity{30.0f};
 
     glm::vec3 color = {1,1,1};
     float nearPlane = 1.0f;
-    float farPlane = 40.0f;
+    float farPlane = 100.0f;
 
     glm::mat4 lightProj = glm::mat4(1);
     glm::mat4 lightView = glm::mat4(1);
@@ -39,7 +38,7 @@ public:
     const glm::vec3 & getColor();
     const glm::mat4 & getSpaceMatrix();
 
-    void updatePositionMessageReceived() override;
+    void positionUpdateMessageReceived() override;
 
     Component * clone() override;
 };
