@@ -19,11 +19,11 @@ private:
     int windowWidth;
     int windowHeight;
 
-    int textureId;
+    unsigned int textureId;
     int textureWidth;
     int textureHeight;
 
-    std::vector<std::string> objFiles = FileSearch::findObjFiles();
+    std::vector<std::string> objFiles;
 public:
     UiManager() = default;
 

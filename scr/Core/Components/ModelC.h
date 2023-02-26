@@ -17,7 +17,7 @@ public:
     std::shared_ptr<Model> getModel();
 
     void load(Object * owner) override;
-    void reloadModel(Object * owner, char * modelPath);
+    void reloadModel(Object * owner,const char * modelPath);
     Component * clone() override;
 };
 

@@ -11,8 +11,8 @@ private:
     std::map<std::string, std::shared_ptr<Model>> modelsInGame;
     std::vector<std::shared_ptr<Model>> modelWaitingToBeLoaded;
 public:
-    std::shared_ptr<Model> addModel(char * modelPath, std::shared_ptr<Model> oldModel = nullptr);
-    void deleteModel(std::string modelName);
+    std::shared_ptr<Model> addModel(const char * modelPath, std::shared_ptr<Model> oldModel = nullptr);
+    void deleteModel(std::string modelPath);
 
     void notifyLoaded();
 

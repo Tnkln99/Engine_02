@@ -82,23 +82,26 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 std::vector<Texture> textures = mesh.getTextures();
                 unsigned int diffuseNr = 1;
                 unsigned int specularNr = 1;
+                int diffuseTextureUsing = 0;
+                int specularTextureUsing = 0;
                 for (unsigned int i = 0; i < textures.size(); i++) {
                     glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
                     // retrieve texture number (the N in diffuse_textureN)
                     std::string number;
                     std::string name = textures[i].type;
                     if (name == "texture_diffuse") {
-                        shaderOnUse->setInteger("diffuseTextureUsing",1);
+                        diffuseTextureUsing = 1;
                         number = std::to_string(diffuseNr++);
                     }
                     else if (name == "texture_specular") {
-                        shaderOnUse->setInteger("specularTextureUsing",1);
+                        specularTextureUsing = 1;
                         number = std::to_string(specularNr++);
                     }
-
                     shaderOnUse->setInteger((name + number).c_str(), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
+                shaderOnUse->setInteger("diffuseTextureUsing",diffuseTextureUsing);
+                shaderOnUse->setInteger("specularTextureUsing",specularTextureUsing);
                 shaderOnUse->setInteger("lightCount", scene.getLights().size());
                 int lightNo = 0;
                 for(auto & light : scene.getLights()) {

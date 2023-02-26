@@ -12,6 +12,7 @@ void Model::loadModel(std::string path) {
         std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
         return;
     }
+    modelPath = path;
     directory = path.substr(0, path.find_last_of('/'));
     nameOfModel = path.substr(path.find_last_of('/') + 1, path.size() - path.find_last_of('/'));
     processNode(scene->mRootNode, scene);
@@ -161,4 +162,8 @@ std::string Model::getNameOfModel() {
 
 std::vector<Mesh> &Model::getMeshes() {
     return meshes;
+}
+
+std::string Model::getPath() {
+    return modelPath;
 }

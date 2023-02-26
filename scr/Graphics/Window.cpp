@@ -115,7 +115,6 @@ GLFWwindow *Window::getPointer() const {
 
 void Window::clean() {
     ui.terminate();
-    renderer.cleanRenderer();
     glfwDestroyWindow(window);
     // Terminate GLFW before ending the program
     glfwTerminate();

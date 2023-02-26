@@ -8,11 +8,12 @@
 class Model {
 private:
     std::string nameOfModel;
+    std::string directory;
+    std::string modelPath;
 
     std::vector<Mesh> meshes;
-
     std::vector<Texture> textures_loaded;
-    std::string directory;
+
 
     void loadModel(std::string path);
     void processNode(aiNode *node, const aiScene *scene);
@@ -22,12 +23,13 @@ private:
 
     unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false);
 public:
-    Model(char *path)
+    Model(const char *path)
     {
         loadModel(path);
     }
 
     std::string getNameOfModel();
+    std::string getPath();
     std::vector<Mesh> & getMeshes();
 };
 
