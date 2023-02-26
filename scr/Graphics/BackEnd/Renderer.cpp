@@ -5,7 +5,7 @@
 
 void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
-    debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
+    normalsShader = Assets::loadShaderFromFile("../assets/shaders/normals.vert", "../assets/shaders/normals.frag", "", "", "../assets/shaders/normals.geom");
     lightsShader = Assets::loadShaderFromFile("../assets/shaders/light.vert", "../assets/shaders/light.frag", "", "", "");
     skyBox.load();
 }
@@ -137,11 +137,13 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 }
 
                 // ---------------------------------------------------- DEBUG ----------------------------------------------------------
-                /*debugNormals.use();
-                debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-                debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-                debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getModelMatrix());
-                drawMesh(&mesh);*/
+                if(modelC->isNormalShow()) {
+                    normalsShader.use();
+                    normalsShader.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                    normalsShader.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                    normalsShader.setMatrix4("transform", modelC->getOwner()->getTransform().getModelMatrix());
+                    drawMesh(&mesh);
+                }
 
             }
         }

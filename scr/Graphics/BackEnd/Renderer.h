@@ -17,7 +17,7 @@ private:
     RenderMode renderMode = RenderMode::FILL;
 
     Shader shadowMapShader;
-    Shader debugNormals;
+    Shader normalsShader;
     Shader lightsShader;
 
     SkyBoxCubeMap skyBox;

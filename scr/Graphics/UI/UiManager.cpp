@@ -278,7 +278,8 @@ void UiManager::modelCOptions(ModelC * modelC) {
     }
 
     static bool showNormals = false;
-    ImGui::Checkbox("Show normals", &showNormals);ImGui::SameLine();
+    ImGui::Checkbox("Show normals", &showNormals);
+    modelC->setNormalShow(showNormals);
 }
 
 

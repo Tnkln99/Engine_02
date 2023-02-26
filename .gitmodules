@@ -19,3 +19,33 @@
 [submodule "lib/assimp"]
 	path = lib/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "cmake-build-debug/lib/stb"]
+	path = cmake-build-debug/lib/stb
+	url = https://github.com/nothings/stb.git
+[submodule "cmake-build-release/lib/stb"]
+	path = cmake-build-release/lib/stb
+	url = https://github.com/nothings/stb.git
+[submodule "cmake-build-debug/lib/glad"]
+	path = cmake-build-debug/lib/glad
+	url = https://github.com/Dav1dde/glad.git
+[submodule "cmake-build-release/lib/glad"]
+	path = cmake-build-release/lib/glad
+	url = https://github.com/Dav1dde/glad.git
+[submodule "cmake-build-debug/lib/glfw"]
+	path = cmake-build-debug/lib/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "cmake-build-release/lib/glfw"]
+	path = cmake-build-release/lib/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "cmake-build-release/lib/glm"]
+	path = cmake-build-release/lib/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "cmake-build-release/lib/imgui"]
+	path = cmake-build-release/lib/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "cmake-build-release/lib/tinyobjloader"]
+	path = cmake-build-release/lib/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader.git
+[submodule "cmake-build-release/lib/assimp"]
+	path = cmake-build-release/lib/assimp
+	url = https://github.com/assimp/assimp.git

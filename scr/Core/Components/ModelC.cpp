@@ -27,3 +27,11 @@ std::shared_ptr<Model> ModelC::getModel() {
 Component * ModelC::clone() {
     return new ModelC(*this);
 }
+
+bool ModelC::isNormalShow() {
+    return showNormals;
+}
+
+void ModelC::setNormalShow(bool showNormals) {
+    this->showNormals = showNormals;
+}
