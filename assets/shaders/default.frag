@@ -1,12 +1,13 @@
 #version 450 core
-#define max_light_count 10
+#define MAX_LIGHT_COUNT 10
 
 in VS_OUT
 {
     vec2 texCoord;
     vec3 normal;
     vec3 fragPos;
-    vec4 fragPosLightSpace;
+    vec4 fragPosLightSpace[MAX_LIGHT_COUNT];
+    int lightCount;
 } fs_in;
 
 struct Light {
@@ -31,8 +32,8 @@ uniform int specularTextureUsing=0;
 
 uniform vec3 viewPos;
 
-uniform int lightCount;
-uniform Light light[max_light_count];
+
+uniform Light light[MAX_LIGHT_COUNT];
 
 // shadow = 1 if no shadow (result * 1 = result)
 float ShadowCalculation(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 lightDir, vec3 normal)
@@ -61,9 +62,9 @@ float ShadowCalculation(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 lightD
     shadow /= 9.0;
 
     // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
-    if(projCoords.z > 1.0)
+    if(projCoords.z > 1.0) {
         shadow = 0.0;
-
+    }
     return shadow;
 }
 
@@ -71,10 +72,10 @@ void main()
 {
     vec3 radiance = vec3(0);
     float shadow = 1.0;
-    for(int i = 0; i < lightCount; i ++){
+    for(int i = 0; i < MAX_LIGHT_COUNT; i++){
         vec3 norm = normalize(fs_in.normal.xyz);
         vec3 lightDir = normalize(light[i].position); // all the lights looking at point 0,0,0
-        shadow *= (1 - ShadowCalculation(light[i].shadowMap, fs_in.fragPosLightSpace, lightDir, norm));
+        shadow *= (1 - ShadowCalculation(light[i].shadowMap, fs_in.fragPosLightSpace[i], lightDir, norm));
         vec3 lightIntensity = light[i].color * max(dot(norm, lightDir), 0.0);
 
         // diffuse

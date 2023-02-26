@@ -1,49 +1,13 @@
 #include "Renderer.h"
 #include "../../Core/EngineCamera.h"
 #include "Assets.h"
-#include <stddef.h>     /* offsetof */
 
 
 void Renderer::load() {
     shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
     debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
+    lightsShader = Assets::loadShaderFromFile("../assets/shaders/light.vert", "../assets/shaders/light.frag", "", "", "");
     skyBox.load();
-}
-
-void Renderer::loadMesh(Mesh *mesh){
-    GLuint EBO, VBO;
-    // Generate the VAO and VBO with only 1 object each
-    glGenVertexArrays(1, &mesh->getId());
-    loadedMeshIds.emplace_back(mesh->getId());
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    // Make the VAO the current Vertex Array Object by binding it
-    glBindVertexArray(mesh->getId());
-
-    // Bind the VBO_N specifying it's a GL_ARRAY_BUFFER
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // Introduce the positions into the VBO
-    glBufferData(GL_ARRAY_BUFFER, mesh->getVertices().size() * sizeof(Vertex), mesh->getVertices().data(), GL_STATIC_DRAW);
-
-
-    // Bind the EBO specifying it's a GL_ELEMENT_ARRAY_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    // Introduce the indices into the EBO
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->getIndices().size() * sizeof(GLuint), mesh->getIndices().data(), GL_STATIC_DRAW);
-
-
-    // Setup vertex attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    // vertex texture coords
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
-
-    glBindVertexArray(0);
 }
 
 
@@ -51,7 +15,7 @@ void Renderer::renderToShadowMap(Scene &scene) {
     if(scene.getModelManager().getModelsWaitingToBeLoaded().size() != 0){
         for(auto & model : scene.getModelManager().getModelsWaitingToBeLoaded()){
             for (auto & mesh : model->getMeshes()){
-                loadMesh(&mesh);
+                mesh.load();
             }
         }
         scene.getModelManager().notifyLoaded();
@@ -92,7 +56,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
     if(scene.getModelManager().getModelsWaitingToBeLoaded().size() != 0){
         for(auto & model : scene.getModelManager().getModelsWaitingToBeLoaded()){
             for (auto & mesh : model->getMeshes()){
-                loadMesh(&mesh);
+                mesh.load();
             }
         }
         scene.getModelManager().notifyLoaded();
@@ -141,25 +105,41 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                     std::string stringLightNoPos = "light[" + std::to_string(lightNo) + "].position";
                     std::string stringLightColor = "light[" + std::to_string(lightNo) + "].color";
                     std::string stringLightShadowMap = "light[" + std::to_string(lightNo) + "].shadowMap";
+                    std::string stringLightSpaceMatrix= "lightSpaceMatrix[" + std::to_string(lightNo) + "]";
 
-                    shaderOnUse->setMatrix4("lightSpaceMatrix", light->getSpaceMatrix());
+                    shaderOnUse->setMatrix4(stringLightSpaceMatrix.c_str(), light->getSpaceMatrix());
                     shaderOnUse->setVector3f(stringLightNoPos.c_str(),
                                              light->getOwner()->getTransform().getPosition());
                     shaderOnUse->setVector3f(stringLightColor.c_str(), light->getColor());
 
                     glActiveTexture(GL_TEXTURE0+2+lightNo);
                     shaderOnUse->setInteger(stringLightShadowMap.c_str(), 2+lightNo);
-                    glBindTexture(GL_TEXTURE_2D, light->shadowMap.getTexture());
+                    glBindTexture(GL_TEXTURE_2D, *light->shadowMap.getTexture());
+
+
                     lightNo++;
                 }
 
                 drawMesh(&mesh);
+
+                // drawing edit mode mesh
+                for(auto & light : scene.getLights()) {
+                    lightsShader.use();
+                    lightsShader.setMatrix4("projMatrix", scene.getCamera()->getProjMatrix());
+                    lightsShader.setMatrix4("viewMatrix", scene.getCamera()->getViewMatrix());
+                    lightsShader.setMatrix4("modelMatrix", light->getOwner()->getTransform().getModelMatrix());
+                    for (auto &lightMesh: light->editModel->getMeshes()) {
+                        drawMesh(&lightMesh);
+                    }
+                }
+
                 // ---------------------------------------------------- DEBUG ----------------------------------------------------------
                 /*debugNormals.use();
                 debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
                 debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
                 debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getModelMatrix());
                 drawMesh(&mesh);*/
+
             }
         }
     }
@@ -187,12 +167,6 @@ void Renderer::setRenderMode(int mode){
         default:
             renderMode = RenderMode::FILL;
             break;
-    }
-}
-
-void Renderer::cleanRenderer() {
-    for(auto & vao : loadedMeshIds){
-        glDeleteVertexArrays(1, &vao);
     }
 }
 

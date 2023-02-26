@@ -42,6 +42,32 @@ public:
     void sceneWindow();
     void assets();
 
+    void light(Scene & scene);
+
+    void PushImageVarSwizzle(GLuint* textureId)
+    {
+        ImGui::GetWindowDrawList()->AddCallback(
+                [](const ImDrawList* parent_list, const ImDrawCmd* cmd)
+                {
+                    glBindTexture(GL_TEXTURE_2D, *reinterpret_cast<GLuint*>(cmd->UserCallbackData));
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
+
+                }, textureId
+        );
+    }
+
+    void PopImageVarSwizzle()
+    {
+        ImGui::GetWindowDrawList()->AddCallback(
+                [](const ImDrawList* parent_list, const ImDrawCmd* cmd)
+                {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_GREEN);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_BLUE);
+                }, nullptr
+        );
+    }
+
     void modelCOptions(ModelC * modelC);
 
     void terminate();

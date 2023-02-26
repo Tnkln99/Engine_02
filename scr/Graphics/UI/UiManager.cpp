@@ -2,7 +2,7 @@
 #include "../../Core/Components/Utils/ComponentFactory.h"
 
 void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
-    textureId = frameBuffer.getTexture();
+    textureId = *frameBuffer.getTexture();
     textureHeight = frameBuffer.getTextureHeight();
     textureWidth = frameBuffer.getTextureWidth();
 
@@ -46,6 +46,10 @@ void UiManager::render(Scene & scene) {
     objectHierarchy(scene);
     assets();
     sceneWindow();
+
+    light(scene);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_GREEN);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_BLUE);
 
     if( selectedObject != nullptr )
         components(selectedObject);
@@ -216,6 +220,25 @@ void UiManager::sceneWindow() {
     ImGui::End();
 }
 
+
+void UiManager::light(Scene & scene) {
+    ImGui::Begin("Light");
+    int lightNo = 0;
+    for(auto & light : scene.getLights()){
+        std::string nameOfLight = "light " + std::to_string(lightNo);
+        if(ImGui::TreeNode(nameOfLight.c_str())){
+            ImGui::Begin(nameOfLight.c_str());
+            PushImageVarSwizzle(light->shadowMap.getTexture());
+            ImGui::Image((void*)light->shadowMap.getTexture(), { (float)light->shadowMap.getTextureWidth(), (float)light->shadowMap.getTextureHeight() }, { 0.0f, 1.0f }, { 1.0f, 0.0f }); // Or whatever dimensions you want
+            PopImageVarSwizzle();
+            ImGui::TreePop();
+        }
+        lightNo++;
+    }
+    ImGui::End();
+}
+
+
 void UiManager::assets() {
     ImGui::Begin("Assets", nullptr);
 
@@ -248,4 +271,5 @@ void UiManager::modelCOptions(ModelC * modelC) {
     static bool showNormals = false;
     ImGui::Checkbox("Show normals", &showNormals);ImGui::SameLine();
 }
+
 

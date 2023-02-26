@@ -35,7 +35,7 @@ public:
 
     std::vector<glm::vec3> computeVertexNormals(const std::vector<glm::vec3>& positions);
 
-    void Draw();
+    void load();
 };
 
 #endif
