@@ -1,10 +1,8 @@
 #include "UiManager.h"
 #include "../../Core/Components/Utils/ComponentFactory.h"
 
-
-
 void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
-    textureId = frameBuffer.getTexture();
+    textureId = *frameBuffer.getTexture();
     textureHeight = frameBuffer.getTextureHeight();
     textureWidth = frameBuffer.getTextureWidth();
 
@@ -43,10 +41,15 @@ void UiManager::update() {
 
 void UiManager::render(Scene & scene) {
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+
     mainMenuBar();
     objectHierarchy(scene);
     assets();
     sceneWindow();
+
+    light(scene);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_GREEN);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_BLUE);
 
     if( selectedObject != nullptr )
         components(selectedObject);
@@ -71,8 +74,7 @@ void UiManager::mainMenuBar() {
 }
 
 void UiManager::objectHierarchy(Scene &scene) {
-    ImGui::Begin("Hierarchy", nullptr);
-    ImGui::SetWindowSize(ImVec2((float)300, (float)windowHeight));
+    ImGui::Begin("Hierarchy");
 
     if(ImGui::Button("Add Object")){
         scene.addObject();
@@ -87,7 +89,6 @@ void UiManager::objectHierarchy(Scene &scene) {
         {
             selectedObject = object.get();
         }
-
     }
 
     ImGui::End();
@@ -122,14 +123,40 @@ void UiManager::components(Object* object) {
     float posYAfter = object->getTransform().getPosition().y;
     float posZAfter = object->getTransform().getPosition().z;
 
-    ImGui::InputFloat("X",&posXAfter);
-    ImGui::InputFloat("Y",&posYAfter);
-    ImGui::InputFloat("Z",&posZAfter);
+    ImGui::PushItemWidth(50);
+    ImGui::InputFloat("Pos X",&posXAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Pos Y",&posYAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Pos Z",&posZAfter);
+    ImGui::PopItemWidth();
 
     if(posXAfter != posXBefore || posYAfter != posYBefore || posZAfter != posZBefore){
         object->getTransform().setPosition(posXAfter,posYAfter,posZAfter);
         object->updatePositionMessageSent();
     }
+
+
+    float scaleXBefore = object->getTransform().getScale().x;
+    float scaleYBefore = object->getTransform().getScale().y;
+    float scaleZBefore = object->getTransform().getScale().z;
+
+    float scaleXAfter = object->getTransform().getScale().x;
+    float scaleYAfter = object->getTransform().getScale().y;
+    float scaleZAfter = object->getTransform().getScale().z;
+
+    ImGui::PushItemWidth(50);
+    ImGui::InputFloat("Scale X",&scaleXAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Scale Y",&scaleYAfter);
+    ImGui::SameLine();
+    ImGui::InputFloat("Scale Z",&scaleZAfter);
+    ImGui::PopItemWidth();
+
+    if(scaleXAfter != scaleXBefore || scaleYAfter != scaleYBefore || scaleZAfter != scaleZBefore){
+        object->getTransform().setScale(scaleXAfter,scaleYAfter,scaleZAfter);
+    }
+
 
     ImGui::Spacing();
     ImGui::Spacing();
@@ -193,6 +220,25 @@ void UiManager::sceneWindow() {
     ImGui::End();
 }
 
+
+void UiManager::light(Scene & scene) {
+    ImGui::Begin("Light");
+    int lightNo = 0;
+    for(auto & light : scene.getLights()){
+        std::string nameOfLight = "light " + std::to_string(lightNo);
+        if(ImGui::TreeNode(nameOfLight.c_str())){
+            ImGui::Begin(nameOfLight.c_str());
+            PushImageVarSwizzle(light->shadowMap.getTexture());
+            ImGui::Image((void*)light->shadowMap.getTexture(), { (float)light->shadowMap.getTextureWidth(), (float)light->shadowMap.getTextureHeight() }, { 0.0f, 1.0f }, { 1.0f, 0.0f }); // Or whatever dimensions you want
+            PopImageVarSwizzle();
+            ImGui::TreePop();
+        }
+        lightNo++;
+    }
+    ImGui::End();
+}
+
+
 void UiManager::assets() {
     ImGui::Begin("Assets", nullptr);
 
@@ -206,7 +252,7 @@ void UiManager::modelCOptions(ModelC * modelC) {
     {
         for (auto & model : models){
             bool is_selected = (current_model == model.c_str()); // You can store your selection however you want, outside or inside your objects
-            std::cout<< is_selected << std::endl;
+            //std::cout<< is_selected << std::endl;
             if (ImGui::Selectable(model.c_str(), is_selected))
                 current_model = model.c_str();
             if (is_selected)
@@ -225,4 +271,5 @@ void UiManager::modelCOptions(ModelC * modelC) {
     static bool showNormals = false;
     ImGui::Checkbox("Show normals", &showNormals);ImGui::SameLine();
 }
+
 

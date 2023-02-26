@@ -1,6 +1,6 @@
 #include "Object.h"
 #include "Scene.h"
-
+#include <algorithm>
 
 Object::Object(Scene* owner, float xP, float yP, float zP, std::string name) : owner{owner}, name{std::move(name)}
 {
@@ -39,7 +39,7 @@ const std::string &Object::getName() {
     return name;
 }
 
-Transformable &Object::getTransform() {
+Transform &Object::getTransform() {
     return transform;
 }
 
@@ -56,8 +56,9 @@ void Object::updatePerFrame(float dt){
 
 void Object::updatePositionMessageSent() {
     for (auto & component : components){
-        component->updatePositionMessageReceived();
+        component->positionUpdateMessageReceived();
     }
 }
+
 
 

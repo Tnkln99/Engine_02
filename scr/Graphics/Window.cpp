@@ -50,14 +50,11 @@ void Window::render(Scene &scene) {
 
     // rendering the scene to the screenFbo
     screenFbo.bind(0.07f, 0.13f, 0.17f);
-    renderer.renderScene(scene, shadowMapFbo.getTexture());
+    renderer.renderScene(scene, *shadowMapFbo.getTexture());
     screenFbo.unbind(windowWidth, windowHeight);
 
     // imgui will render our texture automatic
     ui.render(scene);
-
-    //screenFbo.renderToQuad(300,300);
-    //shadowMapFbo.renderToQuad(300,300);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

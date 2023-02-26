@@ -57,8 +57,8 @@ public:
         return textureHeight;
     };
 
-    [[nodiscard]] virtual unsigned int getTexture() const {
-        return texture;
+    [[nodiscard]] virtual unsigned int * getTexture() {
+        return & texture;
     };
 
     virtual void bind(float r, float g, float b) = 0;

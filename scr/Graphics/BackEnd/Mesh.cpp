@@ -60,6 +60,41 @@ std::vector<glm::vec3> Mesh::computeVertexNormals(const std::vector<glm::vec3>& 
     return normals;
 }
 
+void Mesh::load() {
+    GLuint EBO, VBO;
+    // Generate the VAO and VBO with only 1 object each
+    glGenVertexArrays(1, &id);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    // Make the VAO the current Vertex Array Object by binding it
+    glBindVertexArray(id);
+
+    // Bind the VBO_N specifying it's a GL_ARRAY_BUFFER
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // Introduce the positions into the VBO
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+
+
+    // Bind the EBO specifying it's a GL_ELEMENT_ARRAY_BUFFER
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    // Introduce the indices into the EBO
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+
+
+    // Setup vertex attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+
+    glBindVertexArray(0);
+}
+
 
 
 

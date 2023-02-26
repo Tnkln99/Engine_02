@@ -4,11 +4,11 @@
 #include <glm/glm.hpp>
 #include "Component.h"
 #include "../../Graphics/BackEnd/ShadowMapFbo.h"
+#include "../../Graphics/BackEnd/Model.h"
 
 class Mesh;
 class Shader;
 
-// todo: complete this class..
 class LightC : public Component{
 private:
     int shadowTextureWidth = 1619;
@@ -17,13 +17,14 @@ private:
     float intensity{30.0f};
 
     glm::vec3 color = {1,1,1};
-    float nearPlane = 1.0f;
-    float farPlane = 40.0f;
+    float nearPlane = 0.1f;
+    float farPlane = 100.0f;
 
     glm::mat4 lightProj = glm::mat4(1);
     glm::mat4 lightView = glm::mat4(1);
     glm::mat4 lightSpaceMatrix = glm::mat4(1);
 public:
+    std::shared_ptr<Model> editModel;
     ShadowMapFbo shadowMap;
 
     explicit LightC();
@@ -39,7 +40,7 @@ public:
     const glm::vec3 & getColor();
     const glm::mat4 & getSpaceMatrix();
 
-    void updatePositionMessageReceived() override;
+    void positionUpdateMessageReceived() override;
 
     Component * clone() override;
 };

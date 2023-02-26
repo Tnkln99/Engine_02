@@ -30,7 +30,7 @@ void Component::update(float dt) {
 
 }
 
-void Component::updatePositionMessageReceived(){
+void Component::positionUpdateMessageReceived(){
 
 }
 

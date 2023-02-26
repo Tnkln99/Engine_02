@@ -1,6 +1,6 @@
 #ifndef ENGINE_02_CAMERA_H
 #define ENGINE_02_CAMERA_H
-#include "Embedded Components/Transformable.h"
+#include "Embedded Components/Transform.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -9,7 +9,7 @@
 
 class EngineCamera{
 private:
-    Transformable transform;
+    Transform transform;
 
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
 
@@ -34,7 +34,7 @@ public:
     void getCameraInput(GLFWwindow * window, float dt);
     void mouse_callback(double xpos, double ypos);
 
-    const Transformable & getTransform();
+    const Transform & getTransform();
 
     void update();
 };

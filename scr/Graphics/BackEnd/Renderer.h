@@ -14,18 +14,15 @@ private:
         POINT,
         LINE
     };
-    // stores VAO's to delete them later
-    std::vector<unsigned int> loadedMeshIds;
     RenderMode renderMode = RenderMode::FILL;
 
     Shader shadowMapShader;
     Shader debugNormals;
+    Shader lightsShader;
 
     SkyBoxCubeMap skyBox;
 public:
     void load();
-
-    void loadMesh(Mesh * mesh);
 
     void renderToShadowMap(Scene & scene);
     void renderScene(Scene & scene, unsigned int depthMap);
@@ -33,8 +30,6 @@ public:
     void drawMesh(Mesh * mesh);
 
     void setRenderMode(int mode);
-
-    void cleanRenderer();
 };
 
 
