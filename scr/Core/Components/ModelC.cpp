@@ -16,7 +16,7 @@ void ModelC::load(Object *owner) {
     model = owner->getScene()->getModelManager().addModel("../assets/models/backpack/backpack.obj");
 }
 
-void ModelC::reloadModel(Object *owner, char * modelPath) {
+void ModelC::reloadModel(Object *owner, const char * modelPath) {
     model = owner->getScene()->getModelManager().addModel(modelPath, model);
 }
 

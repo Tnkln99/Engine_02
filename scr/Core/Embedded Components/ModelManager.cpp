@@ -1,10 +1,10 @@
 #include "ModelManager.h"
 
-std::shared_ptr<Model> ModelManager::addModel(char * modelPath, std::shared_ptr<Model> oldModel) {
+std::shared_ptr<Model> ModelManager::addModel(const char * modelPath, std::shared_ptr<Model> oldModel) {
     if(oldModel != nullptr) {
-        if (oldModel.use_count() <= 3) { // probably 2 with new changes
+        if (oldModel.use_count() <= 3) {
             if (modelPath == oldModel->getNameOfModel()){ return oldModel; }
-            deleteModel(oldModel->getNameOfModel());
+            deleteModel(oldModel->getPath());
         }
     }
 
@@ -22,8 +22,8 @@ std::shared_ptr<Model> ModelManager::addModel(char * modelPath, std::shared_ptr<
     }
 }
 
-void ModelManager::deleteModel(std::string meshName) {
-    modelsInGame.erase(meshName);
+void ModelManager::deleteModel(std::string modelPath) {
+    modelsInGame.erase(modelPath);
 }
 
 void ModelManager::notifyLoaded() {

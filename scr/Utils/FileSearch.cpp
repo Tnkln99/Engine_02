@@ -14,5 +14,8 @@ std::vector<string> FileSearch::findObjFiles() {
             }
         }
     }
+    for(auto & string : result){
+        std::replace( string.begin(), string.end(), '\\', '/'); // replace all 'x' to 'y'
+    }
     return result;
 }

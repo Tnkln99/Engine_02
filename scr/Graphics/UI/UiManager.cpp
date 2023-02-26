@@ -6,6 +6,8 @@ void UiManager::load(GLFWwindow *window, FBO & frameBuffer) {
     textureHeight = frameBuffer.getTextureHeight();
     textureWidth = frameBuffer.getTextureWidth();
 
+    objFiles = FileSearch::findObjFiles();
+
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -246,17 +248,24 @@ void UiManager::assets() {
 }
 
 void UiManager::modelCOptions(ModelC * modelC) {
-    static const char* current_model = objFiles[0].c_str();
-    const std::vector<std::string> models = objFiles;
-    if (ImGui::BeginCombo("##combo", current_model))
+    const char* items[objFiles.size()];
+    for(int i = 0; i < objFiles.size();++i){
+        items[i] = objFiles[i].c_str();
+    }
+
+    static const char* current_item = NULL;
+
+    if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
     {
-        for (auto & model : models){
-            bool is_selected = (current_model == model.c_str()); // You can store your selection however you want, outside or inside your objects
-            //std::cout<< is_selected << std::endl;
-            if (ImGui::Selectable(model.c_str(), is_selected))
-                current_model = model.c_str();
-            if (is_selected)
-                ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+        for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+        {
+            bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
+            if (ImGui::Selectable(items[n], is_selected)) {
+                current_item = items[n];
+            }
+            if (is_selected) {
+                ImGui::SetItemDefaultFocus();
+            }   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
         }
         ImGui::EndCombo();
     }
@@ -264,8 +273,8 @@ void UiManager::modelCOptions(ModelC * modelC) {
     ImGui::SameLine();
     if (ImGui::Button("Set"))
     {
-        FileSearch::findObjFiles();
-        //modelC->reloadModel(modelC->getOwner(),current_model);
+        //FileSearch::findObjFiles();
+        modelC->reloadModel(modelC->getOwner(),current_item);
     }
 
     static bool showNormals = false;
