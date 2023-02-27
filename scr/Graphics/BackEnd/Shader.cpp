@@ -133,7 +133,7 @@ void Shader::setVector2f(const GLchar *name, GLfloat x, GLfloat y)
 {
     glUniform2f(glGetUniformLocation(id, name), x, y);
 }
-void Shader::setVector2f(const GLchar *name, const Vector2 &value)
+void Shader::setVector2f(const GLchar *name, const glm::vec2 &value)
 {
     glUniform2f(glGetUniformLocation(id, name), value.x, value.y);
 }
@@ -149,7 +149,7 @@ void Shader::setVector4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GL
 {
     glUniform4f(glGetUniformLocation(id, name), x, y, z, w);
 }
-void Shader::setVector4f(const GLchar *name, const Vector4 &value)
+void Shader::setVector4f(const GLchar *name, const glm::vec4 &value)
 {
     glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
 }
@@ -157,10 +157,7 @@ void Shader::setMatrix4(const GLchar *name, const glm::mat4& matrix)
 {
     glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
-void Shader::setMatrix4Row(const GLchar *name, const Matrix4Row &matrix)
-{
-    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.getAsFloatPtr());
-}
+
 void Shader::printShaderInfoLog(GLuint shaderIndex)
 {
     int maxLength = 2048;

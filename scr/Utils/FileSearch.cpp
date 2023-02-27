@@ -3,7 +3,7 @@
 #include <algorithm>
 
 std::vector<string> FileSearch::findObjFiles() {
-    std::string path = "../assets/models";
+    std::string path = "res/models";
     std::vector<string> result;
     for(const auto& p: std::filesystem::recursive_directory_iterator(path)) {
         if (!std::filesystem::is_directory(p)) {

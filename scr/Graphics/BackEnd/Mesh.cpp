@@ -7,7 +7,9 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     this->indices = indices;
     material.textures = textures;
 }
-Mesh::~Mesh() = default;
+Mesh::~Mesh() {
+    //std::cout << "deleting mesh " << std::endl;
+}
 
 unsigned int & Mesh::getId() {
     return id;

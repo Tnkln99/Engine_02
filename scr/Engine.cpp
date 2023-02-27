@@ -24,7 +24,7 @@ void Engine::terminate() {
 
 void Engine::update() {
     float currentFrame = glfwGetTime();
-    deltaTime = currentFrame - lastFrame;
+    float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
     if(window.shouldClose()){

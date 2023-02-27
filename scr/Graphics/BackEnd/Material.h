@@ -14,7 +14,6 @@ struct Texture{
 
 class Material { 
 private:
-    // todo: increasing this decrease shine of the object (toFix)
     float shininess {32.0f};
 
     glm::vec3 ambient{0,0,0};
@@ -28,6 +27,7 @@ public:
     std::vector<Texture> textures;
 
     explicit Material(Shader * shaderToUse);
+    ~Material();
 
     [[nodiscard]]float getShininess() const;
     [[nodiscard]] const glm::vec3 & getAmbient() const;

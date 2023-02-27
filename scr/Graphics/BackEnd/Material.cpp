@@ -4,6 +4,11 @@ Material::Material(Shader * shaderToUse) {
     shader = shaderToUse;
 }
 
+Material::~Material() {
+    //std::cout << "material deleting " << std::endl;
+    //textures.clear();
+}
+
 float Material::getShininess() const{
     return shininess;
 }

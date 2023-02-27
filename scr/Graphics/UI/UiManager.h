@@ -17,7 +17,9 @@ private:
     bool onSceneUi = true;
 
     int windowWidth;
+
     int windowHeight;
+
 
     unsigned int textureId;
     int textureWidth;
@@ -30,7 +32,7 @@ public:
     void load(GLFWwindow * window, FBO & frameBuffer);
 
     ImGuiIO * getIo();
-    [[nodiscard]] bool getOnSceneUi() const;
+    [[nodisc]] bool getOnSceneUi() const;
 
     void update();
 

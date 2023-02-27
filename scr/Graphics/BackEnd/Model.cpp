@@ -5,7 +5,7 @@
 void Model::loadModel(std::string path) {
     Assimp::Importer import;
     stbi_set_flip_vertically_on_load(true);
-    const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+        const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
@@ -18,7 +18,12 @@ void Model::loadModel(std::string path) {
     processNode(scene->mRootNode, scene);
 }
 
+Model::~Model() {
+    std::cout << "deleting model at path " << this->modelPath << std::endl;
+}
+
 void Model::processNode(aiNode *node, const aiScene *scene) {
+
     // process all the node's meshes (if any)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {

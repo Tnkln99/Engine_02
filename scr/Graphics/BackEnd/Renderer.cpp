@@ -4,9 +4,9 @@
 
 
 void Renderer::load() {
-    shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
-    debugNormals = Assets::loadShaderFromFile("../assets/shaders/debug/normalsDebug.vert", "../assets/shaders/debug/normalsDebug.frag", "", "", "../assets/shaders/debug/normalsDebug.geom");
-    lightsShader = Assets::loadShaderFromFile("../assets/shaders/light.vert", "../assets/shaders/light.frag", "", "", "");
+    shadowMapShader = Assets::loadShaderFromFile("res/shaders/shadowMap.vert", "res/shaders/shadowMap.frag", "", "", "");
+    normalsShader = Assets::loadShaderFromFile("res/shaders/normals.vert", "res/shaders/normals.frag", "", "", "res/shaders/normals.geom");
+    lightsShader = Assets::loadShaderFromFile("res/shaders/light.vert", "res/shaders/light.frag", "", "", "");
     skyBox.load();
 }
 
@@ -127,7 +127,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
 
                 // drawing edit mode mesh
                 for(auto & light : scene.getLights()) {
-                    lightsShader.use();
+                    lightsShader.use();//ola
                     lightsShader.setMatrix4("projMatrix", scene.getCamera()->getProjMatrix());
                     lightsShader.setMatrix4("viewMatrix", scene.getCamera()->getViewMatrix());
                     lightsShader.setMatrix4("modelMatrix", light->getOwner()->getTransform().getModelMatrix());
@@ -137,11 +137,13 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
                 }
 
                 // ---------------------------------------------------- DEBUG ----------------------------------------------------------
-                /*debugNormals.use();
-                debugNormals.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
-                debugNormals.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
-                debugNormals.setMatrix4("transform", component->getOwner()->getTransform().getModelMatrix());
-                drawMesh(&mesh);*/
+                if(modelC->isNormalShow()) {
+                    normalsShader.use();
+                    normalsShader.setMatrix4("proj_matrix", scene.getCamera()->getProjMatrix());
+                    normalsShader.setMatrix4("view_matrix", scene.getCamera()->getViewMatrix());
+                    normalsShader.setMatrix4("transform", modelC->getOwner()->getTransform().getModelMatrix());
+                    drawMesh(&mesh);
+                }
 
             }
         }

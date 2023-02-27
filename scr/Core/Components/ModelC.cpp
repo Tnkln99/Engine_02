@@ -13,7 +13,7 @@ ModelC::~ModelC() {
 void ModelC::load(Object *owner) {
     Component::load(owner);
     owner->addModelComponents(this);
-    model = owner->getScene()->getModelManager().addModel("../assets/models/backpack/backpack.obj");
+    model = owner->getScene()->getModelManager().addModel("res/models/backpack/backpack.obj");
 }
 
 void ModelC::reloadModel(Object *owner, const char * modelPath) {
@@ -26,4 +26,12 @@ std::shared_ptr<Model> ModelC::getModel() {
 
 Component * ModelC::clone() {
     return new ModelC(*this);
+}
+
+bool ModelC::isNormalShow() {
+    return showNormals;
+}
+
+void ModelC::setNormalShow(bool showNormals) {
+    this->showNormals = showNormals;
 }

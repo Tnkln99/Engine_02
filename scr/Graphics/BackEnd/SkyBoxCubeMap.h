@@ -15,12 +15,12 @@ private:
     unsigned int skyboxVAO{};
     std::vector<std::string> faces
     {
-        "../assets/skyBox/right.jpg",
-        "../assets/skyBox/left.jpg",
-        "../assets/skyBox/top.jpg",
-        "../assets/skyBox/bottom.jpg",
-        "../assets/skyBox/front.jpg",
-        "../assets/skyBox/back.jpg"
+        "res/skyBox/right.jpg",
+        "res/skyBox/left.jpg",
+        "res/skyBox/top.jpg",
+        "res/skyBox/bottom.jpg",
+        "res/skyBox/front.jpg",
+        "res/skyBox/back.jpg"
     };
 public:
     void load();
