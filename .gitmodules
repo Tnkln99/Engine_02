@@ -1,3 +1,6 @@
+[submodule "lib/stb"]
+	path = lib/stb
+	url = https://github.com/nothings/stb.git
 [submodule "lib/glad"]
 	path = lib/glad
 	url = https://github.com/Dav1dde/glad.git
@@ -10,9 +13,6 @@
 [submodule "lib/imgui"]
 	path = lib/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "lib/stb"]
-	path = lib/stb
-	url = https://github.com/nothings/stb.git
 [submodule "lib/tinyobjloader"]
 	path = lib/tinyobjloader
 	url = https://github.com/tinyobjloader/tinyobjloader.git

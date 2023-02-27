@@ -4,9 +4,9 @@
 
 
 void Renderer::load() {
-    shadowMapShader = Assets::loadShaderFromFile("../assets/shaders/shadowMap.vert", "../assets/shaders/shadowMap.frag", "", "", "");
-    normalsShader = Assets::loadShaderFromFile("../assets/shaders/normals.vert", "../assets/shaders/normals.frag", "", "", "../assets/shaders/normals.geom");
-    lightsShader = Assets::loadShaderFromFile("../assets/shaders/light.vert", "../assets/shaders/light.frag", "", "", "");
+    shadowMapShader = Assets::loadShaderFromFile("res/shaders/shadowMap.vert", "res/shaders/shadowMap.frag", "", "", "");
+    normalsShader = Assets::loadShaderFromFile("res/shaders/normals.vert", "res/shaders/normals.frag", "", "", "res/shaders/normals.geom");
+    lightsShader = Assets::loadShaderFromFile("res/shaders/light.vert", "res/shaders/light.frag", "", "", "");
     skyBox.load();
 }
 

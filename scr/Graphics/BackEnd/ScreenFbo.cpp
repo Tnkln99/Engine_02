@@ -4,7 +4,7 @@
 
 void ScreenFbo::load(int width, int height) {
     FBO::load(width, height);
-    debugShader = Assets::loadShaderFromFile("../assets/shaders/debug/screenDebug.vert", "../assets/shaders/debug/screenDebug.frag", "", "", "");
+    debugShader = Assets::loadShaderFromFile("res/shaders/debug/screenDebug.vert", "res/shaders/debug/screenDebug.frag", "", "", "");
 
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);

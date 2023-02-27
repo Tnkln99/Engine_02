@@ -1,6 +1,5 @@
 #include "Assets.h"
 #include "../../Utils/Log.h"
-
 #include <iostream>
 #include <memory>
 
@@ -10,7 +9,7 @@ std::map<std::string, Material> Assets::materials;
 std::map<std::string, Shader> Assets::shaders;
 
 void Assets::loadBasicShader() {
-    shaders["Default"] = loadShaderFromFile("../assets/shaders/default.vert", "../assets/shaders/default.frag", "", "", "");
+    shaders["Default"] = loadShaderFromFile("res/shaders/default.vert", "res/shaders/default.frag", "", "", "");
 }
 
 Shader &Assets::getShader(const std::string &name) {

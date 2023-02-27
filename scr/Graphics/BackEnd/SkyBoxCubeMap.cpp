@@ -1,10 +1,11 @@
 #include "SkyBoxCubeMap.h"
 #include <glad/glad.h>
-#include <stb/stb_image.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 #include "Assets.h"
 
 void SkyBoxCubeMap::load() {
-    skyBoxShader = Assets::loadShaderFromFile("../assets/shaders/skyBox.vert", "../assets/shaders/skyBox.frag", "", "", "");
+    skyBoxShader = Assets::loadShaderFromFile("res/shaders/skyBox.vert", "res/shaders/skyBox.frag", "", "", "");
     float skyboxVertices[] = {
             // positions
             -1.0f,  1.0f, -1.0f,

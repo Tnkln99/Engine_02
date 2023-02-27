@@ -7,11 +7,6 @@
 #include <string>
 #include <fstream>
 
-#include "Matrix4.h"
-#include "Matrix4Row.h"
-#include "Vector4.h"
-#include "Vector2.h"
-
 #include <glm/glm.hpp>
 // General purpose shader object. Compiles from file, generates
 // compile/link-time error messages and hosts several utility 
@@ -41,13 +36,12 @@ public:
 	void setFloat(const GLchar *name, GLfloat value);
 	void setInteger(const GLchar *name, GLint value);
 	void setVector2f(const GLchar *name, GLfloat x, GLfloat y);
-	void setVector2f(const GLchar *name, const Vector2 &value);
+	void setVector2f(const GLchar *name, const glm::vec2 &value);
 	void setVector3f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z);
 	void setVector3f(const GLchar *name, const glm::vec3& value);
 	void setVector4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-	void setVector4f(const GLchar *name, const Vector4 &value);
+	void setVector4f(const GLchar *name, const glm::vec4 &value);
 	void setMatrix4(const GLchar *name, const glm::mat4 &matrix);
-	void setMatrix4Row(const GLchar *name, const Matrix4Row &matrix);
 
 private:
 	GLuint vs;

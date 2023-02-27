@@ -23,7 +23,7 @@ void LightC::load(Object *owner) {
                             glm::vec3( 0.0f, 1.0f,  0.0f));
     lightSpaceMatrix = lightProj * lightView;
     owner->getTransform().setScale(0.2,0.2,0.2);
-    editModel = owner->getScene()->getModelManager().addModel("../assets/models/cube/cube.obj");
+    editModel = owner->getScene()->getModelManager().addModel("res/models/cube/cube.obj");
 }
 
 

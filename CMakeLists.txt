@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 project(Engine_02 VERSION 1.0.0 DESCRIPTION "Engine_02 game on openGl" LANGUAGES CXX)
 
+
 find_package(Git)
 
 if(GIT_FOUND)
@@ -66,6 +67,11 @@ else()
     message(FATAL_ERROR "Detected platform is not supported!")
 endif()
 
+if(EXISTS ${PROJECT_SOURCE_DIR}/res/)
+	message(STATUS "Copying resources...")
+	file(COPY ${PROJECT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_BINARY_DIR}/res/)
+endif()
+
 if(LIB_GLEW)
     message(FATAL_ERROR "GLAD is not compatible with GLEW.")
 endif()
@@ -122,9 +128,10 @@ message(STATUS "Linking...")
 find_package(OpenGL REQUIRED)
 target_link_libraries(Engine_02 ${OPENGL_LIBRARIES})
 target_link_libraries(Engine_02 glad ${CMAKE_DL_LIBS})
-add_subdirectory( lib/maths )
 add_subdirectory( lib/assimp )
-target_link_libraries(Engine_02 glfw maths assimp)
+add_subdirectory( lib/glm/glm )
+target_link_libraries(Engine_02 glfw assimp glm)
+target_compile_features(Engine_02 PRIVATE cxx_std_17)
 
 if(UNIX)
     target_link_libraries(Engine_02 X11)

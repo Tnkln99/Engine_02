@@ -137,7 +137,7 @@ void UiManager::components(Object* object) {
         object->getTransform().setPosition(posXAfter,posYAfter,posZAfter);
         object->updatePositionMessageSent();
     }
-
+  
 
     float scaleXBefore = object->getTransform().getScale().x;
     float scaleYBefore = object->getTransform().getScale().y;
@@ -241,23 +241,24 @@ void UiManager::light(Scene & scene) {
 }
 
 
-void UiManager::assets() {
-    ImGui::Begin("Assets", nullptr);
-
-    ImGui::End();
-}
-
-void UiManager::modelCOptions(ModelC * modelC) {
-    const char* items[objFiles.size()];
+void UiManager::assets() {                                                        
+    ImGui::Begin("Assets", nullptr);                                              
+                                                                                  
+    ImGui::End();                                                                 
+}                                                                                 
+                                                                                  
+void UiManager::modelCOptions(ModelC * modelC) {                             
+    const int sizeOfFile = objFiles.size();                                       
+    std::vector<const char*> items;
     for(int i = 0; i < objFiles.size();++i){
-        items[i] = objFiles[i].c_str();
+        items.push_back(objFiles[i].c_str());
     }
 
     static const char* current_item = NULL;
 
     if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
     {
-        for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+        for (int n = 0; n < items.size(); n++)
         {
             bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
             if (ImGui::Selectable(items[n], is_selected)) {

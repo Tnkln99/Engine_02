@@ -3,7 +3,7 @@
 
 void ShadowMapFbo::load(int width, int height) {
     FBO::load(width, height);
-    debugShader = Assets::loadShaderFromFile("../assets/shaders/debug/shadowMapDebug.vert", "../assets/shaders/debug/shadowMapDebug.frag", "", "", "");
+    debugShader = Assets::loadShaderFromFile("res/shaders/debug/shadowMapDebug.vert", "res/shaders/debug/shadowMapDebug.frag", "", "", "");
 
     glGenFramebuffers(1, &fbo);
 

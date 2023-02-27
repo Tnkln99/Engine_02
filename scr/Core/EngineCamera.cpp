@@ -8,7 +8,6 @@ EngineCamera::EngineCamera(GLFWwindow * window, float sceneWidth, float sceneHei
     transform.setPosition(glm::vec3(x,y,z));
     view = glm::lookAt(transform.getPosition(), transform.getPosition() + transform.getDirection(), cameraUp);
 
-    // todo: this should be with texture width and texture height
     projMatrix = glm::perspective(glm::radians(45.0f), (float)sceneWidth / (float)sceneHeight, 0.1f, 100.0f);
 
     glfwSetWindowUserPointer( window, this );
@@ -21,7 +20,7 @@ EngineCamera::EngineCamera(GLFWwindow * window, float sceneWidth, float sceneHei
 }
 
 void EngineCamera::getCameraInput(GLFWwindow * window, float dt) {    
-    float cameraSpeed = 6.0f * dt;
+    float cameraSpeed = 8.0f * dt;
 
     glm::vec3 cameraPos = transform.getPosition();
 
