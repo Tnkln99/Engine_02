@@ -127,7 +127,7 @@ void Renderer::renderScene(Scene & scene, unsigned int depthMap) {
 
                 // drawing edit mode mesh
                 for(auto & light : scene.getLights()) {
-                    lightsShader.use();
+                    lightsShader.use();//ola
                     lightsShader.setMatrix4("projMatrix", scene.getCamera()->getProjMatrix());
                     lightsShader.setMatrix4("viewMatrix", scene.getCamera()->getViewMatrix());
                     lightsShader.setMatrix4("modelMatrix", light->getOwner()->getTransform().getModelMatrix());
