@@ -1,4 +1,4 @@
-.git
-.idea
-out
 .vs
+.git
+out
+lib

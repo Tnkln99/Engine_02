@@ -20,7 +20,7 @@ EngineCamera::EngineCamera(GLFWwindow * window, float sceneWidth, float sceneHei
 }
 
 void EngineCamera::getCameraInput(GLFWwindow * window, float dt) {    
-    float cameraSpeed = 8.0f * dt;
+    float cameraSpeed = 10.0f * dt;
 
     glm::vec3 cameraPos = transform.getPosition();
 
@@ -47,7 +47,9 @@ void EngineCamera::getCameraInput(GLFWwindow * window, float dt) {
         glfwGetCursorPos(window, &xpos, &ypos);
         lastMouseX = xpos;
         lastMouseY = ypos;
+        //std::cout << xpos << " : " << ypos << std::endl;
     }
+   
 }
 
 void EngineCamera::mouse_callback(double xpos, double ypos) {
